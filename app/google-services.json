@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "67382517022",
+    "project_id": "fiicode-f1932",
+    "storage_bucket": "fiicode-f1932.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:67382517022:android:b86c98dd21b097d84f7d0f",
+        "android_client_info": {
+          "package_name": "com.example.fiicodenou"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB09vLUl5IdXxIR2SRWB8j4tb7WnVpcyqw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
