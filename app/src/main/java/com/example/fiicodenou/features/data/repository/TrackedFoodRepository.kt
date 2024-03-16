@@ -13,4 +13,12 @@ interface TrackedFoodRepository {
     suspend fun deleteTrackedFood(name: String): Resource<Boolean>
 
     suspend fun clearAllTrackedFood(): Resource<Boolean>
+
+    suspend fun calculateAllCalories(list: RealmList<TrackedFood>): Double
+
+    suspend fun calculateAllProtein(): Double
+
+    suspend fun calculateAllCarbs(): Double
+
+    suspend fun calculateAllFat(): Double
 }

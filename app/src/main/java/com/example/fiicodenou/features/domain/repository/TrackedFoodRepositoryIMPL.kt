@@ -1,9 +1,11 @@
 package com.example.fiicodenou.features.domain.repository
 
+import androidx.compose.runtime.mutableDoubleStateOf
 import com.example.fiicodenou.features.data.repository.TrackedFoodRepository
 import com.example.fiicodenou.features.domain.models.Food
 import com.example.fiicodenou.features.domain.models.Realm_Objects.TrackedFood
 import com.example.fiicodenou.features.domain.util.Resource
+import com.google.android.play.integrity.internal.i
 import io.realm.kotlin.Realm
 import io.realm.kotlin.UpdatePolicy
 import io.realm.kotlin.ext.query
@@ -62,5 +64,26 @@ class TrackedFoodRepositoryIMPL @Inject constructor(
         Resource.Succes(true)
     }catch (ex: Exception){
         Resource.Failure(ex)
+    }
+
+    override suspend fun calculateAllCalories(list: RealmList<TrackedFood>): Double {
+        val sum = mutableDoubleStateOf(0.0)
+        for(item in list){
+            sum.doubleValue += item.calories.toDouble()
+        }
+
+        return sum.doubleValue
+    }
+
+    override suspend fun calculateAllProtein(): Double {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun calculateAllCarbs(): Double {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun calculateAllFat(): Double {
+        TODO("Not yet implemented")
     }
 }

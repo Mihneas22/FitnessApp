@@ -1,6 +1,7 @@
 package com.example.fiicodenou.features.presentation.viewmodels
 
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
@@ -30,6 +31,8 @@ class TrackedFoodViewModel @Inject constructor(
     var deleteAllTrackedFoodResponse by mutableStateOf<Resource<Boolean>>(Resource.Succes(false))
         private set
 
+    var caloriesFull = mutableDoubleStateOf(0.0)
+
     val getAllTrackedFood = repo.getAllTrackedFood.stateIn(
         viewModelScope,
         SharingStarted.WhileSubscribed(),
@@ -55,5 +58,10 @@ class TrackedFoodViewModel @Inject constructor(
         deleteAllTrackedFoodResponse = Resource.Loading
         repo.clearAllTrackedFood()
         deleteAllTrackedFoodResponse = Resource.Succes(true)
+    }
+
+    fun calculateAllCalories(list: RealmList<TrackedFood>)
+    =viewModelScope.launch {
+        caloriesFull.doubleValue =repo.calculateAllCalories(list)
     }
 }

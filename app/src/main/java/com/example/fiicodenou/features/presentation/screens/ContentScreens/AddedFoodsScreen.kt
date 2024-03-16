@@ -66,10 +66,17 @@ fun AddedFoodsScreen(
     navController: NavController
 ){
     val resultTrackedFoods by trackedFoodViewModel.getAllTrackedFood.collectAsState(initial = realmListOf())
+    trackedFoodViewModel.calculateAllCalories(resultTrackedFoods)
+    val caloriesValuesFull = trackedFoodViewModel.caloriesFull.doubleValue
+    Log.d("valueCalories","$caloriesValuesFull")
+
+    //Firebase
     foodViewModel.getFood()
     val resultFirebase = foodViewModel.result.value
     foodViewModel.getApprovedFood(resultFirebase)
     val approvedList = foodViewModel.resultApprovedList.value
+    //Firebase
+
 
     Column(modifier = Modifier.
             fillMaxSize()
