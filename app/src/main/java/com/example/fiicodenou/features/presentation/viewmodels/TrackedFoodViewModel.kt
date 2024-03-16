@@ -32,6 +32,9 @@ class TrackedFoodViewModel @Inject constructor(
         private set
 
     var caloriesFull = mutableDoubleStateOf(0.0)
+    var proteinFull = mutableDoubleStateOf(0.0)
+    var carbohydratesFull = mutableDoubleStateOf(0.0)
+    var fatFull = mutableDoubleStateOf(0.0)
 
     val getAllTrackedFood = repo.getAllTrackedFood.stateIn(
         viewModelScope,
@@ -63,5 +66,20 @@ class TrackedFoodViewModel @Inject constructor(
     fun calculateAllCalories(list: RealmList<TrackedFood>)
     =viewModelScope.launch {
         caloriesFull.doubleValue =repo.calculateAllCalories(list)
+    }
+
+    fun calculateAllProtein(list: RealmList<TrackedFood>)
+            =viewModelScope.launch {
+        proteinFull.doubleValue =repo.calculateAllProtein(list)
+    }
+
+    fun calculateAllCarbohydrates(list: RealmList<TrackedFood>)
+            =viewModelScope.launch {
+        carbohydratesFull.doubleValue =repo.calculateAllCarbs(list)
+    }
+
+    fun calculateAllFat(list: RealmList<TrackedFood>)
+            =viewModelScope.launch {
+        fatFull.doubleValue =repo.calculateAllFat(list)
     }
 }

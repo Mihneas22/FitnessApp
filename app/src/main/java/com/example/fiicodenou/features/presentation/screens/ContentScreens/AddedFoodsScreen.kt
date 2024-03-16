@@ -58,6 +58,8 @@ import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import io.realm.kotlin.ext.realmListOf
+import java.text.SimpleDateFormat
+import java.util.Date
 
 @Composable
 fun AddedFoodsScreen(
@@ -68,6 +70,9 @@ fun AddedFoodsScreen(
     val resultTrackedFoods by trackedFoodViewModel.getAllTrackedFood.collectAsState(initial = realmListOf())
     trackedFoodViewModel.calculateAllCalories(resultTrackedFoods)
     val caloriesValuesFull = trackedFoodViewModel.caloriesFull.doubleValue
+    val proteinValuesFull = trackedFoodViewModel.proteinFull.doubleValue
+    val carboValuesFull = trackedFoodViewModel.carbohydratesFull.doubleValue
+    val fatValuesFull = trackedFoodViewModel.fatFull.doubleValue
     Log.d("valueCalories","$caloriesValuesFull")
 
     //Firebase
@@ -76,7 +81,6 @@ fun AddedFoodsScreen(
     foodViewModel.getApprovedFood(resultFirebase)
     val approvedList = foodViewModel.resultApprovedList.value
     //Firebase
-
 
     Column(modifier = Modifier.
             fillMaxSize()

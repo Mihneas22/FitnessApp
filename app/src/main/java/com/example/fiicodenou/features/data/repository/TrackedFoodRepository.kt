@@ -16,9 +16,9 @@ interface TrackedFoodRepository {
 
     suspend fun calculateAllCalories(list: RealmList<TrackedFood>): Double
 
-    suspend fun calculateAllProtein(): Double
+    suspend fun calculateAllProtein(list: RealmList<TrackedFood>): Double
 
-    suspend fun calculateAllCarbs(): Double
+    suspend fun calculateAllCarbs(list: RealmList<TrackedFood>): Double
 
-    suspend fun calculateAllFat(): Double
+    suspend fun calculateAllFat(list: RealmList<TrackedFood>): Double
 }

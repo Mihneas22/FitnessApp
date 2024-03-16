@@ -75,15 +75,30 @@ class TrackedFoodRepositoryIMPL @Inject constructor(
         return sum.doubleValue
     }
 
-    override suspend fun calculateAllProtein(): Double {
-        TODO("Not yet implemented")
+    override suspend fun calculateAllProtein(list: RealmList<TrackedFood>): Double {
+        val sum = mutableDoubleStateOf(0.0)
+        for(item in list){
+            sum.doubleValue += item.protein.toDouble()
+        }
+
+        return sum.doubleValue
     }
 
-    override suspend fun calculateAllCarbs(): Double {
-        TODO("Not yet implemented")
+    override suspend fun calculateAllCarbs(list: RealmList<TrackedFood>): Double {
+        val sum = mutableDoubleStateOf(0.0)
+        for(item in list){
+            sum.doubleValue += item.carbohydrates.toDouble()
+        }
+
+        return sum.doubleValue
     }
 
-    override suspend fun calculateAllFat(): Double {
-        TODO("Not yet implemented")
+    override suspend fun calculateAllFat(list: RealmList<TrackedFood>): Double {
+        val sum = mutableDoubleStateOf(0.0)
+        for(item in list){
+            sum.doubleValue += item.fat.toDouble()
+        }
+
+        return sum.doubleValue
     }
 }
