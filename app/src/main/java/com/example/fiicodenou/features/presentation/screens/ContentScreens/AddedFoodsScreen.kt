@@ -76,7 +76,7 @@ fun AddedFoodsScreen(
             .verticalScroll(rememberScrollState())
     ) {
         HeaderAddedFoodsScreen()
-        ImplementSearchBar(foodViewModel,approvedList, navController = navController)
+        ImplementSearchBar(foodViewModel,approvedList, navController = navController, trackedFoodViewModel)
         ShowAddedFoods(trackedFoodViewModel = trackedFoodViewModel, foods = resultTrackedFoods)
     }
 
@@ -112,7 +112,8 @@ fun HeaderAddedFoodsScreen(){
 fun ImplementSearchBar(
     foodViewModel: FoodViewModel,
     foodListReal: List<Food>,
-    navController: NavController
+    navController: NavController,
+    trackedFoodViewModel: TrackedFoodViewModel
 ){
     val foodName = remember{
         mutableStateOf("")
@@ -175,13 +176,14 @@ fun ImplementSearchBar(
                 textColor = Color.White
             )
 
-            GetSearchBarResults(listChange.value)
+            GetSearchBarResults(trackedFoodViewModel = trackedFoodViewModel,listChange.value)
         }
     }
 }
 
 @Composable
 fun GetSearchBarResults(
+    trackedFoodViewModel: TrackedFoodViewModel,
     foods: List<Food>
 ){
     Card(modifier = Modifier
@@ -195,7 +197,7 @@ fun GetSearchBarResults(
     ) {
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             items(foods){food->
-                FoodBarResults(food = food)
+                FoodBarResults(trackedFoodViewModel = trackedFoodViewModel,food = food)
             }
         }
     }
@@ -203,12 +205,24 @@ fun GetSearchBarResults(
 
 @Composable
 fun FoodBarResults(
+    trackedFoodViewModel: TrackedFoodViewModel,
     food: Food
 ){
     Card(modifier = Modifier
         .fillMaxWidth()
         .height(70.dp)
-        .padding(top = 15.dp),
+        .padding(top = 15.dp)
+        .clickable {
+            val trackedFood = TrackedFood().apply {
+                this.name = food.name
+                this.weight = food.weight
+                this.calories = food.calories
+                this.protein = food.protein
+                this.carbohydrates = food.carbohydrates
+                this.fat = food.fat
+            }
+                   trackedFoodViewModel.addTrackedFood(trackedFood)
+        },
         border = BorderStroke(3.dp,Color.Black),
         colors = CardDefaults.cardColors(
             containerColor = Color(0xFF252525)
@@ -292,6 +306,8 @@ fun FoodBarResults(
     }
 }
 
+//Showing food that we added
+
 
 @Composable
 fun ShowAddedFoods(
@@ -351,8 +367,8 @@ fun FoodCardFront(
     food: TrackedFood
 ){
     Card(modifier = Modifier
-        .width(100.dp)
-        .height(100.dp)
+        .width(150.dp)
+        .height(170.dp)
         .padding(top = 3.dp, end = 10.dp),
         colors = CardDefaults.cardColors(
             containerColor = Color(0xF11FD3C1)
