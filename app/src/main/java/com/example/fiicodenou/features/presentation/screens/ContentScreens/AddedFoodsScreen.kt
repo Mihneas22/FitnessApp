@@ -3,6 +3,7 @@ package com.example.fiicodenou.features.presentation.screens.ContentScreens
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,10 +17,15 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
@@ -40,6 +46,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.fiicodeapp.features.presentation.components.FitnessAppButton
 import com.example.fiicodeapp.features.presentation.components.FitnessAppTextField
 import com.example.fiicodenou.R
@@ -56,6 +63,7 @@ import io.realm.kotlin.ext.realmListOf
 fun AddedFoodsScreen(
     foodViewModel: FoodViewModel = hiltViewModel(),
     trackedFoodViewModel: TrackedFoodViewModel = hiltViewModel(),
+    navController: NavController
 ){
     val resultTrackedFoods by trackedFoodViewModel.getAllTrackedFood.collectAsState(initial = realmListOf())
     foodViewModel.getFood()
@@ -63,9 +71,12 @@ fun AddedFoodsScreen(
     foodViewModel.getApprovedFood(resultFirebase)
     val approvedList = foodViewModel.resultApprovedList.value
 
-    Column {
+    Column(modifier = Modifier.
+            fillMaxSize()
+            .verticalScroll(rememberScrollState())
+    ) {
         HeaderAddedFoodsScreen()
-        ImplementSearchBar(foodViewModel,approvedList)
+        ImplementSearchBar(foodViewModel,approvedList, navController = navController)
         ShowAddedFoods(trackedFoodViewModel = trackedFoodViewModel, foods = resultTrackedFoods)
     }
 
@@ -75,7 +86,7 @@ fun AddedFoodsScreen(
 fun HeaderAddedFoodsScreen(){
     Card(modifier = Modifier
         .fillMaxWidth()
-        .height(350.dp),
+        .height(250.dp),
         colors = CardDefaults.cardColors(
             containerColor = Color(0xFF252525)
         ),
@@ -86,7 +97,7 @@ fun HeaderAddedFoodsScreen(){
             contentScale = ContentScale.FillBounds,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(300.dp),
+                .height(250.dp),
         )
 
         HorizontalDivider(
@@ -100,7 +111,8 @@ fun HeaderAddedFoodsScreen(){
 @Composable
 fun ImplementSearchBar(
     foodViewModel: FoodViewModel,
-    foodListReal: List<Food>
+    foodListReal: List<Food>,
+    navController: NavController
 ){
     val foodName = remember{
         mutableStateOf("")
@@ -108,6 +120,23 @@ fun ImplementSearchBar(
 
     val listChange = remember {
         mutableStateOf<List<Food>>(emptyList())
+    }
+
+    Row(modifier = Modifier
+        .fillMaxWidth()
+        .height(40.dp)
+        .background(Color(0xFF252525)),
+        horizontalArrangement = Arrangement.End,
+    ) {
+        Icon(imageVector = Icons.Default.Close,
+            contentDescription = "Go Back",
+            modifier = Modifier
+                .fillMaxHeight()
+                .width(50.dp)
+                .clickable {
+                    navController.navigate("ProfileScreen")
+                }
+        )
     }
 
     Card(modifier = Modifier
@@ -156,7 +185,7 @@ fun GetSearchBarResults(
     foods: List<Food>
 ){
     Card(modifier = Modifier
-        .height(300.dp)
+        .height(250.dp)
         .width(250.dp)
         .padding(top = 20.dp),
         colors = CardDefaults.cardColors(
@@ -166,20 +195,19 @@ fun GetSearchBarResults(
     ) {
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             items(foods){food->
-                //FoodBarResults(food = food)
+                FoodBarResults(food = food)
             }
         }
     }
 }
 
-@Preview
 @Composable
 fun FoodBarResults(
-    //food: Food
+    food: Food
 ){
     Card(modifier = Modifier
         .fillMaxWidth()
-        .height(100.dp)
+        .height(70.dp)
         .padding(top = 15.dp),
         border = BorderStroke(3.dp,Color.Black),
         colors = CardDefaults.cardColors(
@@ -193,37 +221,71 @@ fun FoodBarResults(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(modifier = Modifier
-                .fillMaxHeight(),
+                .fillMaxHeight()
+                .width(70.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                Text(text = "Name",
-                    style = MaterialTheme.typography.bodyLarge
+                Text(text = food.name,
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = Color(0xF11FD3C1)
                 )
             }
 
             VerticalDivider(modifier = Modifier
                 .fillMaxHeight()
-                .padding(start = 15.dp)
+                .padding(start = 10.dp)
             )
 
             Column(modifier = Modifier
-                .padding(start = 20.dp)
+                .padding(start = 10.dp)
                 .fillMaxHeight()
-                .width(200.dp),
+                .width(100.dp),
                 horizontalAlignment = Alignment.Start,
                 verticalArrangement = Arrangement.Center
             ) {
-                Text(text = "Protein",
-                    style = MaterialTheme.typography.bodyLarge
+                Text(
+                    text = food.protein + "g Protein",
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = Color(0xF11FD3C1),
+                    fontSize = 13.sp
                 )
 
-                Text(text = "Carbs",
-                    style = MaterialTheme.typography.bodyLarge
+                Text(
+                    text = food.carbohydrates + "g Carbs",
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = Color(0xF11FD3C1),
+                    fontSize = 13.sp
                 )
 
-                Text(text = "Fat",
-                    style = MaterialTheme.typography.bodyLarge
+                Text(
+                    text = food.fat + "g Fat",
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = Color(0xF11FD3C1),
+                    fontSize = 13.sp
+                )
+            }
+
+            VerticalDivider(modifier = Modifier
+                .fillMaxHeight()
+            )
+
+            Column(modifier = Modifier
+                .fillMaxHeight()
+                .width(100.dp),
+                horizontalAlignment = Alignment.Start,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(text = food.calories + "Calories",
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = Color(0xF11FD3C1),
+                    fontSize = 7.sp
+                )
+
+                Text(text = food.weight + "Weight",
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = Color(0xF11FD3C1),
+                    fontSize = 7.sp
                 )
             }
         }
@@ -289,8 +351,8 @@ fun FoodCardFront(
     food: TrackedFood
 ){
     Card(modifier = Modifier
-        .width(170.dp)
-        .height(160.dp)
+        .width(100.dp)
+        .height(100.dp)
         .padding(top = 3.dp, end = 10.dp),
         colors = CardDefaults.cardColors(
             containerColor = Color(0xF11FD3C1)

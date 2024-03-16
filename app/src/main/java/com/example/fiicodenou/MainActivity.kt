@@ -90,7 +90,7 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable("AddedFoodsScreen"){
-                        AddedFoodsScreen()
+                        AddedFoodsScreen(navController = navController)
                     }
                 }
             }

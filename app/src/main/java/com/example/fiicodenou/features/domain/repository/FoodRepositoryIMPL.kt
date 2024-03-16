@@ -50,7 +50,6 @@ class FoodRepositoryIMPL @Inject constructor(
                             it
                         )
                     }
-                    Log.d("DataFoodLog", "valueItem: $item")
                     if (item != null) {
                         items.add(item)
                     }

@@ -4,7 +4,11 @@ import android.util.Log
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.rememberScrollableState
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,6 +19,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -30,6 +36,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -37,6 +45,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.fiicodeapp.features.presentation.components.FitnessAppButton
 import com.example.fiicodeapp.features.presentation.components.FitnessAppTextField
+import com.example.fiicodenou.R
 import com.example.fiicodenou.features.domain.models.Food
 import com.example.fiicodenou.features.domain.models.Realm_Objects.TrackedFood
 import com.example.fiicodenou.features.presentation.viewmodels.FoodViewModel
@@ -59,19 +68,31 @@ fun AddMacrosScreen(
     val resultTrackedFoods by trackedFoodViewModel.getAllTrackedFood.collectAsState(initial = realmListOf())
     Log.d("realm","realmData: ${resultTrackedFoods.size}")
 
-    Column {
-        HeaderAddMacrosScreen(foodViewModel,trackedFoodViewModel,navController)
-        ShowAddedFoods(trackedFoodViewModel = trackedFoodViewModel,foods = resultTrackedFoods)
+    Column{
+        HeaderAddMacrosScreen()
+        LowerAddMacrosScreen(foodViewModel,trackedFoodViewModel,navController)
     }
 }
 
+@Composable
+fun HeaderAddMacrosScreen(){
+    Image(painter = painterResource(id = R.drawable.fridgeman),
+        contentDescription = "FridgeMan",
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(250.dp),
+        contentScale = ContentScale.FillBounds
+    )
+}
 
 @Composable
-fun HeaderAddMacrosScreen(
+fun LowerAddMacrosScreen(
     foodViewModel: FoodViewModel,
     trackedFoodViewModel: TrackedFoodViewModel,
     navController: NavController
-)   {
+)
+{
+    var offset by remember { mutableStateOf(0f) }
 
     var name by remember {
         mutableStateOf("")
@@ -99,7 +120,8 @@ fun HeaderAddMacrosScreen(
 
     Card(modifier = Modifier
         .fillMaxWidth()
-        .height(650.dp),
+        .height(680.dp)
+        .verticalScroll(rememberScrollState()),
         colors = CardDefaults.cardColors(
             containerColor = Color(0xFF252525)
         ),
@@ -197,7 +219,7 @@ fun HeaderAddMacrosScreen(
 
             Row(modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 15.dp, top = 5.dp),
+                .padding(top = 5.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ){
@@ -213,7 +235,7 @@ fun HeaderAddMacrosScreen(
                 )
 
                 FitnessAppButton(
-                    modifier = Modifier.padding(start = 15.dp, top = 10.dp, end = 15.dp),
+                    modifier = Modifier.padding(top = 10.dp, end =20.dp),
                     text = "Save Food",
                     onButClick = {
                         val food = Food(
@@ -253,7 +275,7 @@ fun HeaderAddMacrosScreen(
             )
 
             FitnessAppButton(
-                modifier = Modifier.padding(start = 110.dp),
+                modifier = Modifier.padding(start = 63.dp),
                 text = "Travel to Added Foods",
                 onButClick = {
                     navController.navigate("AddedFoodsScreen")
