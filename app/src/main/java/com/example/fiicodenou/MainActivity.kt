@@ -23,6 +23,7 @@ import com.example.fiicodenou.features.presentation.screens.ContentScreens.Added
 import com.example.fiicodenou.features.presentation.screens.ContentScreens.MenuScreen
 import com.example.fiicodenou.features.presentation.screens.ContentScreens.ProfileInfoScreen
 import com.example.fiicodenou.features.presentation.screens.ContentScreens.ProfileScreen
+import com.example.fiicodenou.features.presentation.screens.ContentScreens.TodayStatsScreen
 import com.example.fiicodenou.features.presentation.viewmodels.FoodViewModel
 import com.example.fiicodenou.features.presentation.viewmodels.MainViewModel
 import com.example.fiicodenou.features.presentation.viewmodels.SignUpViewModel
@@ -91,6 +92,9 @@ class MainActivity : ComponentActivity() {
 
                     composable("AddedFoodsScreen"){
                         AddedFoodsScreen(navController = navController)
+                    }
+                    composable("TodayStatsScreen"){
+                        TodayStatsScreen(navController = navController)
                     }
                 }
             }

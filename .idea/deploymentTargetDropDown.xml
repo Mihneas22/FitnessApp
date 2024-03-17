@@ -5,6 +5,12 @@
       <entry key="AddedFoodsScreen">
         <State />
       </entry>
+      <entry key="HeaderStats">
+        <State />
+      </entry>
+      <entry key="ShowPieChart">
+        <State />
+      </entry>
       <entry key="app">
         <State />
       </entry>

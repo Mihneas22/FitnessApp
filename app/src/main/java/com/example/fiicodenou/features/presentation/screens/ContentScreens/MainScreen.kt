@@ -39,13 +39,18 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.fiicodeapp.features.presentation.components.FitnessAppButton
 import com.example.fiicodenou.features.domain.models.User
+import java.text.DateFormat
+import java.util.Calendar
 
 @Composable
 fun MenuScreen(
     user: User,
     navController: NavController
 ){
-    user.username?.let { Header(name = it,navController) }
+    Column {
+        user.username?.let { Header(name = it,navController) }
+        MenuScreenMainScreen(navController)
+    }
 }
 
 @Composable
@@ -109,9 +114,13 @@ fun Header(
     }
 }
 
-@Preview
 @Composable
-fun MenuScreenMainScreen(){
+fun MenuScreenMainScreen(
+    navController: NavController
+){
+    val calendar = Calendar.getInstance().time
+    val dateFormat = DateFormat.getDateInstance(DateFormat.FULL).format(calendar)
+
     Card(modifier = Modifier
         .fillMaxWidth()
         .height(500.dp),
@@ -129,7 +138,7 @@ fun MenuScreenMainScreen(){
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.Top
             ) {
-                Text(text = "Date: 11.03.2024",
+                Text(text = "Date: $dateFormat",
                     style = MaterialTheme.typography.bodyLarge,
                     fontSize = 24.sp,
                     color = Color(0xF11FD3C1)
@@ -143,69 +152,14 @@ fun MenuScreenMainScreen(){
             ) {
                 FitnessAppButton(
                     modifier = Modifier.padding(end = 30.dp),
-                    text = "Macros For Today",
+                    text = "Today's Stats",
                     onButClick = {
-                                 //navController.navigate("AddMacrosScreen")
+                        navController.navigate("TodayStatsScreen")
                     },
                     color = Color(0xF11FD3C1),
                     textColor = Color.White
                 )
             }
         }
-    }
-}
-
-@Composable
-fun PieChar(
-    data: Map<String,Int>,
-    radiusOuter: Dp = 90.dp,
-    charBaeWidth: Dp = 20.dp,
-    animDuration: Int = 1000
-){
-    val totalSum = data.values.sum()
-    val floatValue = mutableListOf<Float>()
-
-    // To set the value of each Arc according to
-    // the value given in the data, we have used a simple formula.
-    // For a detailed explanation check out the Medium Article.
-    // The link is in the about section and readme file of this GitHub Repository
-    data.values.forEachIndexed { index, values ->
-        floatValue.add(index, 360 * values.toFloat() / totalSum.toFloat())
-    }
-
-    // add the colors as per the number of data(no. of pie chart entries)
-    // so that each data will get a color
-    val colors = listOf(
-        Blue
-    )
-
-    var animationPlayed by remember { mutableStateOf(false) }
-
-    var lastValue = 0f
-
-    // it is the diameter value of the Pie
-    val animateSize by animateFloatAsState(
-        targetValue = if (animationPlayed) radiusOuter.value * 2f else 0f,
-        animationSpec = tween(
-            durationMillis = animDuration,
-            delayMillis = 0,
-            easing = LinearOutSlowInEasing
-        )
-    )
-
-    // if you want to stabilize the Pie Chart you can use value -90f
-    // 90f is used to complete 1/4 of the rotation
-    val animateRotation by animateFloatAsState(
-        targetValue = if (animationPlayed) 90f * 11f else 0f,
-        animationSpec = tween(
-            durationMillis = animDuration,
-            delayMillis = 0,
-            easing = LinearOutSlowInEasing
-        )
-    )
-
-    // to play the animation only once when the function is Created or Recomposed
-    LaunchedEffect(key1 = true) {
-        animationPlayed = true
     }
 }
