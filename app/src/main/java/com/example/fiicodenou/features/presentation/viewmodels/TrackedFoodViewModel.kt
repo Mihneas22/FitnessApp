@@ -12,7 +12,6 @@ import com.example.fiicodenou.features.domain.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.realm.kotlin.ext.realmListOf
 import io.realm.kotlin.types.RealmList
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch

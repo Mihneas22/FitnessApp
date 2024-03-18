@@ -4,6 +4,7 @@ import com.example.fiicodenou.features.data.repository.AuthRepository
 import com.example.fiicodenou.features.data.repository.FoodRepository
 import com.example.fiicodenou.features.data.repository.TrackedFoodRepository
 import com.example.fiicodenou.features.domain.models.Realm_Objects.TrackedFood
+import com.example.fiicodenou.features.domain.models.Realm_Objects.TrackedUser
 import com.example.fiicodenou.features.domain.repository.AuthRepositoryIMPL
 import com.example.fiicodenou.features.domain.repository.FoodRepositoryIMPL
 import com.example.fiicodenou.features.domain.repository.TrackedFoodRepositoryIMPL
@@ -37,7 +38,8 @@ object AppModule {
         realm = Realm.open(
             configuration = RealmConfiguration.create(
                 schema = setOf(
-                    TrackedFood::class
+                    TrackedFood::class,
+                    TrackedUser::class
                 )
             )
         )

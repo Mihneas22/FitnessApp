@@ -29,16 +29,18 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.fiicodeapp.features.presentation.components.FitnessAppButton
 import com.example.fiicodenou.features.domain.models.User
+import com.example.fiicodenou.features.presentation.viewmodels.TrackedUserViewModel
 import com.example.fiicodenou.features.presentation.viewmodels.UserViewModel
 
 @Composable
 fun ProfileScreen(
     user: User,
     navController: NavController,
-    userViewModel: UserViewModel = hiltViewModel()
+    userViewModel: UserViewModel = hiltViewModel(),
+    trackedUserViewModel: TrackedUserViewModel = hiltViewModel()
 ){
     Column {
-        HeaderProfile(user = user, navController = navController,userViewModel)
+        HeaderProfile(user = user, navController = navController,userViewModel,trackedUserViewModel)
     }
 }
 
@@ -46,7 +48,8 @@ fun ProfileScreen(
 fun HeaderProfile(
     user: User,
     navController: NavController,
-    userViewModel: UserViewModel
+    userViewModel: UserViewModel,
+    trackedUserViewModel: TrackedUserViewModel
 ){
     Card(modifier = Modifier
         .fillMaxWidth()
@@ -74,6 +77,7 @@ fun HeaderProfile(
                     .width(40.dp)
                     .height(40.dp)
                     .clickable {
+                        trackedUserViewModel.deleteTrackedUser(user.username!!)
                         userViewModel.logOut()
                         navController.navigate("LoginInScreen")
                     }

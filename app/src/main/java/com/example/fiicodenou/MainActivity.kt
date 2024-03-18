@@ -15,6 +15,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.fiicodenou.features.domain.models.Realm_Objects.TrackedUser
 import com.example.fiicodenou.features.domain.models.User
 import com.example.fiicodenou.features.presentation.screens.AuthScreens.LoginInScreen
 import com.example.fiicodenou.features.presentation.screens.AuthScreens.SignUpScreen
@@ -27,6 +28,7 @@ import com.example.fiicodenou.features.presentation.screens.ContentScreens.Today
 import com.example.fiicodenou.features.presentation.viewmodels.FoodViewModel
 import com.example.fiicodenou.features.presentation.viewmodels.MainViewModel
 import com.example.fiicodenou.features.presentation.viewmodels.SignUpViewModel
+import com.example.fiicodenou.features.presentation.viewmodels.TrackedUserViewModel
 import com.example.fiicodenou.features.presentation.viewmodels.UserViewModel
 import com.example.fiicodenou.ui.theme.FiiCodeNouTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,6 +39,7 @@ import okhttp3.Request
 class MainActivity : ComponentActivity() {
     private val mainViewModel by viewModels<MainViewModel>()
     private val userDataViewModel by viewModels<UserViewModel>()
+    private val trackedUser by viewModels<TrackedUserViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,6 +67,11 @@ class MainActivity : ComponentActivity() {
                 )
                 userDataViewModel.getUserData(email = user.email!!)
                 val userData = userDataViewModel.data.value
+
+                if(currentUserSign)
+                {
+                    trackedUser.addTrackedUser(userData.username) //Null Error (java.lang.NullPointerException)
+                }
 
                 NavHost(navController = navController, startDestination = navigator.value) {
                     composable("SignUpScreen"){

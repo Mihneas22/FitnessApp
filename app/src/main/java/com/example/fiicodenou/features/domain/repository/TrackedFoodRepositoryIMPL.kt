@@ -2,10 +2,10 @@ package com.example.fiicodenou.features.domain.repository
 
 import androidx.compose.runtime.mutableDoubleStateOf
 import com.example.fiicodenou.features.data.repository.TrackedFoodRepository
-import com.example.fiicodenou.features.domain.models.Food
 import com.example.fiicodenou.features.domain.models.Realm_Objects.TrackedFood
+import com.example.fiicodenou.features.domain.models.Realm_Objects.TrackedUser
+import com.example.fiicodenou.features.domain.models.User
 import com.example.fiicodenou.features.domain.util.Resource
-import com.google.android.play.integrity.internal.i
 import io.realm.kotlin.Realm
 import io.realm.kotlin.UpdatePolicy
 import io.realm.kotlin.ext.query
@@ -19,6 +19,8 @@ class TrackedFoodRepositoryIMPL @Inject constructor(
     private val realm: Realm
 ): TrackedFoodRepository {
 
+
+    //Local Food
     override val getAllTrackedFood: Flow<RealmList<TrackedFood>>
         get() = realm.query<TrackedFood>()
             .find()
@@ -100,5 +102,35 @@ class TrackedFoodRepositoryIMPL @Inject constructor(
         }
 
         return sum.doubleValue
+    }
+
+    //Local User
+    override suspend fun getTrackedUser(name: String?): TrackedUser {
+        return realm.query<TrackedUser>("name == $0", name).find().first()
+    }
+
+    override suspend fun addTrackedUser(name: String?): Resource<Boolean>
+    =try{
+        realm.write {
+            val newUser = TrackedUser().apply {
+                this.name = name
+            }
+            copyToRealm(newUser,UpdatePolicy.ALL)
+        }
+
+        Resource.Succes(true)
+    }catch (ex: Exception){
+        Resource.Failure(ex)
+    }
+
+    override suspend fun deleteTrackedUser(name: String?): Resource<Boolean>
+    =try{
+        realm.write {
+            val queryUser = this.query<TrackedUser>("name == $0",name).find().first()
+            delete(queryUser)
+        }
+        Resource.Succes(true)
+    }catch (ex: Exception){
+        Resource.Failure(ex)
     }
 }

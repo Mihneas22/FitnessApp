@@ -59,7 +59,7 @@ class AuthRepositoryIMPL @Inject constructor(
     override suspend fun modifyUserDataInfo(
         email: String?,
         password: String?,
-        username: String?
+        username: String?,
     ): Resource<Boolean>
     =try{
         val db = fb.collection("users").document(email!!)
@@ -92,7 +92,7 @@ class AuthRepositoryIMPL @Inject constructor(
     override suspend fun createUser(
         email: String?,
         password: String?,
-        name: String?
+        name: String?,
     ): Resource<Boolean>
     =try{
         val user = mutableMapOf<String,Any>()
@@ -110,7 +110,7 @@ class AuthRepositoryIMPL @Inject constructor(
         return User(
             result?.get("user_email") as? String,
             result?.get("user_password") as? String,
-            result?.get("user_username") as? String
+            result?.get("user_username") as? String,
         )
     }
 
