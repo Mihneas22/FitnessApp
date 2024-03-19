@@ -8,4 +8,5 @@ class TrackedUser(): RealmObject {
     @PrimaryKey var _id: ObjectId = ObjectId()
     var name: String? = ""
     var hasExercised: Boolean? = false
+    var water: Double? = 0.0
 }

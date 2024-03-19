@@ -68,12 +68,6 @@ fun AddedFoodsScreen(
     navController: NavController
 ){
     val resultTrackedFoods by trackedFoodViewModel.getAllTrackedFood.collectAsState(initial = realmListOf())
-    trackedFoodViewModel.calculateAllCalories(resultTrackedFoods)
-    val caloriesValuesFull = trackedFoodViewModel.caloriesFull.doubleValue
-    val proteinValuesFull = trackedFoodViewModel.proteinFull.doubleValue
-    val carboValuesFull = trackedFoodViewModel.carbohydratesFull.doubleValue
-    val fatValuesFull = trackedFoodViewModel.fatFull.doubleValue
-    Log.d("valueCalories","$caloriesValuesFull")
 
     //Firebase
     foodViewModel.getFood()

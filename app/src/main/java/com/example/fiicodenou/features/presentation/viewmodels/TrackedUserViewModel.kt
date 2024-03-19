@@ -36,6 +36,10 @@ class TrackedUserViewModel @Inject constructor(
         repo.addTrackedUser(name)
     }
 
+    fun modifyTrackedUser(name: String?,user: TrackedUser)
+    =viewModelScope.launch {
+        repo.modifyTrackedUser(name, user)
+    }
     fun deleteTrackedUser(name: String?)
     =viewModelScope.launch {
         deleteTrackedUserResponse = Resource.Loading

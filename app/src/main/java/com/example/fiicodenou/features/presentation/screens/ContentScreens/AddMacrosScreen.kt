@@ -5,6 +5,7 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.rememberScrollableState
@@ -21,13 +22,18 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -38,6 +44,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -48,8 +55,10 @@ import com.example.fiicodeapp.features.presentation.components.FitnessAppTextFie
 import com.example.fiicodenou.R
 import com.example.fiicodenou.features.domain.models.Food
 import com.example.fiicodenou.features.domain.models.Realm_Objects.TrackedFood
+import com.example.fiicodenou.features.domain.models.Realm_Objects.TrackedUser
 import com.example.fiicodenou.features.presentation.viewmodels.FoodViewModel
 import com.example.fiicodenou.features.presentation.viewmodels.TrackedFoodViewModel
+import com.example.fiicodenou.features.presentation.viewmodels.TrackedUserViewModel
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
@@ -60,17 +69,17 @@ import io.realm.kotlin.ext.realmListOf
 fun AddMacrosScreen(
     foodViewModel: FoodViewModel = hiltViewModel(),
     trackedFoodViewModel: TrackedFoodViewModel = hiltViewModel(),
+    trackedUserViewModel: TrackedUserViewModel = hiltViewModel(),
     navController: NavController
 ){
-    foodViewModel.getFood()
-    val resultFirebase = foodViewModel.result.value
+    trackedUserViewModel.getTrackedUser("")
+    val resultTrackedUser = trackedUserViewModel.trackedUser
+    Log.d("realm","realmData: $resultTrackedUser")
 
-    val resultTrackedFoods by trackedFoodViewModel.getAllTrackedFood.collectAsState(initial = realmListOf())
-    Log.d("realm","realmData: ${resultTrackedFoods.size}")
-
-    Column{
+    Column(modifier = Modifier.verticalScroll(rememberScrollState())){
         HeaderAddMacrosScreen()
         LowerAddMacrosScreen(foodViewModel,trackedFoodViewModel,navController)
+        AddWaterScreen(trackedUserViewModel = trackedUserViewModel, trackedUser = resultTrackedUser)
     }
 }
 
@@ -133,7 +142,7 @@ fun LowerAddMacrosScreen(
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.Top
         ) {
-            Text(text = "Add Your Food",
+            Text(text = "Add Your Personalised Food",
                 style = MaterialTheme.typography.bodyLarge,
                 fontSize = 20.sp,
                 color = Color(0xF11FD3C1)
@@ -284,6 +293,164 @@ fun LowerAddMacrosScreen(
                 textColor = Color.White
             )
 
+        }
+    }
+}
+
+@Composable
+fun AddWaterScreen(
+    trackedUserViewModel: TrackedUserViewModel,
+    trackedUser: TrackedUser
+){
+    //Double 10 DIGITS PROBLEM TO SOLVE
+
+    val water = remember{
+        mutableDoubleStateOf(0.0)
+    }
+    Card(modifier = Modifier
+        .fillMaxWidth()
+        .height(300.dp)
+        .verticalScroll(rememberScrollState()),
+        colors = CardDefaults.cardColors(
+            containerColor = Color(0xFF252525)
+        ),
+        shape = RectangleShape
+    ){
+        Column(modifier = Modifier
+            .fillMaxSize()
+            .padding(start = 30.dp, top = 30.dp),
+            horizontalAlignment = Alignment.Start,
+            verticalArrangement = Arrangement.Top
+        ) {
+            Text(
+                text = "Add Your Water",
+                style = MaterialTheme.typography.bodyLarge,
+                fontSize = 20.sp,
+                color = Color(0xF11FD3C1)
+            )
+
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 20.dp),
+                horizontalArrangement = Arrangement.Start,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(imageVector = Icons.Default.Add,
+                    contentDescription = "IconAddWater",
+                    modifier = Modifier
+                        .height(20.dp).width(20.dp)
+                        .background(Color.White)
+                )
+
+                FitnessAppButton(
+                    modifier = Modifier
+                        .padding(start = 5.dp)
+                        .height(40.dp)
+                        .width(90.dp),
+                    text = "0.1L",
+                    onButClick ={
+                        water.doubleValue += 0.1
+                    },
+                    color = Color(0xF11FD3C1),
+                    textColor = Color.Black
+                )
+
+                FitnessAppButton(
+                    modifier = Modifier
+                        .padding(start = 5.dp)
+                        .height(40.dp)
+                        .width(90.dp),
+                    text = "0.5L",
+                    onButClick = {
+                        water.doubleValue += 0.5
+                    },
+                    color = Color(0xF11FD3C1),
+                    textColor = Color.Black
+                )
+
+                FitnessAppButton(
+                    modifier = Modifier
+                        .padding(start = 5.dp)
+                        .height(40.dp)
+                        .width(90.dp),
+                    text = "1L",
+                    onButClick = {
+                        water.doubleValue += 1.0
+                    },
+                    color = Color(0xF11FD3C1),
+                    textColor = Color.Black
+                )
+            }
+
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 20.dp),
+                horizontalArrangement = Arrangement.Start,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(imageVector = Icons.Default.Clear,
+                    contentDescription = "IconAddWater",
+                    modifier = Modifier
+                        .height(20.dp).width(20.dp)
+                        .background(Color.White)
+                )
+
+                FitnessAppButton(
+                    modifier = Modifier
+                        .padding(start = 5.dp)
+                        .height(40.dp)
+                        .width(90.dp),
+                    text = "0.1L",
+                    onButClick ={
+                        water.doubleValue -= 0.1
+                    },
+                    color = Color(0xF11FD3C1),
+                    textColor = Color.Black
+                )
+
+                FitnessAppButton(
+                    modifier = Modifier
+                        .padding(start = 5.dp)
+                        .height(40.dp)
+                        .width(90.dp),
+                    text = "0.5L",
+                    onButClick = {
+                        water.doubleValue -= 0.5
+                    },
+                    color = Color(0xF11FD3C1),
+                    textColor = Color.Black
+                )
+
+                FitnessAppButton(
+                    modifier = Modifier
+                        .padding(start = 5.dp)
+                        .height(40.dp)
+                        .width(90.dp),
+                    text = "1L",
+                    onButClick = {
+                        water.doubleValue -= 1.0
+                    },
+                    color = Color(0xF11FD3C1),
+                    textColor = Color.Black
+                )
+            }
+
+            val trackedUserLocal = TrackedUser().apply {
+                this.name = trackedUser.name
+                this.water = trackedUser.water?.plus(water.doubleValue)
+                this.hasExercised = trackedUser.hasExercised
+            }
+            trackedUserViewModel.modifyTrackedUser("",trackedUserLocal)
+
+            Text(
+                modifier = Modifier.padding(top = 15.dp),
+                text = "Current Drank Water:" + " ${trackedUserViewModel.trackedUser.water?.plus(
+                    water.doubleValue
+                )}L",
+                style = MaterialTheme.typography.bodyLarge,
+                fontSize = 20.sp,
+                color = Color(0xF11FD3C1)
+            )
         }
     }
 }

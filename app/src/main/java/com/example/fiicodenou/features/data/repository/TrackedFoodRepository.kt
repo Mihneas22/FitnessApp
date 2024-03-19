@@ -31,5 +31,7 @@ interface TrackedFoodRepository {
 
     suspend fun addTrackedUser(name: String?): Resource<Boolean>
 
+    suspend fun modifyTrackedUser(name: String?,user: TrackedUser): Resource<Boolean>
+
     suspend fun deleteTrackedUser(name: String?): Resource<Boolean>
 }

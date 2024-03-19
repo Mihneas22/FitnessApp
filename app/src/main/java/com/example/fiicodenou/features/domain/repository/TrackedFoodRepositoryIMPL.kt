@@ -127,6 +127,20 @@ class TrackedFoodRepositoryIMPL @Inject constructor(
         Resource.Failure(ex)
     }
 
+    override suspend fun modifyTrackedUser(name: String?,user: TrackedUser): Resource<Boolean>
+    =try{
+        realm.write {
+            val newUser = this.query<TrackedUser>("name == $0",name).find().first()
+            newUser.hasExercised=user.hasExercised
+            newUser.water=user.water
+            copyToRealm(newUser,UpdatePolicy.ALL)
+        }
+
+        Resource.Succes(true)
+    }catch (ex: Exception){
+        Resource.Failure(ex)
+    }
+
     override suspend fun deleteTrackedUser(name: String?): Resource<Boolean>
     =try{
         realm.write {
