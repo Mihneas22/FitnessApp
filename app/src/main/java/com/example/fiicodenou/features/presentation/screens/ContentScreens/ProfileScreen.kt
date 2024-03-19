@@ -77,7 +77,7 @@ fun HeaderProfile(
                     .width(40.dp)
                     .height(40.dp)
                     .clickable {
-                        trackedUserViewModel.deleteTrackedUser(user.username!!)
+                        trackedUserViewModel.deleteTrackedUser("")
                         userViewModel.logOut()
                         navController.navigate("LoginInScreen")
                     }

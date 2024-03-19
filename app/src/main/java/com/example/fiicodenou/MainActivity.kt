@@ -68,7 +68,7 @@ class MainActivity : ComponentActivity() {
                 userDataViewModel.getUserData(email = user.email!!)
                 val userData = userDataViewModel.data.value
 
-                if(currentUserSign)
+                if(!currentUserSign)
                 {
                     trackedUser.addTrackedUser(userData.username) //Null Error (java.lang.NullPointerException)
                 }

@@ -111,11 +111,15 @@ class TrackedFoodRepositoryIMPL @Inject constructor(
 
     override suspend fun addTrackedUser(name: String?): Resource<Boolean>
     =try{
-        realm.write {
-            val newUser = TrackedUser().apply {
-                this.name = name
+        val db = realm.query<TrackedUser>().find()
+        if(db.isEmpty())
+        {
+            realm.write {
+                val newUser = TrackedUser().apply {
+                    this.name = name
+                }
+                copyToRealm(newUser,UpdatePolicy.ALL)
             }
-            copyToRealm(newUser,UpdatePolicy.ALL)
         }
 
         Resource.Succes(true)
