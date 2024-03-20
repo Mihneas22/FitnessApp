@@ -79,7 +79,8 @@ fun AddMacrosScreen(
     Column(modifier = Modifier.verticalScroll(rememberScrollState())){
         HeaderAddMacrosScreen()
         LowerAddMacrosScreen(foodViewModel,trackedFoodViewModel,navController)
-        AddWaterScreen(trackedUserViewModel = trackedUserViewModel, trackedUser = resultTrackedUser)
+        AddWaterScreen(trackedUserViewModel = trackedUserViewModel,
+            trackedUser = resultTrackedUser, navController = navController)
     }
 }
 
@@ -234,16 +235,6 @@ fun LowerAddMacrosScreen(
             ){
 
                 FitnessAppButton(
-                    modifier = Modifier.padding(start = 15.dp, top = 10.dp),
-                    text = "Cancel",
-                    onButClick = {
-                        navController.navigate("MainScreen")
-                    },
-                    color = Color(0xF11FD3C1),
-                    textColor = Color.Black
-                )
-
-                FitnessAppButton(
                     modifier = Modifier.padding(top = 10.dp, end =20.dp),
                     text = "Save Food",
                     onButClick = {
@@ -300,16 +291,18 @@ fun LowerAddMacrosScreen(
 @Composable
 fun AddWaterScreen(
     trackedUserViewModel: TrackedUserViewModel,
-    trackedUser: TrackedUser
+    trackedUser: TrackedUser,
+    navController: NavController
 ){
     //Double 10 DIGITS PROBLEM TO SOLVE
 
+    val currentWater = trackedUser.water
     val water = remember{
         mutableDoubleStateOf(0.0)
     }
     Card(modifier = Modifier
         .fillMaxWidth()
-        .height(300.dp)
+        .height(500.dp)
         .verticalScroll(rememberScrollState()),
         colors = CardDefaults.cardColors(
             containerColor = Color(0xFF252525)
@@ -435,21 +428,30 @@ fun AddWaterScreen(
                 )
             }
 
-            val trackedUserLocal = TrackedUser().apply {
-                this.name = trackedUser.name
-                this.water = trackedUser.water?.plus(water.doubleValue)
-                this.hasExercised = trackedUser.hasExercised
-            }
-            trackedUserViewModel.modifyTrackedUser("",trackedUserLocal)
-
             Text(
                 modifier = Modifier.padding(top = 15.dp),
-                text = "Current Drank Water:" + " ${trackedUserViewModel.trackedUser.water?.plus(
-                    water.doubleValue
-                )}L",
+                text = "Current Drank Water:" + " ${
+                    water.doubleValue + currentWater!!
+                }L",
                 style = MaterialTheme.typography.bodyLarge,
                 fontSize = 20.sp,
                 color = Color(0xF11FD3C1)
+            )
+
+            FitnessAppButton(
+                modifier = Modifier.padding(start = 15.dp, top = 10.dp),
+                text = "Cancel",
+                onButClick = {
+                    navController.navigate("MainScreen")
+                    val trackedUserLocal = TrackedUser().apply {
+                        this.name = trackedUser.name
+                        this.water = trackedUser.water?.plus(water.doubleValue)
+                        this.hasExercised = trackedUser.hasExercised
+                    }
+                    trackedUserViewModel.modifyTrackedUser("",trackedUserLocal)
+                },
+                color = Color(0xF11FD3C1),
+                textColor = Color.Black
             )
         }
     }

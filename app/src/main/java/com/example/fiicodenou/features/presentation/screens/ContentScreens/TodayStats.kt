@@ -24,6 +24,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,21 +36,24 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.fiicodenou.features.presentation.screens.components.PieChart
 import com.example.fiicodenou.features.presentation.viewmodels.TrackedFoodViewModel
+import com.example.fiicodenou.features.presentation.viewmodels.TrackedUserViewModel
 import io.realm.kotlin.ext.realmListOf
 
 @Composable
 fun TodayStatsScreen(
     navController: NavController,
-    trackedFoodViewModel: TrackedFoodViewModel = hiltViewModel()){
+    trackedFoodViewModel: TrackedFoodViewModel = hiltViewModel(),
+    trackedUserViewModel: TrackedUserViewModel = hiltViewModel()){
     Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-        HeaderStats(trackedFoodViewModel = trackedFoodViewModel)
+        HeaderStats(trackedFoodViewModel = trackedFoodViewModel, trackedUserViewModel = trackedUserViewModel)
         SportsStats(navController = navController)
     }
 }
 
 @Composable
 fun HeaderStats(
-    trackedFoodViewModel: TrackedFoodViewModel
+    trackedFoodViewModel: TrackedFoodViewModel,
+    trackedUserViewModel: TrackedUserViewModel
 ){
     val resultTrackedFoods by trackedFoodViewModel.getAllTrackedFood.collectAsState(initial = realmListOf())
     trackedFoodViewModel.calculateAllCalories(resultTrackedFoods)
@@ -59,6 +64,20 @@ fun HeaderStats(
     val proteinValuesFull = trackedFoodViewModel.proteinFull.doubleValue
     val carboValuesFull = trackedFoodViewModel.carbohydratesFull.doubleValue
     val fatValuesFull = trackedFoodViewModel.fatFull.doubleValue
+
+    trackedUserViewModel.getTrackedUser("")
+    val trackedUserWater = trackedUserViewModel.trackedUser.water
+    val trackedUserExercise = trackedUserViewModel.trackedUser.hasExercised
+
+    val hasExercisedResponse = remember{
+        mutableStateOf("")
+    }
+
+    if(trackedUserExercise == false){
+        hasExercisedResponse.value = "Did Not Work Out"
+    }else{
+        hasExercisedResponse.value = "Worked Out"
+    }
 
     Card(modifier = Modifier
         .fillMaxWidth()
@@ -98,10 +117,10 @@ fun HeaderStats(
                     style = MaterialTheme.typography.bodyLarge,
                     color = Color.Gray
                 )
-                Text(text = "359",
+                Text(text = hasExercisedResponse.value,
                     style = MaterialTheme.typography.bodyLarge,
                     color = Color(0xF11FD3C1),
-                    fontSize = 20.sp
+                    fontSize = 17.sp
                 )
 
                 Text(modifier = Modifier.padding(top = 40.dp),
@@ -120,7 +139,7 @@ fun HeaderStats(
                     style = MaterialTheme.typography.bodyLarge,
                     color = Color.Gray
                 )
-                Text(text = "2L",
+                Text(text = "${trackedUserWater}L",
                     style = MaterialTheme.typography.bodyLarge,
                     color = Color(0xF11FD3C1),
                     fontSize = 20.sp

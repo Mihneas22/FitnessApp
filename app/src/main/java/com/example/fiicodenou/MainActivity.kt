@@ -70,7 +70,7 @@ class MainActivity : ComponentActivity() {
 
                 if(!currentUserSign)
                 {
-                    trackedUser.addTrackedUser(userData.username) //Null Error (java.lang.NullPointerException)
+                    trackedUser.addTrackedUser("") //Null Error (java.lang.NullPointerException)
                 }
 
                 NavHost(navController = navController, startDestination = navigator.value) {
