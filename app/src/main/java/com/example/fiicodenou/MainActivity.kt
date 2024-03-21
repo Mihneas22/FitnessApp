@@ -1,7 +1,6 @@
 package com.example.fiicodenou
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -10,30 +9,23 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.fiicodenou.features.domain.models.Realm_Objects.TrackedUser
 import com.example.fiicodenou.features.domain.models.User
 import com.example.fiicodenou.features.presentation.screens.AuthScreens.LoginInScreen
 import com.example.fiicodenou.features.presentation.screens.AuthScreens.SignUpScreen
 import com.example.fiicodenou.features.presentation.screens.ContentScreens.AddMacrosScreen
 import com.example.fiicodenou.features.presentation.screens.ContentScreens.AddedFoodsScreen
 import com.example.fiicodenou.features.presentation.screens.ContentScreens.MenuScreen
-import com.example.fiicodenou.features.presentation.screens.ContentScreens.ProfileInfoScreen
+import com.example.fiicodenou.features.presentation.screens.ContentScreens.ProfileInfoScreens.ProfileInfoScreen
 import com.example.fiicodenou.features.presentation.screens.ContentScreens.ProfileScreen
 import com.example.fiicodenou.features.presentation.screens.ContentScreens.TodayStatsScreen
-import com.example.fiicodenou.features.presentation.viewmodels.FoodViewModel
 import com.example.fiicodenou.features.presentation.viewmodels.MainViewModel
-import com.example.fiicodenou.features.presentation.viewmodels.SignUpViewModel
 import com.example.fiicodenou.features.presentation.viewmodels.TrackedUserViewModel
 import com.example.fiicodenou.features.presentation.viewmodels.UserViewModel
 import com.example.fiicodenou.ui.theme.FiiCodeNouTheme
 import dagger.hilt.android.AndroidEntryPoint
-import okhttp3.OkHttpClient
-import okhttp3.Request
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
