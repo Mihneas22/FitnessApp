@@ -20,7 +20,7 @@ interface AuthRepository {
 
     suspend fun modifyUserDataInfo(email: String?,password: String?,username: String?): Resource<Boolean>
 
-    suspend fun modifyUserBodyInfo(email: String,weight: String,height: String): Resource<Boolean>
+    suspend fun modifyUserBodyInfo(sex: String, age: String,email: String,weight: String,height: String): Resource<Boolean>
 
     suspend fun getUserData(email: String?): User
 

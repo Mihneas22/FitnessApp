@@ -74,6 +74,8 @@ class AuthRepositoryIMPL @Inject constructor(
     }
 
     override suspend fun modifyUserBodyInfo(
+        sex: String,
+        age: String,
         email: String,
         weight: String,
         height: String
@@ -81,6 +83,8 @@ class AuthRepositoryIMPL @Inject constructor(
     =try{
         val db = fb.collection("users").document(email).collection("body_data")
         val bodyData = mutableMapOf<String, Any>()
+        bodyData["user_sex"]=sex
+        bodyData["user_age"]=age
         bodyData["user_weight"]=weight
         bodyData["user_height"]=height
         db.document("values").set(bodyData)
@@ -92,7 +96,7 @@ class AuthRepositoryIMPL @Inject constructor(
     override suspend fun createUser(
         email: String?,
         password: String?,
-        name: String?,
+        name: String?
     ): Resource<Boolean>
     =try{
         val user = mutableMapOf<String,Any>()

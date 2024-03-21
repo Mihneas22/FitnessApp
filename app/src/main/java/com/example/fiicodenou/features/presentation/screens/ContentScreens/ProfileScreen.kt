@@ -1,5 +1,6 @@
 package com.example.fiicodenou.features.presentation.screens.ContentScreens
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -39,7 +40,7 @@ fun ProfileScreen(
     userViewModel: UserViewModel = hiltViewModel(),
     trackedUserViewModel: TrackedUserViewModel = hiltViewModel()
 ){
-    Column {
+    Column(modifier = Modifier.background(Color(0xFF252525))) {
         HeaderProfile(user = user, navController = navController,userViewModel,trackedUserViewModel)
     }
 }
@@ -111,18 +112,20 @@ fun HeaderProfile(
                         Text(modifier = Modifier.padding(start = 10.dp),
                             text = it,
                             style = MaterialTheme.typography.bodyLarge,
-                            fontSize = 20.sp
+                            fontSize = 27.sp
                         )
                     }
 
                     user.email?.let {
-                        Text(modifier = Modifier.padding(start = 10.dp),
+                        Text(
+                            modifier = Modifier
+                                .padding(start = 10.dp)
+                                .width(400.dp),
                             text = it,
                             style = MaterialTheme.typography.bodyLarge,
                             fontSize = 20.sp
                         )
                     }
-
                 }
             }
 

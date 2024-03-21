@@ -84,8 +84,9 @@ fun Header(
                 )
 
                 Icon(modifier = Modifier
-                    .height(40.dp)
-                    .width(40.dp)
+                    .height(70.dp)
+                    .width(70.dp)
+                    .padding(top = 20.dp)
                     .clickable {
                         navController.navigate("ProfileScreen")
                     },
@@ -98,14 +99,14 @@ fun Header(
             ) {
                 Text(text = "Hi,",
                     style = MaterialTheme.typography.bodyLarge,
-                    fontSize = 24.sp,
+                    fontSize = 30.sp,
                     color = Color(0xF11FD3C1),
                     modifier = Modifier.padding(start = 40.dp,top=13.dp)
                 )
 
                 Text(text = name,
                     style = MaterialTheme.typography.bodyLarge,
-                    fontSize = 24.sp,
+                    fontSize = 30.sp,
                     color = Color(0xF1FFFFFF),
                     modifier = Modifier.padding(start = 7.dp,top=13.dp)
                 )
@@ -125,7 +126,7 @@ fun MenuScreenMainScreen(
         .fillMaxWidth()
         .height(500.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xFF252525)
+            containerColor = Color(0xF11FD3C1)//0xF11FD3C1 0xFF252525
         ),
         shape = RectangleShape
     ) {
@@ -141,7 +142,7 @@ fun MenuScreenMainScreen(
                 Text(text = "Date: $dateFormat",
                     style = MaterialTheme.typography.bodyLarge,
                     fontSize = 24.sp,
-                    color = Color(0xF11FD3C1)
+                    color = Color(0xFF252525)
                 )
             }
 
@@ -156,7 +157,7 @@ fun MenuScreenMainScreen(
                     onButClick = {
                         navController.navigate("TodayStatsScreen")
                     },
-                    color = Color(0xF11FD3C1),
+                    color = Color(0xFF252525),
                     textColor = Color.White
                 )
             }
