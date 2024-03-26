@@ -192,8 +192,8 @@ fun GetSearchBarResults(
     foods: List<Food>
 ){
     Card(modifier = Modifier
-        .height(250.dp)
-        .width(250.dp)
+        .height(350.dp)
+        .width(350.dp)
         .padding(top = 20.dp),
         colors = CardDefaults.cardColors(
             containerColor = Color(0xF11FD3C1)
@@ -292,19 +292,19 @@ fun FoodBarResults(
             Column(modifier = Modifier
                 .fillMaxHeight()
                 .width(100.dp),
-                horizontalAlignment = Alignment.Start,
+                horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                Text(text = food.calories + "Calories",
+                Text(text = food.calories + " Calories",
                     style = MaterialTheme.typography.bodyLarge,
                     color = Color(0xF11FD3C1),
-                    fontSize = 7.sp
+                    fontSize = 13.sp
                 )
 
-                Text(text = food.weight + "Weight",
+                Text(text = food.weight + " Grams",
                     style = MaterialTheme.typography.bodyLarge,
                     color = Color(0xF11FD3C1),
-                    fontSize = 7.sp
+                    fontSize = 13.sp
                 )
             }
         }

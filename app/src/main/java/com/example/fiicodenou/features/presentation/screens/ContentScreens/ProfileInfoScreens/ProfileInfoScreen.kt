@@ -147,7 +147,7 @@ fun GoalsScreen(
                         char.isDefined()
                     })height=it
                 },
-                label = "Height",
+                label = "Height (cm)",
                 color = Color(0xFF252525),
                 textColor = Color(0xF11FD3C1)
             )
@@ -160,7 +160,7 @@ fun GoalsScreen(
                             char.isDefined()
                         })weight=it
                 },
-                label = "Weight",
+                label = "Weight (kg)",
                 color = Color(0xFF252525),
                 textColor = Color(0xF11FD3C1)
             )
@@ -169,8 +169,8 @@ fun GoalsScreen(
                 modifier = Modifier.padding(top=30.dp),
                 text = "Save Data",
                 onButClick = {
-                    userViewModel.modifyUserBodyInfo(email,weight,height,sex, age)
-                    navController.navigate("ProfileScreen")
+                    userViewModel.modifyUserBodyInfo(email,weight,height,sex, age,"","")
+                    navController.navigate("ChooseFitnessGoalScreen")
                 },
                 color = Color(0xF11FD3C1),
                 textColor = Color.White

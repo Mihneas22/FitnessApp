@@ -3,6 +3,7 @@ package com.example.fiicodenou.features.domain.repository
 import androidx.compose.runtime.mutableDoubleStateOf
 import com.example.fiicodenou.features.data.repository.TrackedFoodRepository
 import com.example.fiicodenou.features.domain.models.Realm_Objects.TrackedFood
+import com.example.fiicodenou.features.domain.models.Realm_Objects.TrackedHour
 import com.example.fiicodenou.features.domain.models.Realm_Objects.TrackedUser
 import com.example.fiicodenou.features.domain.models.User
 import com.example.fiicodenou.features.domain.util.Resource
@@ -61,7 +62,8 @@ class TrackedFoodRepositoryIMPL @Inject constructor(
     override suspend fun clearAllTrackedFood(): Resource<Boolean>
     =try{
         realm.write {
-            deleteAll()
+            val foodQuery = this.query<TrackedFood>().find()
+            delete(foodQuery)
         }
         Resource.Succes(true)
     }catch (ex: Exception){
@@ -144,8 +146,45 @@ class TrackedFoodRepositoryIMPL @Inject constructor(
     override suspend fun deleteTrackedUser(name: String?): Resource<Boolean>
     =try{
         realm.write {
-            val queryUser = this.query<TrackedUser>("name == $0",name).find().first()
+            val queryUser: TrackedUser = this.query<TrackedUser>().find().first()
             delete(queryUser)
+        }
+        Resource.Succes(true)
+    }catch (ex: Exception){
+        Resource.Failure(ex)
+    }
+
+    override suspend fun localHour(day: String?): Resource<Boolean>
+    =try{
+        realm.write {
+            val db = realm.query<TrackedHour>().find()
+            if(db.isEmpty())
+            {
+                val hour = TrackedHour().apply {
+                    if (day != null) {
+                        this.day = day
+                    }
+                }
+                copyToRealm(hour,UpdatePolicy.ALL)
+            }
+        }
+        Resource.Succes(true)
+    }catch (ex: Exception){
+        Resource.Failure(ex)
+    }
+
+    override suspend fun getLocalHour(): String {
+        return realm.query<TrackedHour>().find().first().day
+    }
+
+    override suspend fun updateLocalHour(newDay: String?): Resource<Boolean>
+    =try{
+        realm.write {
+            val valueHour = this.query<TrackedHour>().find().first()
+            if (newDay != null) {
+                valueHour.day=newDay
+            }
+            copyToRealm(valueHour,UpdatePolicy.ALL)
         }
         Resource.Succes(true)
     }catch (ex: Exception){

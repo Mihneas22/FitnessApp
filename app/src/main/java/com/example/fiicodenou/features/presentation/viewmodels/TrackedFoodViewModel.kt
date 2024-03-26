@@ -30,6 +30,7 @@ class TrackedFoodViewModel @Inject constructor(
     var deleteAllTrackedFoodResponse by mutableStateOf<Resource<Boolean>>(Resource.Succes(false))
         private set
 
+    var localDate = mutableStateOf("")
     var caloriesFull = mutableDoubleStateOf(0.0)
     var proteinFull = mutableDoubleStateOf(0.0)
     var carbohydratesFull = mutableDoubleStateOf(0.0)
@@ -80,5 +81,20 @@ class TrackedFoodViewModel @Inject constructor(
     fun calculateAllFat(list: RealmList<TrackedFood>)
             =viewModelScope.launch {
         fatFull.doubleValue =repo.calculateAllFat(list)
+    }
+
+    fun addLocalDate(day: String?)
+    =viewModelScope.launch {
+        repo.localHour(day)
+    }
+
+    fun getLocalDate()
+            =viewModelScope.launch {
+        localDate.value = repo.getLocalHour()
+    }
+
+    fun updateLocalDate(newDate: String?)
+    =viewModelScope.launch {
+        repo.updateLocalHour(newDate)
     }
 }

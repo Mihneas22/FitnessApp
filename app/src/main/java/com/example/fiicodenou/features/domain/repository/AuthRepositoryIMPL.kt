@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import com.example.fiicodenou.features.data.repository.AuthRepository
 import com.example.fiicodenou.features.domain.models.Food
 import com.example.fiicodenou.features.domain.models.User
+import com.example.fiicodenou.features.domain.models.User_Body
 import com.example.fiicodenou.features.domain.util.Resource
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -78,7 +79,9 @@ class AuthRepositoryIMPL @Inject constructor(
         age: String,
         email: String,
         weight: String,
-        height: String
+        height: String,
+        workoutPlan: String,
+        workoutDate: String,
     ): Resource<Boolean>
     =try{
         val db = fb.collection("users").document(email).collection("body_data")
@@ -87,6 +90,8 @@ class AuthRepositoryIMPL @Inject constructor(
         bodyData["user_age"]=age
         bodyData["user_weight"]=weight
         bodyData["user_height"]=height
+        bodyData["user_workoutPlan"]=workoutPlan
+        bodyData["user_workoutDate"]=workoutDate
         db.document("values").set(bodyData)
         Resource.Succes(true)
     }catch(ex: Exception){
@@ -115,6 +120,18 @@ class AuthRepositoryIMPL @Inject constructor(
             result?.get("user_email") as? String,
             result?.get("user_password") as? String,
             result?.get("user_username") as? String,
+        )
+    }
+
+    override suspend fun getUserBodyData(email: String?): User_Body {
+        val result = fb.collection("users").document(email!!).collection("body_data").document("values").get().await().data
+        return User_Body(
+            result?.get("user_age") as? String,
+            result?.get("user_height") as? String,
+            result?.get("user_sex") as? String,
+            result?.get("user_weight") as? String,
+            result?.get("user_workoutPlan") as? String,
+            result?.get("user_workoutDate") as? String,
         )
     }
 

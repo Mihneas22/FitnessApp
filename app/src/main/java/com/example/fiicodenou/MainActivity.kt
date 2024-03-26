@@ -1,6 +1,7 @@
 package com.example.fiicodenou
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -18,20 +19,25 @@ import com.example.fiicodenou.features.presentation.screens.AuthScreens.SignUpSc
 import com.example.fiicodenou.features.presentation.screens.ContentScreens.AddMacrosScreen
 import com.example.fiicodenou.features.presentation.screens.ContentScreens.AddedFoodsScreen
 import com.example.fiicodenou.features.presentation.screens.ContentScreens.MenuScreen
+import com.example.fiicodenou.features.presentation.screens.ContentScreens.ProfileInfoScreens.ChooseFitnessGoal
 import com.example.fiicodenou.features.presentation.screens.ContentScreens.ProfileInfoScreens.ProfileInfoScreen
 import com.example.fiicodenou.features.presentation.screens.ContentScreens.ProfileScreen
 import com.example.fiicodenou.features.presentation.screens.ContentScreens.TodayStatsScreen
 import com.example.fiicodenou.features.presentation.viewmodels.MainViewModel
+import com.example.fiicodenou.features.presentation.viewmodels.TrackedFoodViewModel
 import com.example.fiicodenou.features.presentation.viewmodels.TrackedUserViewModel
 import com.example.fiicodenou.features.presentation.viewmodels.UserViewModel
 import com.example.fiicodenou.ui.theme.FiiCodeNouTheme
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.DateFormat
+import java.util.Calendar
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val mainViewModel by viewModels<MainViewModel>()
     private val userDataViewModel by viewModels<UserViewModel>()
     private val trackedUser by viewModels<TrackedUserViewModel>()
+    private val trackedFoodViewModel by viewModels<TrackedFoodViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,7 +65,7 @@ class MainActivity : ComponentActivity() {
                 )
                 userDataViewModel.getUserData(email = user.email!!)
                 val userData = userDataViewModel.data.value
-
+                trackedFoodViewModel.addLocalDate("empty")
                 if(!currentUserSign)
                 {
                     trackedUser.addTrackedUser("") //Null Error (java.lang.NullPointerException)
@@ -93,8 +99,13 @@ class MainActivity : ComponentActivity() {
                     composable("AddedFoodsScreen"){
                         AddedFoodsScreen(navController = navController)
                     }
+
                     composable("TodayStatsScreen"){
                         TodayStatsScreen(navController = navController)
+                    }
+
+                    composable("ChooseFitnessGoalScreen"){
+                        ChooseFitnessGoal(email = user.email)
                     }
                 }
             }

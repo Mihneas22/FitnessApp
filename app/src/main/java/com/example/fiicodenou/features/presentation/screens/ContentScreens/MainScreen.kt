@@ -1,9 +1,5 @@
 package com.example.fiicodenou.features.presentation.screens.ContentScreens
 
-import android.widget.Toast
-import androidx.compose.animation.core.LinearOutSlowInEasing
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,32 +17,34 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.Blue
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.input.key.Key.Companion.F
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.fiicodeapp.features.presentation.components.FitnessAppButton
 import com.example.fiicodenou.features.domain.models.User
+import com.example.fiicodenou.features.presentation.viewmodels.TrackedFoodViewModel
 import java.text.DateFormat
 import java.util.Calendar
 
 @Composable
 fun MenuScreen(
     user: User,
-    navController: NavController
+    navController: NavController,
+    trackedFoodViewModel: TrackedFoodViewModel = hiltViewModel()
 ){
+    val calendar = Calendar.getInstance().time
+    val timer = DateFormat.getDateInstance(DateFormat.SHORT).format(calendar)
+    trackedFoodViewModel.getLocalDate()
+    if(timer != trackedFoodViewModel.localDate.value)
+    {
+        trackedFoodViewModel.updateLocalDate(timer)
+        trackedFoodViewModel.deleteAllTrackedFood()
+    }
     Column {
         user.username?.let { Header(name = it,navController) }
         MenuScreenMainScreen(navController)

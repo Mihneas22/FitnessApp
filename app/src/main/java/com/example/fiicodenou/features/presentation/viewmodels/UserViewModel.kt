@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fiicodenou.features.data.repository.AuthRepository
 import com.example.fiicodenou.features.domain.models.User
+import com.example.fiicodenou.features.domain.models.User_Body
 import com.example.fiicodenou.features.domain.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -24,16 +25,23 @@ class UserViewModel @Inject constructor(
 
     val data = mutableStateOf(User())
 
+    val body_data = mutableStateOf(User_Body())
+
     fun getUserData(email: String)
     =viewModelScope.launch {
         getUserDataResponse = Resource.Loading
         data.value = repo.getUserData(email)
     }
 
-    fun modifyUserBodyInfo(email: String,weight: String,height: String,sex: String, age: String)
+    fun modifyUserBodyInfo(email: String,weight: String,height: String,sex: String, age: String,workoutPlan: String,workoutDate: String)
     =viewModelScope.launch {
         getDataBodyResponse = Resource.Loading
-        repo.modifyUserBodyInfo(sex,age,email, weight, height)
+        repo.modifyUserBodyInfo(sex,age,email, weight, height,workoutPlan, workoutDate)
+    }
+
+    fun getUserBodyData(email: String)
+    =viewModelScope.launch{
+        body_data.value = repo.getUserBodyData(email)
     }
 
     fun logOut(){

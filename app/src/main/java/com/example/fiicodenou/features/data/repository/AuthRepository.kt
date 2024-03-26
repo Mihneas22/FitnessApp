@@ -2,6 +2,7 @@ package com.example.fiicodenou.features.data.repository
 
 import com.example.fiicodenou.features.domain.models.Food
 import com.example.fiicodenou.features.domain.models.User
+import com.example.fiicodenou.features.domain.models.User_Body
 import com.example.fiicodenou.features.domain.util.Resource
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.CoroutineScope
@@ -20,9 +21,12 @@ interface AuthRepository {
 
     suspend fun modifyUserDataInfo(email: String?,password: String?,username: String?): Resource<Boolean>
 
-    suspend fun modifyUserBodyInfo(sex: String, age: String,email: String,weight: String,height: String): Resource<Boolean>
+    suspend fun modifyUserBodyInfo(sex: String, age: String,email: String,weight: String,height: String,workoutPlan: String,
+                                   workoutDate: String): Resource<Boolean>
 
     suspend fun getUserData(email: String?): User
+
+    suspend fun getUserBodyData(email: String?): User_Body
 
     fun getAuthStateLogin(viewModelScope: CoroutineScope): StateFlow<Boolean>
 
