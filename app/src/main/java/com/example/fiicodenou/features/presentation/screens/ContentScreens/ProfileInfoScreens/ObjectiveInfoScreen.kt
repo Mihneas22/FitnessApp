@@ -57,7 +57,7 @@ fun ChooseFitnessGoal(
             text = "Next",
             onButClick = {
                 userViewModel.getUserBodyData(email)
-                Log.d("Fb_User",userViewModel.body_data.value.sex!!)
+                Log.d("Fb_User",userViewModel.bodyData.value.sex!!)
                 //ERROR HERE, CANT GET USER_BODY DATA VALUES
             },
             color = Color(0xF11FD3C1),

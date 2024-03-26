@@ -25,7 +25,7 @@ class UserViewModel @Inject constructor(
 
     val data = mutableStateOf(User())
 
-    val body_data = mutableStateOf(User_Body())
+    val bodyData = mutableStateOf(User_Body())
 
     fun getUserData(email: String)
     =viewModelScope.launch {
@@ -41,7 +41,7 @@ class UserViewModel @Inject constructor(
 
     fun getUserBodyData(email: String)
     =viewModelScope.launch{
-        body_data.value = repo.getUserBodyData(email)
+        bodyData.value = repo.getUserBodyData(email)
     }
 
     fun logOut(){
