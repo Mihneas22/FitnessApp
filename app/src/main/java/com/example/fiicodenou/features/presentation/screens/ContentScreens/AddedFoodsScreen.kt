@@ -140,7 +140,7 @@ fun ImplementSearchBar(
                 .fillMaxHeight()
                 .width(50.dp)
                 .clickable {
-                    navController.navigate("ProfileScreen")
+                    navController.navigate("MainScreen")
                 }
         )
     }

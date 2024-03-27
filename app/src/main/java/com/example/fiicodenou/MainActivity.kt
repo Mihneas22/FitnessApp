@@ -105,7 +105,7 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable("ChooseFitnessGoalScreen"){
-                        ChooseFitnessGoal(email = user.email)
+                        ChooseFitnessGoal(email = user.email, navController = navController)
                     }
                 }
             }

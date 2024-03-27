@@ -11,16 +11,23 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Build
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,6 +41,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.fiicodeapp.features.presentation.components.FitnessAppButton
+import com.example.fiicodeapp.features.presentation.components.FitnessAppPasswordTextField
 import com.example.fiicodeapp.features.presentation.components.FitnessAppTextField
 import com.example.fiicodenou.R
 import com.example.fiicodenou.features.presentation.viewmodels.LoginInViewModel
@@ -95,6 +103,8 @@ fun MainLoginIn(
         mutableStateOf("")
     }
 
+
+    var passwordVisible by rememberSaveable { mutableStateOf(false) }
     val context = LocalContext.current
 
     Card(modifier = Modifier
@@ -123,7 +133,7 @@ fun MainLoginIn(
                 textColor = Color(0xF11FD3C1)
             )
 
-            FitnessAppTextField(
+            FitnessAppPasswordTextField(
                 text = password,
                 onTextChange = {
                     if(it.all {char->
@@ -132,7 +142,19 @@ fun MainLoginIn(
                 },
                 label = "Password",
                 color = Color(0xFF252525),
-                textColor = Color(0xF11FD3C1)
+                textColor = Color(0xF11FD3C1),
+                visualState = passwordVisible,
+                icon = {
+                    val image = if (passwordVisible)
+                        Icons.Filled.Visibility
+                    else Icons.Filled.VisibilityOff
+
+                    val description = if (passwordVisible) "Hide password" else "Show password"
+
+                    IconButton(onClick = {passwordVisible = !passwordVisible}){
+                        Icon(imageVector  = image, description)
+                    }
+                }
             )
 
             Row(modifier = Modifier

@@ -15,6 +15,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AccountCircle
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Close
+import androidx.compose.material.icons.rounded.Logout
+import androidx.compose.material.icons.rounded.Menu
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -62,7 +64,7 @@ fun HeaderProfile(
     ) {
         Row(modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween) {
-            Icon(imageVector = Icons.Rounded.ArrowBack,
+            Icon(imageVector = Icons.Rounded.Menu,
                 contentDescription = "BackToMenu",
                 modifier = Modifier
                     .width(40.dp)
@@ -72,7 +74,7 @@ fun HeaderProfile(
                     }
             )
 
-            Icon(imageVector = Icons.Rounded.Close,
+            Icon(imageVector = Icons.Rounded.Logout,
                 contentDescription = "LogOut",
                 modifier = Modifier
                     .width(40.dp)

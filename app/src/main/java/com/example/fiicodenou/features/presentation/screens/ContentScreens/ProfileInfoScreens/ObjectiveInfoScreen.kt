@@ -1,6 +1,7 @@
 package com.example.fiicodenou.features.presentation.screens.ContentScreens.ProfileInfoScreens
 
 import android.view.animation.OvershootInterpolator
+import android.widget.Toast
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -30,9 +31,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.example.fiicodeapp.features.presentation.components.FitnessAppButton
 import com.example.fiicodenou.features.domain.models.User_Body
 import com.example.fiicodenou.features.presentation.viewmodels.UserViewModel
@@ -41,6 +44,7 @@ import kotlinx.coroutines.delay
 @Composable
 fun ChooseFitnessGoal(
     email: String,
+    navController: NavController,
     userViewModel: UserViewModel = hiltViewModel()
 ) {
     userViewModel.getUserBodyData(email)
@@ -50,7 +54,7 @@ fun ChooseFitnessGoal(
         .background(Color(0xFF252525)),
         horizontalAlignment = Alignment.CenterHorizontally) {
         ChooseFitnessStartScreen()
-        WorkoutsScreen(email, userViewModel,bodyData)
+        WorkoutsScreen(email, userViewModel,bodyData,navController)
     }
 }
 
@@ -101,7 +105,8 @@ fun ChooseFitnessStartScreen(){
 fun WorkoutsScreen(
     email: String,
     userViewModel: UserViewModel,
-    userBody: User_Body
+    userBody: User_Body,
+    navController: NavController
 ){
     var myStateMass by remember { mutableStateOf(false) }
     var myStateLoseWeight by remember { mutableStateOf(false) }
@@ -284,6 +289,8 @@ fun WorkoutsScreen(
             mutableStateOf("")
         }
 
+        val context = LocalContext.current
+
         FitnessAppButton(
             modifier = Modifier.padding(bottom = 20.dp),
             text = "Finish",
@@ -308,15 +315,23 @@ fun WorkoutsScreen(
                     textWorkoutDate.value = "4+ times/week"
                 }
 
-                userViewModel.modifyUserBodyInfo(
-                    email,
-                    userBody.weight!!,
-                    userBody.height!!,
-                    userBody.sex!!,
-                    userBody.age!!,
-                    textWorkoutMass.value,
-                    textWorkoutDate.value
-                )
+
+                if(textWorkoutMass.value.isNotEmpty() && textWorkoutDate.value.isNotEmpty())
+                {
+                    userViewModel.modifyUserBodyInfo(
+                        email,
+                        userBody.weight!!,
+                        userBody.height!!,
+                        userBody.sex!!,
+                        userBody.age!!,
+                        textWorkoutMass.value,
+                        textWorkoutDate.value
+                    )
+                    navController.navigate("MainScreen")
+                }
+                else{
+                    Toast.makeText(context,"Enter valid data!", Toast.LENGTH_SHORT).show()
+                }
             },
             color = Color(0xF11FD3C1),
             textColor = Color.White)

@@ -1,6 +1,7 @@
 package com.example.fiicodenou.features.presentation.screens.ContentScreens.ProfileInfoScreens
 
 import android.view.animation.OvershootInterpolator
+import android.widget.Toast
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -26,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -69,6 +71,8 @@ fun GoalsScreen(
     var weight by remember {
         mutableStateOf("")
     }
+
+    val context = LocalContext.current
 
     Card(modifier = Modifier
         .fillMaxWidth()
@@ -169,8 +173,15 @@ fun GoalsScreen(
                 modifier = Modifier.padding(top=30.dp),
                 text = "Save Data",
                 onButClick = {
-                    userViewModel.modifyUserBodyInfo(email,weight,height,sex, age,"","")
-                    navController.navigate("ChooseFitnessGoalScreen")
+                    if(sex.isNotEmpty() && age.isNotEmpty() && weight.isNotEmpty()
+                        && height.isNotEmpty())
+                    {
+                        userViewModel.modifyUserBodyInfo(email,weight,height,sex, age,"","")
+                        navController.navigate("ChooseFitnessGoalScreen")
+                    }
+                    else{
+                        Toast.makeText(context,"Enter valid data!",Toast.LENGTH_SHORT).show()
+                    }
                 },
                 color = Color(0xF11FD3C1),
                 textColor = Color.White
