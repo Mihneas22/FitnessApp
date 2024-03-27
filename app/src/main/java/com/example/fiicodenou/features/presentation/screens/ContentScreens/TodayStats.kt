@@ -1,5 +1,6 @@
 package com.example.fiicodenou.features.presentation.screens.ContentScreens
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -24,6 +25,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableDoubleStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -34,18 +37,74 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.fiicodenou.features.domain.models.NutritionalNecesity
 import com.example.fiicodenou.features.presentation.screens.components.PieChart
 import com.example.fiicodenou.features.presentation.viewmodels.TrackedFoodViewModel
 import com.example.fiicodenou.features.presentation.viewmodels.TrackedUserViewModel
+import com.example.fiicodenou.features.presentation.viewmodels.UserViewModel
 import io.realm.kotlin.ext.realmListOf
+import kotlin.math.roundToInt
 
 @Composable
 fun TodayStatsScreen(
     navController: NavController,
+    email: String,
     trackedFoodViewModel: TrackedFoodViewModel = hiltViewModel(),
-    trackedUserViewModel: TrackedUserViewModel = hiltViewModel()){
+    trackedUserViewModel: TrackedUserViewModel = hiltViewModel(),
+    userViewModel: UserViewModel = hiltViewModel()
+) {
+    userViewModel.getUserBodyData(email)
+    val bodyData = userViewModel.bodyData.value
+    val calculator = remember {
+        mutableDoubleStateOf(0.0)
+    }
+    val calculatorProtein = remember {
+        mutableDoubleStateOf(0.0)
+    }
+
+    val calculatorCarbs = remember {
+        mutableDoubleStateOf(0.0)
+    }
+
+    val calculatorFat = remember {
+        mutableDoubleStateOf(0.0)
+    }
+
+    if (bodyData.sex == "Male") {
+        calculator.doubleValue =
+            13.397 * bodyData.weight?.toIntOrNull()!! + 4.799 * bodyData.height?.toIntOrNull()!! - 5.677 * bodyData.age?.toIntOrNull()!! + 88.362
+    } else if (bodyData.sex == "Female") {
+        calculator.doubleValue =
+            9.247 * bodyData.weight?.toIntOrNull()!! + 3.098 * bodyData.height?.toIntOrNull()!! - 4.330 * bodyData.age?.toIntOrNull()!! + 447.593
+    }
+    if (bodyData.workoutDate == "4+ times/week") {
+        calculator.doubleValue *= 1.725
+        calculatorProtein.doubleValue = bodyData.weight?.toDoubleOrNull()!! * 2.5
+    } else if (bodyData.workoutDate == "3-4 times/week") {
+        calculator.doubleValue *= 1.55
+        calculatorProtein.doubleValue = bodyData.weight?.toDoubleOrNull()!! * 2
+    } else if(bodyData.workoutDate == "2-3 times/week") {
+        calculator.doubleValue *= 1.375
+        calculatorProtein.doubleValue = bodyData.weight?.toDoubleOrNull()!! * 1.5
+    }
+    if (bodyData.workoutPlan == "Gain Muscle Mass") {
+        calculator.doubleValue += 300
+    } else if (bodyData.workoutPlan == "Lose Weight") {
+        calculator.doubleValue -= 500
+    }
+
+    calculatorCarbs.doubleValue = (calculator.doubleValue * 0.50)/4
+    calculatorFat.doubleValue = (calculator.doubleValue * 0.30)/9
+
+    val nutriData = NutritionalNecesity(
+        calculator.doubleValue,
+        calculatorProtein.doubleValue,
+        calculatorCarbs.doubleValue,
+        calculatorFat.doubleValue
+    )
+
     Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-        HeaderStats(trackedFoodViewModel = trackedFoodViewModel, trackedUserViewModel = trackedUserViewModel)
+        HeaderStats(trackedFoodViewModel = trackedFoodViewModel, trackedUserViewModel = trackedUserViewModel, nutriData = nutriData)
         SportsStats(navController = navController)
     }
 }
@@ -53,7 +112,8 @@ fun TodayStatsScreen(
 @Composable
 fun HeaderStats(
     trackedFoodViewModel: TrackedFoodViewModel,
-    trackedUserViewModel: TrackedUserViewModel
+    trackedUserViewModel: TrackedUserViewModel,
+    nutriData: NutritionalNecesity
 ){
     val resultTrackedFoods by trackedFoodViewModel.getAllTrackedFood.collectAsState(initial = realmListOf())
     trackedFoodViewModel.calculateAllCalories(resultTrackedFoods)
@@ -124,11 +184,11 @@ fun HeaderStats(
                 )
 
                 Text(modifier = Modifier.padding(top = 40.dp),
-                    text = "Steps",
+                    text = "Remaining Calories",
                     style = MaterialTheme.typography.bodyLarge,
                     color = Color.Gray
                 )
-                Text(text = "8k",
+                Text(text = "${(nutriData.calories-caloriesValuesFull).roundToInt()}",
                     style = MaterialTheme.typography.bodyLarge,
                     color = Color(0xF11FD3C1),
                     fontSize = 20.sp
@@ -172,19 +232,19 @@ fun HeaderStats(
                 .padding(end = 100.dp, top = 25.dp)
             ) {
                 Column {
-                    Text(text = "30g remained Protein",
+                    Text(text = "${(nutriData.protein-proteinValuesFull).roundToInt()}g"+" Remained Protein",
                         style = MaterialTheme.typography.bodyLarge,
                         color = Color.White
                     )
 
                     Text(modifier = Modifier.padding(top = 60.dp),
-                        text = "74g Remained Carbs",
+                        text = "${(nutriData.carbs-carboValuesFull).roundToInt()}g"+" Remained Carbs",
                         style = MaterialTheme.typography.bodyLarge,
                         color = Color.White
                     )
 
                     Text(modifier = Modifier.padding(top = 60.dp),
-                        text = "20g remained Fat",
+                        text = "${(nutriData.fat-fatValuesFull).roundToInt()}g"+" remained Fat",
                         style = MaterialTheme.typography.bodyLarge,
                         color = Color.White
                     )

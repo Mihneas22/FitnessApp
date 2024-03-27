@@ -101,7 +101,7 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable("TodayStatsScreen"){
-                        TodayStatsScreen(navController = navController)
+                        TodayStatsScreen(navController = navController, email = user.email)
                     }
 
                     composable("ChooseFitnessGoalScreen"){

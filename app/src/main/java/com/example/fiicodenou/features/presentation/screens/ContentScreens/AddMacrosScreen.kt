@@ -1,15 +1,9 @@
 package com.example.fiicodenou.features.presentation.screens.ContentScreens
 
 import android.util.Log
-import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.rememberScrollableState
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,8 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -31,7 +23,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -41,14 +32,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.fiicodeapp.features.presentation.components.FitnessAppButton
 import com.example.fiicodeapp.features.presentation.components.FitnessAppTextField
@@ -59,10 +48,6 @@ import com.example.fiicodenou.features.domain.models.Realm_Objects.TrackedUser
 import com.example.fiicodenou.features.presentation.viewmodels.FoodViewModel
 import com.example.fiicodenou.features.presentation.viewmodels.TrackedFoodViewModel
 import com.example.fiicodenou.features.presentation.viewmodels.TrackedUserViewModel
-import com.google.accompanist.swiperefresh.SwipeRefresh
-import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
-import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
-import io.realm.kotlin.ext.realmListOf
 
 
 @Composable
@@ -102,6 +87,8 @@ fun LowerAddMacrosScreen(
     navController: NavController
 )
 {
+    val context = LocalContext.current
+
     var offset by remember { mutableStateOf(0f) }
 
     var name by remember {
@@ -229,60 +216,56 @@ fun LowerAddMacrosScreen(
 
             Row(modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 5.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
+                .padding(top = 35.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically
             ){
 
                 FitnessAppButton(
-                    modifier = Modifier.padding(top = 10.dp, end =20.dp),
                     text = "Save Food",
                     onButClick = {
-                        val food = Food(
-                            name = name,
-                            calories = calories,
-                            weight = weight,
-                            protein = protein,
-                            carbohydrates = carbohydrates,
-                            fat = fat,
-                            approved = false
-                        )
-                        val trackedFood = TrackedFood().apply {
-                            this.name = name
-                            this.weight = weight
-                            this.calories = calories
-                            this.protein = protein
-                            this.carbohydrates = carbohydrates
-                            this.fat = fat
-                        }
+                        if(name.isNotEmpty() && calories.isNotEmpty() && weight.isNotEmpty()
+                            && protein.isNotEmpty() && carbohydrates.isNotEmpty()
+                            && fat.isNotEmpty()
+                            ){
+                            val food = Food(
+                                name = name,
+                                calories = calories,
+                                weight = weight,
+                                protein = protein,
+                                carbohydrates = carbohydrates,
+                                fat = fat,
+                                approved = false
+                            )
+                            val trackedFood = TrackedFood().apply {
+                                this.name = name
+                                this.weight = weight
+                                this.calories = calories
+                                this.protein = protein
+                                this.carbohydrates = carbohydrates
+                                this.fat = fat
+                            }
 
-                        foodViewModel.createFood(food)
-                        trackedFoodViewModel.addTrackedFood(trackedFood)
+                            foodViewModel.createFood(food)
+                            trackedFoodViewModel.addTrackedFood(trackedFood)
+                        }
+                        else{
+                            Toast.makeText(context,"Enter all values, please!",Toast.LENGTH_SHORT).show()
+                        }
+                    },
+                    color = Color(0xF11FD3C1),
+                    textColor = Color.White
+                )
+
+                FitnessAppButton(
+                    text = "Added Foods",
+                    onButClick = {
+                        navController.navigate("AddedFoodsScreen")
                     },
                     color = Color(0xF11FD3C1),
                     textColor = Color.White
                 )
             }
-
-            FitnessAppButton(
-                modifier = Modifier.padding(start = 110.dp),
-                text = "Delete All",
-                onButClick = {
-                    trackedFoodViewModel.deleteAllTrackedFood()
-                },
-                color = Color(0xF11FD3C1),
-                textColor = Color.White
-            )
-
-            FitnessAppButton(
-                modifier = Modifier.padding(start = 63.dp),
-                text = "Travel to Added Foods",
-                onButClick = {
-                    navController.navigate("AddedFoodsScreen")
-                },
-                color = Color(0xF11FD3C1),
-                textColor = Color.White
-            )
 
         }
     }
@@ -294,15 +277,13 @@ fun AddWaterScreen(
     trackedUser: TrackedUser,
     navController: NavController
 ){
-    //Double 10 DIGITS PROBLEM TO SOLVE
-
     val currentWater = trackedUser.water
     val water = remember{
         mutableDoubleStateOf(0.0)
     }
     Card(modifier = Modifier
         .fillMaxWidth()
-        .height(500.dp)
+        .height(300.dp)
         .verticalScroll(rememberScrollState()),
         colors = CardDefaults.cardColors(
             containerColor = Color(0xFF252525)

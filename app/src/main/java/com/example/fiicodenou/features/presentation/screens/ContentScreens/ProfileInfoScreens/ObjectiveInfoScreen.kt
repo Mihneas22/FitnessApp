@@ -1,6 +1,5 @@
 package com.example.fiicodenou.features.presentation.screens.ContentScreens.ProfileInfoScreens
 
-import android.util.Log
 import android.view.animation.OvershootInterpolator
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
@@ -31,11 +30,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.fiicodeapp.features.presentation.components.FitnessAppButton
+import com.example.fiicodenou.features.domain.models.User_Body
 import com.example.fiicodenou.features.presentation.viewmodels.UserViewModel
 import kotlinx.coroutines.delay
 
@@ -44,24 +43,14 @@ fun ChooseFitnessGoal(
     email: String,
     userViewModel: UserViewModel = hiltViewModel()
 ) {
+    userViewModel.getUserBodyData(email)
+    val bodyData = userViewModel.bodyData.value
     Column(modifier = Modifier
         .verticalScroll(rememberScrollState())
         .background(Color(0xFF252525)),
         horizontalAlignment = Alignment.CenterHorizontally) {
         ChooseFitnessStartScreen()
-        WorkoutsScreen()
-        WorkoutOftenScreen()
-
-        FitnessAppButton(
-            modifier = Modifier.padding(bottom = 20.dp),
-            text = "Next",
-            onButClick = {
-                userViewModel.getUserBodyData(email)
-                Log.d("Fb_User",userViewModel.bodyData.value.sex!!)
-                //ERROR HERE, CANT GET USER_BODY DATA VALUES
-            },
-            color = Color(0xF11FD3C1),
-            textColor = Color.White)
+        WorkoutsScreen(email, userViewModel,bodyData)
     }
 }
 
@@ -109,180 +98,229 @@ fun ChooseFitnessStartScreen(){
 }
 
 @Composable
-fun WorkoutsScreen(){
+fun WorkoutsScreen(
+    email: String,
+    userViewModel: UserViewModel,
+    userBody: User_Body
+){
     var myStateMass by remember { mutableStateOf(false) }
     var myStateLoseWeight by remember { mutableStateOf(false) }
     var myStateFit by remember { mutableStateOf(false) }
 
-    Card(modifier = Modifier
-        .fillMaxWidth()
-        .height(300.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = Color(0xFF252525)
-        ),
-        shape = RectangleShape
-    ) {
-        Column(modifier = Modifier
-            .fillMaxWidth()
-            .height(300.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            Text(text = "What Do You Wish To Achieve?",
-                fontSize = 20.sp,
-                style = MaterialTheme.typography.bodyLarge,
-                color = Color(0xF11FD3C1)
-            )
-
-            Row(modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 20.dp),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Checkbox(checked = myStateMass,
-                    onCheckedChange = {
-                        myStateMass = it
-                        myStateFit = false
-                        myStateLoseWeight = false
-                    })
-
-                Text(text = "Gain Muscle Mass",
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = Color.White,
-                    fontSize = 20.sp
-                )
-            }
-
-            Row(modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 10.dp),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Checkbox(checked = myStateLoseWeight,
-                    onCheckedChange = {
-                        myStateLoseWeight = it
-                        myStateFit = false
-                        myStateMass = false
-                    })
-
-                Text(text = "Lose Weight",
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = Color.White,
-                    fontSize = 20.sp
-                )
-            }
-
-            Row(modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 10.dp),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Checkbox(checked = myStateFit,
-                    onCheckedChange = {
-                        myStateFit = it
-                        myStateMass = false
-                        myStateLoseWeight = false
-                    })
-
-                Text(text = "Stay Fit",
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = Color.White,
-                    fontSize = 20.sp
-                )
-            }
-        }
-    }
-}
-
-@Composable
-fun WorkoutOftenScreen(){
     var firstOption by remember { mutableStateOf(false) }
     var secondOption by remember { mutableStateOf(false) }
     var thirdOption by remember { mutableStateOf(false) }
 
-    Card(modifier = Modifier
-        .fillMaxWidth()
-        .height(300.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = Color(0xFF252525)
-        ),
-        shape = RectangleShape
-    ) {
-        Column(modifier = Modifier
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Card(modifier = Modifier
             .fillMaxWidth()
             .height(300.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            colors = CardDefaults.cardColors(
+                containerColor = Color(0xFF252525)
+            ),
+            shape = RectangleShape
         ) {
-            Text(text = "How Often Could You Workout?",
-                fontSize = 20.sp,
-                style = MaterialTheme.typography.bodyLarge,
-                color = Color(0xF11FD3C1)
-            )
-
-            Row(modifier = Modifier
+            Column(modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 20.dp),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
+                .height(300.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
             ) {
-                Checkbox(checked = firstOption,
-                    onCheckedChange = {
-                        firstOption = it
-                        secondOption = false
-                        thirdOption = false
-                    })
-
-                Text(text = "1-2 Times/Week",
+                Text(text = "What Do You Wish To Achieve?",
+                    fontSize = 20.sp,
                     style = MaterialTheme.typography.bodyLarge,
-                    color = Color.White,
-                    fontSize = 20.sp
+                    color = Color(0xF11FD3C1)
                 )
-            }
 
-            Row(modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 10.dp),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Checkbox(checked = secondOption,
-                    onCheckedChange = {
-                        secondOption = it
-                        firstOption = false
-                        thirdOption = false
-                    })
+                Row(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 20.dp),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Checkbox(checked = myStateMass,
+                        onCheckedChange = {
+                            myStateMass = it
+                            myStateFit = false
+                            myStateLoseWeight = false
+                        })
 
-                Text(text = "3-4 Times/Week",
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = Color.White,
-                    fontSize = 20.sp
-                )
-            }
+                    Text(text = "Gain Muscle Mass",
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = Color.White,
+                        fontSize = 20.sp
+                    )
+                }
 
-            Row(modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 10.dp),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Checkbox(checked = thirdOption,
-                    onCheckedChange = {
-                        thirdOption = it
-                        firstOption = false
-                        secondOption = false
-                    })
+                Row(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 10.dp),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Checkbox(checked = myStateLoseWeight,
+                        onCheckedChange = {
+                            myStateLoseWeight = it
+                            myStateFit = false
+                            myStateMass = false
+                        })
 
-                Text(text = "4+ Times/Week",
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = Color.White,
-                    fontSize = 20.sp
-                )
+                    Text(text = "Lose Weight",
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = Color.White,
+                        fontSize = 20.sp
+                    )
+                }
+
+                Row(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 10.dp),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Checkbox(checked = myStateFit,
+                        onCheckedChange = {
+                            myStateFit = it
+                            myStateMass = false
+                            myStateLoseWeight = false
+                        })
+
+                    Text(text = "Stay Fit",
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = Color.White,
+                        fontSize = 20.sp
+                    )
+                }
             }
         }
+
+        Card(modifier = Modifier
+            .fillMaxWidth()
+            .height(300.dp),
+            colors = CardDefaults.cardColors(
+                containerColor = Color(0xFF252525)
+            ),
+            shape = RectangleShape
+        ) {
+            Column(modifier = Modifier
+                .fillMaxWidth()
+                .height(300.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(text = "How Often Could You Workout?",
+                    fontSize = 20.sp,
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = Color(0xF11FD3C1)
+                )
+
+                Row(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 20.dp),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Checkbox(checked = firstOption,
+                        onCheckedChange = {
+                            firstOption = it
+                            secondOption = false
+                            thirdOption = false
+                        })
+
+                    Text(text = "1-2 Times/Week",
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = Color.White,
+                        fontSize = 20.sp
+                    )
+                }
+
+                Row(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 10.dp),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Checkbox(checked = secondOption,
+                        onCheckedChange = {
+                            secondOption = it
+                            firstOption = false
+                            thirdOption = false
+                        })
+
+                    Text(text = "3-4 Times/Week",
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = Color.White,
+                        fontSize = 20.sp
+                    )
+                }
+
+                Row(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 10.dp),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Checkbox(checked = thirdOption,
+                        onCheckedChange = {
+                            thirdOption = it
+                            firstOption = false
+                            secondOption = false
+                        })
+
+                    Text(text = "4+ Times/Week",
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = Color.White,
+                        fontSize = 20.sp
+                    )
+                }
+            }
+        }
+
+        val textWorkoutMass = remember{
+            mutableStateOf("")
+        }
+
+        val textWorkoutDate = remember{
+            mutableStateOf("")
+        }
+
+        FitnessAppButton(
+            modifier = Modifier.padding(bottom = 20.dp),
+            text = "Finish",
+            onButClick = {
+                if(myStateMass)
+                {
+                    textWorkoutMass.value = "Gain Muscle Mass"
+                }else if(myStateLoseWeight)
+                {
+                    textWorkoutMass.value = "Lose Weight"
+                }else{
+                    textWorkoutMass.value = "Stay Fit"
+                }
+
+                if(firstOption)
+                {
+                    textWorkoutDate.value = "1/2 times/week"
+                }else if(secondOption)
+                {
+                    textWorkoutDate.value = "3/4 times/week"
+                }else{
+                    textWorkoutDate.value = "4+ times/week"
+                }
+
+                userViewModel.modifyUserBodyInfo(
+                    email,
+                    userBody.weight!!,
+                    userBody.height!!,
+                    userBody.sex!!,
+                    userBody.age!!,
+                    textWorkoutMass.value,
+                    textWorkoutDate.value
+                )
+            },
+            color = Color(0xF11FD3C1),
+            textColor = Color.White)
     }
+
 }
 

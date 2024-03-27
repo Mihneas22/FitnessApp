@@ -103,13 +103,15 @@ fun HeaderProfile(
                 )
 
                 Column(modifier = Modifier
-                    .width(100.dp)
+                    .width(300.dp)
                     .height(75.dp),
                     horizontalAlignment = Alignment.Start,
                     verticalArrangement = Arrangement.Center
                 ) {
                     user.username?.let {
-                        Text(modifier = Modifier.padding(start = 10.dp),
+                        Text(modifier = Modifier
+                            .padding(start = 10.dp)
+                            .width(300.dp),
                             text = it,
                             style = MaterialTheme.typography.bodyLarge,
                             fontSize = 27.sp
@@ -123,7 +125,7 @@ fun HeaderProfile(
                                 .width(400.dp),
                             text = it,
                             style = MaterialTheme.typography.bodyLarge,
-                            fontSize = 20.sp
+                            fontSize = 15.sp
                         )
                     }
                 }
