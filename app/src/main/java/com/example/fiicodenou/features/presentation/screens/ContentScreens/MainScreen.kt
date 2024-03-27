@@ -26,8 +26,10 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.fiicodeapp.features.presentation.components.FitnessAppButton
+import com.example.fiicodenou.features.domain.models.Realm_Objects.TrackedUser
 import com.example.fiicodenou.features.domain.models.User
 import com.example.fiicodenou.features.presentation.viewmodels.TrackedFoodViewModel
+import com.example.fiicodenou.features.presentation.viewmodels.TrackedUserViewModel
 import java.text.DateFormat
 import java.util.Calendar
 
@@ -35,7 +37,8 @@ import java.util.Calendar
 fun MenuScreen(
     user: User,
     navController: NavController,
-    trackedFoodViewModel: TrackedFoodViewModel = hiltViewModel()
+    trackedFoodViewModel: TrackedFoodViewModel = hiltViewModel(),
+    trackedUserViewModel: TrackedUserViewModel = hiltViewModel()
 ){
     val calendar = Calendar.getInstance().time
     val timer = DateFormat.getDateInstance(DateFormat.SHORT).format(calendar)
@@ -44,6 +47,7 @@ fun MenuScreen(
     {
         trackedFoodViewModel.updateLocalDate(timer)
         trackedFoodViewModel.deleteAllTrackedFood()
+        trackedUserViewModel.modifyTrackedUser("", TrackedUser())
     }
     Column {
         user.username?.let { Header(name = it,navController) }

@@ -35,6 +35,8 @@ interface TrackedFoodRepository {
 
     suspend fun deleteTrackedUser(name: String?): Resource<Boolean>
 
+
+    //Local Date
     suspend fun localHour(day: String?): Resource<Boolean>
 
     suspend fun getLocalHour(): String
