@@ -32,6 +32,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.fiicodeapp.features.presentation.components.FitnessAppButton
 import com.example.fiicodenou.features.domain.models.User
+import com.example.fiicodenou.features.presentation.viewmodels.TrackedFoodViewModel
 import com.example.fiicodenou.features.presentation.viewmodels.TrackedUserViewModel
 import com.example.fiicodenou.features.presentation.viewmodels.UserViewModel
 
@@ -40,10 +41,11 @@ fun ProfileScreen(
     user: User,
     navController: NavController,
     userViewModel: UserViewModel = hiltViewModel(),
-    trackedUserViewModel: TrackedUserViewModel = hiltViewModel()
+    trackedUserViewModel: TrackedUserViewModel = hiltViewModel(),
+    trackedFoodViewModel: TrackedFoodViewModel = hiltViewModel()
 ){
     Column(modifier = Modifier.background(Color(0xFF252525))) {
-        HeaderProfile(user = user, navController = navController,userViewModel,trackedUserViewModel)
+        HeaderProfile(user = user, navController = navController,userViewModel,trackedUserViewModel,trackedFoodViewModel)
     }
 }
 
@@ -52,7 +54,8 @@ fun HeaderProfile(
     user: User,
     navController: NavController,
     userViewModel: UserViewModel,
-    trackedUserViewModel: TrackedUserViewModel
+    trackedUserViewModel: TrackedUserViewModel,
+    trackedFoodViewModel: TrackedFoodViewModel
 ){
     Card(modifier = Modifier
         .fillMaxWidth()
@@ -81,6 +84,7 @@ fun HeaderProfile(
                     .height(40.dp)
                     .clickable {
                         trackedUserViewModel.deleteTrackedUser("")
+                        trackedFoodViewModel.deleteAllTrackedFood()
                         userViewModel.logOut()
                         navController.navigate("LoginInScreen")
                     }
