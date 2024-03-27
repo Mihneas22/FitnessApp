@@ -1,5 +1,6 @@
 package com.example.fiicodenou.features.presentation.screens.ContentScreens
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -12,6 +13,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Fastfood
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.QuestionMark
 import androidx.compose.material.icons.rounded.AccountCircle
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Close
@@ -26,6 +32,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -46,6 +54,7 @@ fun ProfileScreen(
 ){
     Column(modifier = Modifier.background(Color(0xFF252525))) {
         HeaderProfile(user = user, navController = navController,userViewModel,trackedUserViewModel,trackedFoodViewModel)
+        MainProfileScreen()
     }
 }
 
@@ -59,7 +68,7 @@ fun HeaderProfile(
 ){
     Card(modifier = Modifier
         .fillMaxWidth()
-        .height(300.dp),
+        .height(270.dp),
         colors = CardDefaults.cardColors(
             containerColor = Color(0xF11FD3C1)
         ),
@@ -138,7 +147,7 @@ fun HeaderProfile(
             }
 
             Row(modifier = Modifier
-                .padding(top = 80.dp)
+                .padding(top = 60.dp)
                 .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.Bottom
@@ -166,6 +175,157 @@ fun HeaderProfile(
                     color = Color(0xFF252525),
                     textColor = Color.White
                 )
+            }
+        }
+    }
+}
+
+@Composable
+fun MainProfileScreen(
+
+) {
+    Card(modifier = Modifier
+        .fillMaxWidth()
+        .height(700.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = Color(0xFF252525)
+        ),
+        shape = RectangleShape
+    ) {
+        Column(modifier = Modifier
+            .fillMaxSize()
+            .padding(top = 30.dp, start = 30.dp, end = 15.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Top) {
+
+            Card(modifier = Modifier
+                .fillMaxWidth()
+                .clickable {
+                    //Account Info Screen
+                },
+                colors = CardDefaults.cardColors(
+                    containerColor = Color.Gray
+                ),
+                border = BorderStroke(3.dp, Color.DarkGray)
+            ) {
+                Row(modifier = Modifier
+                    .fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(imageVector = Icons.Default.Person,
+                        contentDescription = "Account",
+                        modifier = Modifier
+                            .height(70.dp)
+                            .width(70.dp)
+                            .padding(10.dp)
+                    )
+
+                    Text(modifier = Modifier.padding(start = 15.dp),
+                        text = "Edit your account information!",
+                        style = MaterialTheme.typography.bodyLarge,
+                        fontSize = 20.sp
+                    )
+                }
+            }
+
+            Card(modifier = Modifier
+                .fillMaxWidth()
+                .clickable {
+                    //Most Preffered Food Screen
+                }
+                .padding(top = 40.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color.Gray
+                ),
+                border = BorderStroke(3.dp, Color.DarkGray)
+            ) {
+                Row(modifier = Modifier
+                    .fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(imageVector = Icons.Default.Fastfood,
+                        contentDescription = "Foods",
+                        modifier = Modifier
+                            .height(70.dp)
+                            .width(70.dp)
+                            .padding(10.dp)
+                    )
+
+                    Text(modifier = Modifier.padding(start = 15.dp),
+                        text = "Your Most Used Food!",
+                        style = MaterialTheme.typography.bodyLarge,
+                        fontSize = 20.sp
+                    )
+                }
+            }
+
+            Card(modifier = Modifier
+                .fillMaxWidth()
+                .clickable {
+                    //Questions Screen
+                }
+                .padding(top = 40.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color.Gray
+                ),
+                border = BorderStroke(3.dp, Color.DarkGray)
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.QuestionMark,
+                        contentDescription = "QA",
+                        modifier = Modifier
+                            .height(70.dp)
+                            .width(70.dp)
+                            .padding(10.dp)
+                    )
+
+                    Text(
+                        modifier = Modifier.padding(start = 15.dp),
+                        text = "Do You Have Any Questions?",
+                        style = MaterialTheme.typography.bodyLarge,
+                        fontSize = 20.sp
+                    )
+                }
+            }
+
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        //Contact Screen
+                    }
+                    .padding(top = 40.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color.Gray
+                ),
+                border = BorderStroke(3.dp, Color.DarkGray)
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Email,
+                        contentDescription = "Contact",
+                        modifier = Modifier
+                            .height(70.dp)
+                            .width(70.dp)
+                            .padding(10.dp)
+                    )
+
+                    Text(
+                        modifier = Modifier.padding(start = 15.dp),
+                        text = "Do You Wish To Contact Us?",
+                        style = MaterialTheme.typography.bodyLarge,
+                        fontSize = 20.sp
+                    )
+                }
             }
         }
     }
