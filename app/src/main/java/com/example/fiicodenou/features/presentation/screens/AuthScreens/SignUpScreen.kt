@@ -40,6 +40,7 @@ import com.example.fiicodeapp.features.presentation.components.FitnessAppButton
 import com.example.fiicodeapp.features.presentation.components.FitnessAppPasswordTextField
 import com.example.fiicodeapp.features.presentation.components.FitnessAppTextField
 import com.example.fiicodenou.R
+import com.example.fiicodenou.features.presentation.viewmodels.LoginInViewModel
 import com.example.fiicodenou.features.presentation.viewmodels.SignUpViewModel
 
 @Composable
@@ -198,7 +199,7 @@ fun MainSignUp(
                         }else{
                             signUpViewModel.signUpUser(email, password)
                             signUpViewModel.createUser(email, password,username)
-                            navController.navigate("MainScreen")
+                            navController.navigate("LoginInScreen")
                         }
                     },
                     color = Color(0xF11FD3C1),

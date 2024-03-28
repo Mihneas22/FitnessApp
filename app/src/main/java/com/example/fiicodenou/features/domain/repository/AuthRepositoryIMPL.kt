@@ -108,7 +108,15 @@ class AuthRepositoryIMPL @Inject constructor(
         user["user_email"] = email!!
         user["user_password"] = password!!
         user["user_username"]=name!!
-        fb.collection("users").document(email).set(user)
+
+        val bodyData = mutableMapOf<String, Any>()
+        bodyData["user_sex"]=""
+        bodyData["user_age"]=""
+        bodyData["user_weight"]=""
+        bodyData["user_height"]=""
+        bodyData["user_workoutPlan"]=""
+        bodyData["user_workoutDate"]=""
+        fb.collection("users").document(email).collection("body_data").document("values").set(user)
         Resource.Succes(true)
     }catch (ex: Exception){
         Resource.Failure(ex)

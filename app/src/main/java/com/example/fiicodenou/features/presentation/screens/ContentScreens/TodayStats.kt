@@ -68,45 +68,45 @@ fun TodayStatsScreen(
         mutableDoubleStateOf(0.0)
     }
 
-    if (bodyData.sex == "Male") {
-        calculator.doubleValue =
-            13.397 * bodyData.weight?.toIntOrNull()!! + 4.799 * bodyData.height?.toIntOrNull()!! - 5.677 * bodyData.age?.toIntOrNull()!! + 88.362
-    } else if (bodyData.sex == "Female") {
-        calculator.doubleValue =
-            9.247 * bodyData.weight?.toIntOrNull()!! + 3.098 * bodyData.height?.toIntOrNull()!! - 4.330 * bodyData.age?.toIntOrNull()!! + 447.593
-    } else if(bodyData.sex == "Non-Binary"){
-        calculator.doubleValue =
-            9.247 * bodyData.weight?.toIntOrNull()!! + 3.098 * bodyData.height?.toIntOrNull()!! - 4.330 * bodyData.age?.toIntOrNull()!! + 447.593
-    }
-
-
-    if (bodyData.workoutDate == "4+ times/week") {
-        calculator.doubleValue *= 1.725
-        calculatorProtein.doubleValue = bodyData.weight?.toDoubleOrNull()!! * 2.5
-    } else if (bodyData.workoutDate == "3-4 times/week") {
-        calculator.doubleValue *= 1.55
-        calculatorProtein.doubleValue = bodyData.weight?.toDoubleOrNull()!! * 2
-    } else if(bodyData.workoutDate == "2-3 times/week") {
-        calculator.doubleValue *= 1.375
-        calculatorProtein.doubleValue = bodyData.weight?.toDoubleOrNull()!! * 1.5
-    }
-
-
-    if (bodyData.workoutPlan == "Gain Muscle Mass") {
-        calculator.doubleValue += 300
-    } else if (bodyData.workoutPlan == "Lose Weight") {
-        calculator.doubleValue -= 500
-    }
-
-    calculatorCarbs.doubleValue = (calculator.doubleValue * 0.50)/4
-    calculatorFat.doubleValue = (calculator.doubleValue * 0.30)/9
-
     if(bodyData.workoutDate?.isEmpty()!!)
     {
         calculator.doubleValue = 0.0
         calculatorProtein.doubleValue = 0.0
         calculatorCarbs.doubleValue = 0.0
         calculatorFat.doubleValue = 0.0
+    }else{
+        if (bodyData.sex == "Male") {
+            calculator.doubleValue =
+                13.397 * bodyData.weight?.toIntOrNull()!! + 4.799 * bodyData.height?.toIntOrNull()!! - 5.677 * bodyData.age?.toIntOrNull()!! + 88.362
+        } else if (bodyData.sex == "Female") {
+            calculator.doubleValue =
+                9.247 * bodyData.weight?.toIntOrNull()!! + 3.098 * bodyData.height?.toIntOrNull()!! - 4.330 * bodyData.age?.toIntOrNull()!! + 447.593
+        } else if(bodyData.sex == "Non-Binary"){
+            calculator.doubleValue =
+                9.247 * bodyData.weight?.toIntOrNull()!! + 3.098 * bodyData.height?.toIntOrNull()!! - 4.330 * bodyData.age?.toIntOrNull()!! + 447.593
+        }
+
+
+        if (bodyData.workoutDate == "4+ times/week") {
+            calculator.doubleValue *= 1.725
+            calculatorProtein.doubleValue = bodyData.weight?.toDoubleOrNull()!! * 2.5
+        } else if (bodyData.workoutDate == "3/4 times/week") {
+            calculator.doubleValue *= 1.55
+            calculatorProtein.doubleValue = bodyData.weight?.toDoubleOrNull()!! * 2
+        } else if(bodyData.workoutDate == "1/2 times/week") {
+            calculator.doubleValue *= 1.375
+            calculatorProtein.doubleValue = bodyData.weight?.toDoubleOrNull()!! * 1.5
+        }
+
+
+        if (bodyData.workoutPlan == "Gain Muscle Mass") {
+            calculator.doubleValue += 300
+        } else if (bodyData.workoutPlan == "Lose Weight") {
+            calculator.doubleValue -= 500
+        }
+
+        calculatorCarbs.doubleValue = (calculator.doubleValue * 0.50)/4
+        calculatorFat.doubleValue = (calculator.doubleValue * 0.30)/9
     }
 
     val nutriData = NutritionalNecesity(

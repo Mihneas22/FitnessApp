@@ -421,7 +421,7 @@ fun AddWaterScreen(
 
             FitnessAppButton(
                 modifier = Modifier.padding(start = 15.dp, top = 10.dp),
-                text = "Cancel",
+                text = "Save Water",
                 onButClick = {
                     navController.navigate("MainScreen")
                     val trackedUserLocal = TrackedUser().apply {
