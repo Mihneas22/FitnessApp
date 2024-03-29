@@ -30,6 +30,7 @@ import com.example.fiicodenou.features.domain.models.Realm_Objects.TrackedUser
 import com.example.fiicodenou.features.domain.models.User
 import com.example.fiicodenou.features.presentation.viewmodels.TrackedFoodViewModel
 import com.example.fiicodenou.features.presentation.viewmodels.TrackedUserViewModel
+import com.example.fiicodenou.features.presentation.viewmodels.UserViewModel
 import java.text.DateFormat
 import java.util.Calendar
 
@@ -38,7 +39,7 @@ fun MenuScreen(
     user: User,
     navController: NavController,
     trackedFoodViewModel: TrackedFoodViewModel = hiltViewModel(),
-    trackedUserViewModel: TrackedUserViewModel = hiltViewModel()
+    trackedUserViewModel: TrackedUserViewModel = hiltViewModel(),
 ){
     val calendar = Calendar.getInstance().time
     val timer = DateFormat.getDateInstance(DateFormat.SHORT).format(calendar)
@@ -49,6 +50,7 @@ fun MenuScreen(
         trackedFoodViewModel.deleteAllTrackedFood()
         trackedUserViewModel.modifyTrackedUser("", TrackedUser())
     }
+
     Column {
         user.username?.let { Header(name = it,navController) }
         MenuScreenMainScreen(navController)

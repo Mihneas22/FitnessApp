@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.fiicodeapp.features.presentation.components.FitnessAppButton
 import com.example.fiicodenou.features.domain.models.NutritionalNecesity
 import com.example.fiicodenou.features.presentation.screens.components.PieChart
 import com.example.fiicodenou.features.presentation.viewmodels.TrackedFoodViewModel
