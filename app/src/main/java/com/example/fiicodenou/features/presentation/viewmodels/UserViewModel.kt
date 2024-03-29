@@ -33,6 +33,11 @@ class UserViewModel @Inject constructor(
         data.value = repo.getUserData(email)
     }
 
+    fun modifyUserDataInfo(email: String, password: String, username: String)
+    =viewModelScope.launch{
+        repo.modifyUserDataInfo(email, password, username)
+    }
+
     fun modifyUserBodyInfo(email: String,weight: String,height: String,sex: String, age: String,workoutPlan: String,workoutDate: String)
     =viewModelScope.launch {
         getDataBodyResponse = Resource.Loading

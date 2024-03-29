@@ -1,7 +1,6 @@
 package com.example.fiicodenou
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -16,12 +15,15 @@ import androidx.navigation.compose.rememberNavController
 import com.example.fiicodenou.features.domain.models.User
 import com.example.fiicodenou.features.presentation.screens.AuthScreens.LoginInScreen
 import com.example.fiicodenou.features.presentation.screens.AuthScreens.SignUpScreen
+import com.example.fiicodenou.features.presentation.screens.ContentScreens.AccountInfoScreens.AccountDetailsScreen
+import com.example.fiicodenou.features.presentation.screens.ContentScreens.AccountInfoScreens.EditYourNameScreen
+import com.example.fiicodenou.features.presentation.screens.ContentScreens.AccountInfoScreens.EditYourPasswordScreen
 import com.example.fiicodenou.features.presentation.screens.ContentScreens.AddMacrosScreen
 import com.example.fiicodenou.features.presentation.screens.ContentScreens.AddedFoodsScreen
 import com.example.fiicodenou.features.presentation.screens.ContentScreens.MenuScreen
 import com.example.fiicodenou.features.presentation.screens.ContentScreens.ProfileInfoScreens.ChooseFitnessGoal
 import com.example.fiicodenou.features.presentation.screens.ContentScreens.ProfileInfoScreens.ProfileInfoScreen
-import com.example.fiicodenou.features.presentation.screens.ContentScreens.ProfileScreen
+import com.example.fiicodenou.features.presentation.screens.ContentScreens.AccountInfoScreens.ProfileScreen
 import com.example.fiicodenou.features.presentation.screens.ContentScreens.TodayStatsScreen
 import com.example.fiicodenou.features.presentation.viewmodels.MainViewModel
 import com.example.fiicodenou.features.presentation.viewmodels.TrackedFoodViewModel
@@ -29,8 +31,6 @@ import com.example.fiicodenou.features.presentation.viewmodels.TrackedUserViewMo
 import com.example.fiicodenou.features.presentation.viewmodels.UserViewModel
 import com.example.fiicodenou.ui.theme.FiiCodeNouTheme
 import dagger.hilt.android.AndroidEntryPoint
-import java.text.DateFormat
-import java.util.Calendar
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -59,12 +59,16 @@ class MainActivity : ComponentActivity() {
                 else{
                     navigator.value="MainScreen"
                 }
+
+                //
                 val user = User(
                     email = currentUserData?.email.toString(),
                     password = "DEFAULT"
                 )
                 userDataViewModel.getUserData(email = user.email!!)
                 val userData = userDataViewModel.data.value
+                //
+
                 trackedFoodViewModel.addLocalDate("empty")
                 if(!currentUserSign)
                 {
@@ -106,6 +110,18 @@ class MainActivity : ComponentActivity() {
 
                     composable("ChooseFitnessGoalScreen"){
                         ChooseFitnessGoal(email = user.email, navController = navController)
+                    }
+
+                    composable("EditYourNameScreen"){
+                        EditYourNameScreen(navController = navController, user = userData)
+                    }
+
+                    composable("AccountDetailsScreen"){
+                        AccountDetailsScreen(name = userData.username!!, navController = navController)
+                    }
+
+                    composable("EditYourPasswordScreen"){
+                        EditYourPasswordScreen(navController, userData)
                     }
                 }
             }

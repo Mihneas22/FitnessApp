@@ -1,4 +1,4 @@
-package com.example.fiicodenou.features.presentation.screens.ContentScreens
+package com.example.fiicodenou.features.presentation.screens.ContentScreens.AccountInfoScreens
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -13,14 +13,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Fastfood
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.QuestionMark
 import androidx.compose.material.icons.rounded.AccountCircle
-import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Logout
 import androidx.compose.material.icons.rounded.Menu
 import androidx.compose.material3.Card
@@ -33,7 +30,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -54,7 +50,7 @@ fun ProfileScreen(
 ){
     Column(modifier = Modifier.background(Color(0xFF252525))) {
         HeaderProfile(user = user, navController = navController,userViewModel,trackedUserViewModel,trackedFoodViewModel)
-        MainProfileScreen()
+        MainProfileScreen(navController = navController)
     }
 }
 
@@ -182,7 +178,7 @@ fun HeaderProfile(
 
 @Composable
 fun MainProfileScreen(
-
+    navController: NavController
 ) {
     Card(modifier = Modifier
         .fillMaxWidth()
@@ -201,7 +197,7 @@ fun MainProfileScreen(
             Card(modifier = Modifier
                 .fillMaxWidth()
                 .clickable {
-                    //Account Info Screen
+                    navController.navigate("AccountDetailsScreen")
                 },
                 colors = CardDefaults.cardColors(
                     containerColor = Color.Gray
