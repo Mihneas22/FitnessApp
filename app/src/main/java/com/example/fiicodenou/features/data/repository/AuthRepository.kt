@@ -15,6 +15,8 @@ interface AuthRepository {
 
     suspend fun loginInUserWithEmailAndPassword(email: String,password: String): Resource<Boolean>
 
+    suspend fun sendEmailVerification(email: String): Resource<Boolean>
+
     suspend fun updatePassword(email: String,password: String): Resource<Boolean>
 
     suspend fun observeAuthState(observer: (FirebaseUser?) -> Unit)

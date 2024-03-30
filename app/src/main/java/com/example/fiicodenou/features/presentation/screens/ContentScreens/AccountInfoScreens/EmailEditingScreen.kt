@@ -110,7 +110,7 @@ fun EditYourEmailScreen(
 
                     if(userViewModel.currentUser!=null)
                     {
-                        userViewModel.currentUser!!.updateEmail(email.value)//NOT WORKING
+                        userViewModel.currentUser!!.verifyBeforeUpdateEmail(email.value)//NOT WORKING
                         Log.d("FB","Worked Changed Email!")
                     }
                     navController.navigate("AccountDetailsScreen")

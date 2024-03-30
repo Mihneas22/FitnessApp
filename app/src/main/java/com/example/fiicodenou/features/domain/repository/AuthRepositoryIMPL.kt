@@ -1,10 +1,6 @@
 package com.example.fiicodenou.features.domain.repository
 
-import android.util.Log
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import com.example.fiicodenou.features.data.repository.AuthRepository
-import com.example.fiicodenou.features.domain.models.Food
 import com.example.fiicodenou.features.domain.models.User
 import com.example.fiicodenou.features.domain.models.User_Body
 import com.example.fiicodenou.features.domain.util.Resource
@@ -33,7 +29,21 @@ class AuthRepositoryIMPL @Inject constructor(
         password: String
     ): Resource<Boolean>
     =try{
-        auth.createUserWithEmailAndPassword(email,password).await()
+        auth.createUserWithEmailAndPassword(email,password)
+            .addOnCompleteListener {
+                if(it.isSuccessful)
+                {
+                    auth.currentUser?.sendEmailVerification()
+                }
+            }.await()
+        Resource.Succes(true)
+    }catch (ex: Exception){
+        Resource.Failure(ex)
+    }
+
+    override suspend fun sendEmailVerification(email: String): Resource<Boolean>
+    =try{
+        auth.currentUser?.sendEmailVerification()?.await()
         Resource.Succes(true)
     }catch (ex: Exception){
         Resource.Failure(ex)
@@ -133,6 +143,8 @@ class AuthRepositoryIMPL @Inject constructor(
     override suspend fun deleteUser(email: String): Resource<Boolean>
     =try{
         val db = fb.collection("users").document(email)
+        val bdoy = fb.collection("users").document(email).collection("body_data").document("values")
+        bdoy.delete()
         db.delete()
         Resource.Succes(true)
     }catch (ex: Exception){
