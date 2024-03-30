@@ -16,6 +16,7 @@ import com.example.fiicodenou.features.domain.models.User
 import com.example.fiicodenou.features.presentation.screens.AuthScreens.LoginInScreen
 import com.example.fiicodenou.features.presentation.screens.AuthScreens.SignUpScreen
 import com.example.fiicodenou.features.presentation.screens.ContentScreens.AccountInfoScreens.AccountDetailsScreen
+import com.example.fiicodenou.features.presentation.screens.ContentScreens.AccountInfoScreens.EditYourEmailScreen
 import com.example.fiicodenou.features.presentation.screens.ContentScreens.AccountInfoScreens.EditYourNameScreen
 import com.example.fiicodenou.features.presentation.screens.ContentScreens.AccountInfoScreens.EditYourPasswordScreen
 import com.example.fiicodenou.features.presentation.screens.ContentScreens.AddMacrosScreen
@@ -122,6 +123,10 @@ class MainActivity : ComponentActivity() {
 
                     composable("EditYourPasswordScreen"){
                         EditYourPasswordScreen(navController, userData)
+                    }
+
+                    composable("EditYourEmailScreen"){
+                        EditYourEmailScreen(navController, userData)
                     }
                 }
             }

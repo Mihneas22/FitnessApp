@@ -40,7 +40,6 @@ fun MenuScreen(
     navController: NavController,
     trackedFoodViewModel: TrackedFoodViewModel = hiltViewModel(),
     trackedUserViewModel: TrackedUserViewModel = hiltViewModel(),
-    userViewModel: UserViewModel = hiltViewModel()
 ){
     val calendar = Calendar.getInstance().time
     val timer = DateFormat.getDateInstance(DateFormat.SHORT).format(calendar)

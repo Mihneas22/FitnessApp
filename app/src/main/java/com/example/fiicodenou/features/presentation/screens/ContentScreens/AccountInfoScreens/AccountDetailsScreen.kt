@@ -207,7 +207,7 @@ fun MainAccountDetails(
                         .fillMaxWidth()
                         .height(50.dp)
                         .clickable {
-
+                            navController.navigate("EditYourEmailScreen")
                         },
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
