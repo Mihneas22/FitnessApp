@@ -40,6 +40,7 @@ fun MenuScreen(
     navController: NavController,
     trackedFoodViewModel: TrackedFoodViewModel = hiltViewModel(),
     trackedUserViewModel: TrackedUserViewModel = hiltViewModel(),
+    userViewModel: UserViewModel = hiltViewModel()
 ){
     val calendar = Calendar.getInstance().time
     val timer = DateFormat.getDateInstance(DateFormat.SHORT).format(calendar)
@@ -52,6 +53,11 @@ fun MenuScreen(
     }
 
     Column {
+        FitnessAppButton(text = "Log Out",
+            onButClick = {
+                userViewModel.logOut()
+            }, color = Color.White, textColor = Color.Black)
+
         user.username?.let { Header(name = it,navController) }
         MenuScreenMainScreen(navController)
     }

@@ -37,10 +37,11 @@ class UserViewModel @Inject constructor(
         data.value = repo.getUserData(email)
     }
 
-    fun updatePassword(email: String,password: String)
+    fun deleteUser(email: String)
     =viewModelScope.launch {
-        repo.updatePassword(email, password)
+        repo.deleteUser(email)
     }
+
     fun modifyUserDataInfo(email: String, password: String, username: String)
     =viewModelScope.launch{
         repo.modifyUserDataInfo(email, password, username)

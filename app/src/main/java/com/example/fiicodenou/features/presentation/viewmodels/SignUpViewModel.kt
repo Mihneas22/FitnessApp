@@ -8,6 +8,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fiicodenou.features.data.repository.AuthRepository
+import com.example.fiicodenou.features.domain.models.User
+import com.example.fiicodenou.features.domain.models.User_Body
 import com.example.fiicodenou.features.domain.util.Resource
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -31,9 +33,9 @@ class SignUpViewModel @Inject constructor(
         signUpResponse = repo.signUpUserWithEmailAndPassword(email, password)
     }
 
-    fun createUser(email: String?,password: String?,username: String?)
+    fun createUser(userD: User, userB: User_Body)
     =viewModelScope.launch {
         createUserResponse = Resource.Loading
-        repo.createUser(email, password,username)
+        repo.createUser(userD, userB)
     }
 }

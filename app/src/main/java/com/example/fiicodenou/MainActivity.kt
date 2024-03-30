@@ -68,6 +68,7 @@ class MainActivity : ComponentActivity() {
                 )
                 userDataViewModel.getUserData(email = user.email!!)
                 val userData = userDataViewModel.data.value
+                val userBodyData = userDataViewModel.bodyData.value
                 //
 
                 trackedFoodViewModel.addLocalDate("empty")
@@ -126,7 +127,7 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable("EditYourEmailScreen"){
-                        EditYourEmailScreen(navController, userData)
+                        EditYourEmailScreen(navController, userData,userBodyData)
                     }
                 }
             }

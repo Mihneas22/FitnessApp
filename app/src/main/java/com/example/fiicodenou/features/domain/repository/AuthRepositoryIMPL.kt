@@ -107,25 +107,33 @@ class AuthRepositoryIMPL @Inject constructor(
     }
 
     override suspend fun createUser(
-        email: String?,
-        password: String?,
-        name: String?
+        userD: User,
+        userB: User_Body
     ): Resource<Boolean>
     =try{
         val user = mutableMapOf<String,Any>()
-        user["user_email"] = email!!
-        user["user_password"] = password!!
-        user["user_username"]=name!!
-        fb.collection("users").document(email).set(user)
+        user["user_email"] = userD.email!!
+        user["user_password"] = userD.password!!
+        user["user_username"]= userD.username!!
+        fb.collection("users").document(userD.email).set(user)
 
         val bodyData = mutableMapOf<String, Any>()
-        bodyData["user_sex"]=""
-        bodyData["user_age"]=""
-        bodyData["user_weight"]=""
-        bodyData["user_height"]=""
-        bodyData["user_workoutPlan"]=""
-        bodyData["user_workoutDate"]=""
-        fb.collection("users").document(email).collection("body_data").document("values").set(bodyData)
+        bodyData["user_sex"]=userB.sex!!
+        bodyData["user_age"]=userB.age!!
+        bodyData["user_weight"]=userB.weight!!
+        bodyData["user_height"]=userB.height!!
+        bodyData["user_workoutPlan"]=userB.workoutPlan!!
+        bodyData["user_workoutDate"]=userB.workoutDate!!
+        fb.collection("users").document(userD.email).collection("body_data").document("values").set(bodyData)
+        Resource.Succes(true)
+    }catch (ex: Exception){
+        Resource.Failure(ex)
+    }
+
+    override suspend fun deleteUser(email: String): Resource<Boolean>
+    =try{
+        val db = fb.collection("users").document(email)
+        db.delete()
         Resource.Succes(true)
     }catch (ex: Exception){
         Resource.Failure(ex)

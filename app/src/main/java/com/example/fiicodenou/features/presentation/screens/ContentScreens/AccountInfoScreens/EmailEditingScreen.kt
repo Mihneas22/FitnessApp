@@ -28,13 +28,17 @@ import androidx.navigation.NavController
 import com.example.fiicodeapp.features.presentation.components.FitnessAppButton
 import com.example.fiicodeapp.features.presentation.components.FitnessAppTextField
 import com.example.fiicodenou.features.domain.models.User
+import com.example.fiicodenou.features.domain.models.User_Body
+import com.example.fiicodenou.features.presentation.viewmodels.SignUpViewModel
 import com.example.fiicodenou.features.presentation.viewmodels.UserViewModel
 
 @Composable
 fun EditYourEmailScreen(
     navController: NavController,
     user: User,
-    userViewModel: UserViewModel = hiltViewModel()
+    userBody: User_Body,
+    userViewModel: UserViewModel = hiltViewModel(),
+    signUpViewModel: SignUpViewModel = hiltViewModel()
 ){
     val context = LocalContext.current
 
@@ -49,7 +53,7 @@ fun EditYourEmailScreen(
         shape = RectangleShape
     ){
         Icon(modifier = Modifier
-            .padding(start = 5.dp,top = 5.dp)
+            .padding(start = 5.dp, top = 5.dp)
             .clickable {
                 navController.navigate("AccountDetailsScreen")
             },
@@ -93,10 +97,20 @@ fun EditYourEmailScreen(
                     .padding(top = 580.dp, end = 15.dp),
                 text = "Save",
                 onButClick = {
-                    userViewModel.modifyUserDataInfo(user.email!!,email.value,user.password!!,user.username!!)
+                    val emailOld = user.email!!
+
+                    val userData = User(
+                        email = email.value,
+                        password = user.password,
+                        username = user.username,
+                        hasExercised = user.hasExercised
+                    )
+                    signUpViewModel.createUser(userData,userBody)
+                    userViewModel.deleteUser(emailOld)
+
                     if(userViewModel.currentUser!=null)
                     {
-                        userViewModel.currentUser!!.verifyBeforeUpdateEmail(email.value)
+                        userViewModel.currentUser!!.updateEmail(email.value)//NOT WORKING
                         Log.d("FB","Worked Changed Email!")
                     }
                     navController.navigate("AccountDetailsScreen")

@@ -41,6 +41,8 @@ import com.example.fiicodeapp.features.presentation.components.FitnessAppButton
 import com.example.fiicodeapp.features.presentation.components.FitnessAppPasswordTextField
 import com.example.fiicodeapp.features.presentation.components.FitnessAppTextField
 import com.example.fiicodenou.R
+import com.example.fiicodenou.features.domain.models.User
+import com.example.fiicodenou.features.domain.models.User_Body
 import com.example.fiicodenou.features.domain.util.Resource
 import com.example.fiicodenou.features.presentation.viewmodels.LoginInViewModel
 import com.example.fiicodenou.features.presentation.viewmodels.SignUpViewModel
@@ -203,7 +205,12 @@ fun MainSignUp(
                                 is Resource.Loading -> ProgressBar(context)
                                 is Resource.Succes -> {
                                     signUpViewModel.signUpUser(email, password)
-                                    signUpViewModel.createUser(email, password,username)
+                                    val userData = User(
+                                        email = email,
+                                        password = password,
+                                        username = username,
+                                    )
+                                    signUpViewModel.createUser(userData, User_Body())
                                     navController.navigate("LoginInScreen")
                                 }
                                 is Resource.Failure -> signUpResponse.apply {
