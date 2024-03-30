@@ -9,6 +9,7 @@ import com.example.fiicodenou.features.data.repository.AuthRepository
 import com.example.fiicodenou.features.domain.models.User
 import com.example.fiicodenou.features.domain.models.User_Body
 import com.example.fiicodenou.features.domain.util.Resource
+import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -27,12 +28,19 @@ class UserViewModel @Inject constructor(
 
     val bodyData = mutableStateOf(User_Body())
 
+    val currentUser: FirebaseUser?
+        get() = repo.currentUser
+
     fun getUserData(email: String)
     =viewModelScope.launch {
         getUserDataResponse = Resource.Loading
         data.value = repo.getUserData(email)
     }
 
+    fun updatePassword(email: String,password: String)
+    =viewModelScope.launch {
+        repo.updatePassword(email, password)
+    }
     fun modifyUserDataInfo(email: String, password: String, username: String)
     =viewModelScope.launch{
         repo.modifyUserDataInfo(email, password, username)

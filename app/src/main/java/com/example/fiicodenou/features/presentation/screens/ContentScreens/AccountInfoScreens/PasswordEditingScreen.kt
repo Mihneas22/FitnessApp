@@ -127,6 +127,9 @@ fun EditYourPasswordScreen(
                         Toast.makeText(context,"Passwords are the same!",Toast.LENGTH_SHORT).show()
                     }else{
                         userViewModel.modifyUserDataInfo(user.email!!,passwordNew.value,user.username!!)
+                        if(userViewModel.currentUser!=null){
+                            userViewModel.currentUser!!.updatePassword(passwordNew.value)
+                        }
                         navController.navigate("AccountDetailsScreen")
                     }
                 },

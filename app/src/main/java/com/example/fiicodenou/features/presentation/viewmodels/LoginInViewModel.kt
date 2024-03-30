@@ -19,10 +19,6 @@ class LoginInViewModel @Inject constructor(
     var loginInResponse by mutableStateOf<Resource<Boolean>>(Resource.Succes(false))
         private set
 
-    val currentUser = repo.currentUser
-
-    val getUser = repo.currentUser
-
     fun loginInUser(email: String,password: String)
     =viewModelScope.launch {
         loginInResponse = Resource.Loading

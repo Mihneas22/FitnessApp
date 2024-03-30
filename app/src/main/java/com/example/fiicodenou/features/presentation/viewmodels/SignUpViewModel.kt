@@ -28,7 +28,7 @@ class SignUpViewModel @Inject constructor(
     fun signUpUser(email: String,password: String)
     =viewModelScope.launch {
         signUpResponse = Resource.Loading
-        repo.signUpUserWithEmailAndPassword(email, password)
+        signUpResponse = repo.signUpUserWithEmailAndPassword(email, password)
     }
 
     fun createUser(email: String?,password: String?,username: String?)

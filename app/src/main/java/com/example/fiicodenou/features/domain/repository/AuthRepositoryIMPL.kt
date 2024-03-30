@@ -57,6 +57,14 @@ class AuthRepositoryIMPL @Inject constructor(
         Resource.Failure(ex)
     }
 
+    override suspend fun updatePassword(email: String,password: String): Resource<Boolean>
+    =try{
+        auth.confirmPasswordReset(email,password)
+        Resource.Succes(true)
+    }catch (ex: Exception){
+        Resource.Failure(ex)
+    }
+
     override suspend fun modifyUserDataInfo(
         email: String?,
         password: String?,

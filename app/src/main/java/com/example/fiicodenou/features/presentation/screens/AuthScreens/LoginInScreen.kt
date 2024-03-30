@@ -1,5 +1,6 @@
 package com.example.fiicodenou.features.presentation.screens.AuthScreens
 
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -24,6 +25,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -44,6 +46,7 @@ import com.example.fiicodeapp.features.presentation.components.FitnessAppButton
 import com.example.fiicodeapp.features.presentation.components.FitnessAppPasswordTextField
 import com.example.fiicodeapp.features.presentation.components.FitnessAppTextField
 import com.example.fiicodenou.R
+import com.example.fiicodenou.features.domain.util.Resource
 import com.example.fiicodenou.features.presentation.viewmodels.LoginInViewModel
 
 
@@ -182,8 +185,16 @@ fun MainLoginIn(
                         }else if(password.isEmpty()){
                             Toast.makeText(context,"Enter a password", Toast.LENGTH_SHORT).show()
                         }else{
-                            loginInViewModel.loginInUser(email, password)
-                            navController.navigate("MainScreen")
+                            when(val signInResponse = loginInViewModel.loginInResponse) {
+                                is Resource.Loading -> ProgressBar(context)
+                                is Resource.Succes -> {
+                                    loginInViewModel.loginInUser(email, password)
+                                    navController.navigate("MainScreen")
+                                }
+                                is Resource.Failure -> signInResponse.apply {
+                                    Toast.makeText(context,"Error: $ex",Toast.LENGTH_SHORT).show()
+                                }
+                            }
                         }
                     },
                     color = Color(0xF11FD3C1),

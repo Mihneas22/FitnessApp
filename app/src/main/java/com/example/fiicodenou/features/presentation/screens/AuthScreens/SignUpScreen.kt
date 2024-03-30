@@ -1,5 +1,6 @@
 package com.example.fiicodenou.features.presentation.screens.AuthScreens
 
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -40,6 +41,7 @@ import com.example.fiicodeapp.features.presentation.components.FitnessAppButton
 import com.example.fiicodeapp.features.presentation.components.FitnessAppPasswordTextField
 import com.example.fiicodeapp.features.presentation.components.FitnessAppTextField
 import com.example.fiicodenou.R
+import com.example.fiicodenou.features.domain.util.Resource
 import com.example.fiicodenou.features.presentation.viewmodels.LoginInViewModel
 import com.example.fiicodenou.features.presentation.viewmodels.SignUpViewModel
 
@@ -197,9 +199,17 @@ fun MainSignUp(
                         }else if(password.length<8){
                             Toast.makeText(context,"Enter a password with more than 8 letters",Toast.LENGTH_SHORT).show()
                         }else{
-                            signUpViewModel.signUpUser(email, password)
-                            signUpViewModel.createUser(email, password,username)
-                            navController.navigate("LoginInScreen")
+                            when(val signUpResponse = signUpViewModel.signUpResponse) {
+                                is Resource.Loading -> ProgressBar(context)
+                                is Resource.Succes -> {
+                                    signUpViewModel.signUpUser(email, password)
+                                    signUpViewModel.createUser(email, password,username)
+                                    navController.navigate("LoginInScreen")
+                                }
+                                is Resource.Failure -> signUpResponse.apply {
+                                    Toast.makeText(context,"Error: $ex",Toast.LENGTH_SHORT).show()
+                                }
+                            }
                         }
                     },
                     color = Color(0xF11FD3C1),
