@@ -16,15 +16,15 @@ import com.example.fiicodenou.features.domain.models.User
 import com.example.fiicodenou.features.presentation.screens.AuthScreens.LoginInScreen
 import com.example.fiicodenou.features.presentation.screens.AuthScreens.SignUpScreen
 import com.example.fiicodenou.features.presentation.screens.ContentScreens.AccountInfoScreens.AccountDetailsScreen
-import com.example.fiicodenou.features.presentation.screens.ContentScreens.AccountInfoScreens.EditYourEmailScreen
+import com.example.fiicodenou.features.presentation.screens.ContentScreens.AccountInfoScreens.DeleteAccountScreen
 import com.example.fiicodenou.features.presentation.screens.ContentScreens.AccountInfoScreens.EditYourNameScreen
 import com.example.fiicodenou.features.presentation.screens.ContentScreens.AccountInfoScreens.EditYourPasswordScreen
+import com.example.fiicodenou.features.presentation.screens.ContentScreens.AccountInfoScreens.ProfileScreen
 import com.example.fiicodenou.features.presentation.screens.ContentScreens.AddMacrosScreen
 import com.example.fiicodenou.features.presentation.screens.ContentScreens.AddedFoodsScreen
 import com.example.fiicodenou.features.presentation.screens.ContentScreens.MenuScreen
 import com.example.fiicodenou.features.presentation.screens.ContentScreens.ProfileInfoScreens.ChooseFitnessGoal
 import com.example.fiicodenou.features.presentation.screens.ContentScreens.ProfileInfoScreens.ProfileInfoScreen
-import com.example.fiicodenou.features.presentation.screens.ContentScreens.AccountInfoScreens.ProfileScreen
 import com.example.fiicodenou.features.presentation.screens.ContentScreens.TodayStatsScreen
 import com.example.fiicodenou.features.presentation.viewmodels.MainViewModel
 import com.example.fiicodenou.features.presentation.viewmodels.TrackedFoodViewModel
@@ -126,8 +126,8 @@ class MainActivity : ComponentActivity() {
                         EditYourPasswordScreen(navController, userData)
                     }
 
-                    composable("EditYourEmailScreen"){
-                        EditYourEmailScreen(navController, userData,userBodyData)
+                    composable("DeleteAccountScreen"){
+                        DeleteAccountScreen(navController, userData,userBodyData)
                     }
                 }
             }

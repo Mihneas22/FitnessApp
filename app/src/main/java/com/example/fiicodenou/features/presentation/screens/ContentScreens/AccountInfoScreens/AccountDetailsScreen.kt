@@ -207,11 +207,11 @@ fun MainAccountDetails(
                         .fillMaxWidth()
                         .height(50.dp)
                         .clickable {
-                            navController.navigate("EditYourEmailScreen")
+                            navController.navigate("DeleteAccountScreen")
                         },
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        Text(text = "Email",
+                        Text(text = "Delete Account",
                             style = MaterialTheme.typography.bodyLarge,
                             fontSize = 20.sp,
                             color = Color.White

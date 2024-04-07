@@ -142,6 +142,7 @@ class AuthRepositoryIMPL @Inject constructor(
 
     override suspend fun deleteUser(email: String): Resource<Boolean>
     =try{
+        auth.currentUser?.delete()
         val db = fb.collection("users").document(email)
         val bdoy = fb.collection("users").document(email).collection("body_data").document("values")
         bdoy.delete()

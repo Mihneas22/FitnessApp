@@ -9,14 +9,20 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
@@ -26,6 +32,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.fiicodeapp.features.presentation.components.FitnessAppButton
+import com.example.fiicodeapp.features.presentation.components.FitnessAppPasswordTextField
 import com.example.fiicodeapp.features.presentation.components.FitnessAppTextField
 import com.example.fiicodenou.features.domain.models.User
 import com.example.fiicodenou.features.presentation.viewmodels.UserViewModel
@@ -45,6 +52,10 @@ fun EditYourPasswordScreen(
     val passwordNew = remember{
         mutableStateOf("")
     }
+
+    var passwordVisible1 by rememberSaveable { mutableStateOf(false) }
+
+    var passwordVisible2 by rememberSaveable { mutableStateOf(false) }
 
     Card(modifier = Modifier.fillMaxSize(),
         colors = CardDefaults.cardColors(
@@ -71,18 +82,29 @@ fun EditYourPasswordScreen(
                 fontSize = 30.sp
             )
 
-            FitnessAppTextField(
-                modifier = Modifier
-                    .padding(top = 10.dp, end = 15.dp)
-                    .fillMaxWidth(),
+            FitnessAppPasswordTextField(
+                modifier = Modifier.padding(top = 15.dp),
                 text = passwordOld.value,
                 onTextChange = {
                     if(it.all {char->
                             char.isDefined()
-                        })passwordOld.value = it
-                }, label = "Password",
-                color = Color.DarkGray,
-                textColor = Color.White
+                        })passwordOld.value=it
+                },
+                label = "Password",
+                color = Color(0xFF252525),
+                textColor = Color(0xF11FD3C1),
+                visualState = passwordVisible1,
+                icon = {
+                    val image = if (passwordVisible1)
+                        Icons.Filled.Visibility
+                    else Icons.Filled.VisibilityOff
+
+                    val description = if (passwordVisible1) "Hide password" else "Show password"
+
+                    IconButton(onClick = {passwordVisible1 = !passwordVisible1}){
+                        Icon(imageVector  = image, description)
+                    }
+                }
             )
 
             Text(modifier = Modifier.padding(top = 70.dp),
@@ -92,18 +114,29 @@ fun EditYourPasswordScreen(
                 fontSize = 30.sp
             )
 
-            FitnessAppTextField(
-                modifier = Modifier
-                    .padding(top = 10.dp, end = 15.dp)
-                    .fillMaxWidth(),
+            FitnessAppPasswordTextField(
+                modifier = Modifier.padding(top = 15.dp),
                 text = passwordNew.value,
                 onTextChange = {
                     if(it.all {char->
                             char.isDefined()
-                        })passwordNew.value = it
-                }, label = "Password",
-                color = Color.DarkGray,
-                textColor = Color.White
+                        })passwordNew.value=it
+                },
+                label = "Password",
+                color = Color(0xFF252525),
+                textColor = Color(0xF11FD3C1),
+                visualState = passwordVisible2,
+                icon = {
+                    val image = if (passwordVisible2)
+                        Icons.Filled.Visibility
+                    else Icons.Filled.VisibilityOff
+
+                    val description = if (passwordVisible2) "Hide password" else "Show password"
+
+                    IconButton(onClick = {passwordVisible2 = !passwordVisible2}){
+                        Icon(imageVector  = image, description)
+                    }
+                }
             )
 
             Text(modifier = Modifier.padding(top = 15.dp),
