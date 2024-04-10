@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Visibility
@@ -46,6 +47,9 @@ import com.example.fiicodenou.features.domain.models.User_Body
 import com.example.fiicodenou.features.domain.util.Resource
 import com.example.fiicodenou.features.presentation.viewmodels.LoginInViewModel
 import com.example.fiicodenou.features.presentation.viewmodels.SignUpViewModel
+import com.example.fiicodenou.ui.theme.darkerPurple
+import com.example.fiicodenou.ui.theme.lighterPurple
+import com.example.fiicodenou.ui.theme.lighterRed
 
 @Composable
 fun SignUpScreen(
@@ -64,7 +68,7 @@ fun HeaderSignUp(){
         .fillMaxWidth()
         .height(400.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xFF252525)
+            containerColor = darkerPurple
         ),
         shape = RectangleShape
     ) {
@@ -115,7 +119,7 @@ fun MainSignUp(
         .fillMaxWidth()
         .height(500.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xFF252525)
+            containerColor = darkerPurple
         ),
         shape = RectangleShape
     ) {
@@ -133,8 +137,8 @@ fun MainSignUp(
                     })username=it
                 },
                 label = "Name",
-                color = Color(0xFF252525),
-                textColor = Color(0xF11FD3C1)
+                color = darkerPurple,
+                textColor = lighterRed
             )
 
             FitnessAppTextField(
@@ -146,8 +150,8 @@ fun MainSignUp(
                         })email=it
                 },
                 label = "Email",
-                color = Color(0xFF252525),
-                textColor = Color(0xF11FD3C1)
+                color = darkerPurple,
+                textColor = lighterRed
             )
 
             FitnessAppPasswordTextField(
@@ -158,8 +162,8 @@ fun MainSignUp(
                         })password=it
                 },
                 label = "Password",
-                color = Color(0xFF252525),
-                textColor = Color(0xF11FD3C1),
+                color = darkerPurple,
+                textColor = lighterRed,
                 visualState = passwordVisible,
                 icon = {
                     val image = if (passwordVisible)
@@ -181,17 +185,23 @@ fun MainSignUp(
             ) {
 
                 FitnessAppButton(
-                    modifier = Modifier.padding(end = 7.dp),
+                    modifier = Modifier
+                        .padding(end = 7.dp)
+                        .height(50.dp)
+                        .width(150.dp),
                     text = "Cancel",
                     onButClick = {
                         navController.navigate("LoginInScreen")
                     },
-                    color = Color(0xFFFFFFFF),
-                    textColor = Color.Black
+                    color = lighterPurple,
+                    textColor = lighterRed
                 )
 
                 FitnessAppButton(
-                    modifier = Modifier.padding(start = 7.dp),
+                    modifier = Modifier
+                        .padding(start = 7.dp)
+                        .height(50.dp)
+                        .width(150.dp),
                     text = "Sign Up",
                     onButClick = {
                         if(username.isEmpty()){
@@ -219,8 +229,8 @@ fun MainSignUp(
                             }
                         }
                     },
-                    color = Color(0xF11FD3C1),
-                    textColor = Color.White
+                    color = lighterPurple,
+                    textColor = lighterRed
                 )
             }
         }

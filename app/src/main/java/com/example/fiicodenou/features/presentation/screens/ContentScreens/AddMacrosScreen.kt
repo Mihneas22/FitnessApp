@@ -48,6 +48,11 @@ import com.example.fiicodenou.features.domain.models.Realm_Objects.TrackedUser
 import com.example.fiicodenou.features.presentation.viewmodels.FoodViewModel
 import com.example.fiicodenou.features.presentation.viewmodels.TrackedFoodViewModel
 import com.example.fiicodenou.features.presentation.viewmodels.TrackedUserViewModel
+import com.example.fiicodenou.ui.theme.darkerPurple
+import com.example.fiicodenou.ui.theme.lighterPurple
+import com.example.fiicodenou.ui.theme.lighterRed
+import com.example.fiicodenou.ui.theme.mySkinColor
+import com.example.fiicodenou.ui.theme.myYellow
 
 
 @Composable
@@ -120,7 +125,7 @@ fun LowerAddMacrosScreen(
         .height(680.dp)
         .verticalScroll(rememberScrollState()),
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xFF252525)
+            darkerPurple
         ),
         shape = RectangleShape
     ){
@@ -133,7 +138,7 @@ fun LowerAddMacrosScreen(
             Text(text = "Add Your Personalised Food",
                 style = MaterialTheme.typography.bodyLarge,
                 fontSize = 20.sp,
-                color = Color(0xF11FD3C1)
+                color = lighterRed
             )
 
             FitnessAppTextField(
@@ -145,8 +150,8 @@ fun LowerAddMacrosScreen(
                         })name=it
                 },
                 label = "Add A Name",
-                color = Color(0xFF252525),
-                textColor = Color(0xF11FD3C1)
+                color = darkerPurple,
+                textColor = lighterRed
             )
 
             FitnessAppTextField(
@@ -158,8 +163,8 @@ fun LowerAddMacrosScreen(
                     })weight=it
                 },
                 label = "Add Weight (g)",
-                color = Color(0xFF252525),
-                textColor = Color(0xF11FD3C1)
+                color = darkerPurple,
+                textColor = lighterRed
             )
 
             FitnessAppTextField(
@@ -171,8 +176,8 @@ fun LowerAddMacrosScreen(
                         })calories=it
                 },
                 label = "Add Calories (KCal)",
-                color = Color(0xFF252525),
-                textColor = Color(0xF11FD3C1)
+                color = darkerPurple,
+                textColor = lighterRed
             )
 
             FitnessAppTextField(
@@ -184,8 +189,8 @@ fun LowerAddMacrosScreen(
                         })protein=it
                 },
                 label = "Add Protein (g)",
-                color = Color(0xFF252525),
-                textColor = Color(0xF11FD3C1)
+                color = darkerPurple,
+                textColor = lighterRed
             )
 
             FitnessAppTextField(
@@ -197,8 +202,8 @@ fun LowerAddMacrosScreen(
                         })carbohydrates=it
                 },
                 label = "Add Carbohydrates (g)",
-                color = Color(0xFF252525),
-                textColor = Color(0xF11FD3C1)
+                color = darkerPurple,
+                textColor = lighterRed
             )
 
             FitnessAppTextField(
@@ -210,8 +215,8 @@ fun LowerAddMacrosScreen(
                         })fat=it
                 },
                 label = "Add fat (g)",
-                color = Color(0xFF252525),
-                textColor = Color(0xF11FD3C1)
+                color = darkerPurple,
+                textColor = lighterRed
             )
 
             Row(modifier = Modifier
@@ -253,8 +258,8 @@ fun LowerAddMacrosScreen(
                             Toast.makeText(context,"Enter all values, please!",Toast.LENGTH_SHORT).show()
                         }
                     },
-                    color = Color(0xF11FD3C1),
-                    textColor = Color.White
+                    color = lighterPurple,
+                    textColor = lighterRed
                 )
 
                 FitnessAppButton(
@@ -262,8 +267,8 @@ fun LowerAddMacrosScreen(
                     onButClick = {
                         navController.navigate("AddedFoodsScreen")
                     },
-                    color = Color(0xF11FD3C1),
-                    textColor = Color.White
+                    color = lighterPurple,
+                    textColor = lighterRed
                 )
             }
 
@@ -286,7 +291,7 @@ fun AddWaterScreen(
         .height(300.dp)
         .verticalScroll(rememberScrollState()),
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xFF252525)
+            darkerPurple
         ),
         shape = RectangleShape
     ){
@@ -300,7 +305,7 @@ fun AddWaterScreen(
                 text = "Add Your Water",
                 style = MaterialTheme.typography.bodyLarge,
                 fontSize = 20.sp,
-                color = Color(0xF11FD3C1)
+                color = lighterRed
             )
 
             Row(modifier = Modifier
@@ -313,7 +318,7 @@ fun AddWaterScreen(
                     contentDescription = "IconAddWater",
                     modifier = Modifier
                         .height(20.dp).width(20.dp)
-                        .background(Color.White)
+                        .background(darkerPurple)
                 )
 
                 FitnessAppButton(
@@ -325,8 +330,8 @@ fun AddWaterScreen(
                     onButClick ={
                         water.doubleValue += 0.1
                     },
-                    color = Color(0xF11FD3C1),
-                    textColor = Color.Black
+                    color = lighterPurple,
+                    textColor = myYellow
                 )
 
                 FitnessAppButton(
@@ -338,8 +343,8 @@ fun AddWaterScreen(
                     onButClick = {
                         water.doubleValue += 0.5
                     },
-                    color = Color(0xF11FD3C1),
-                    textColor = Color.Black
+                    color = lighterPurple,
+                    textColor = myYellow
                 )
 
                 FitnessAppButton(
@@ -351,8 +356,8 @@ fun AddWaterScreen(
                     onButClick = {
                         water.doubleValue += 1.0
                     },
-                    color = Color(0xF11FD3C1),
-                    textColor = Color.Black
+                    color = lighterPurple,
+                    textColor = myYellow
                 )
             }
 
@@ -366,7 +371,7 @@ fun AddWaterScreen(
                     contentDescription = "IconAddWater",
                     modifier = Modifier
                         .height(20.dp).width(20.dp)
-                        .background(Color.White)
+                        .background(darkerPurple)
                 )
 
                 FitnessAppButton(
@@ -378,8 +383,8 @@ fun AddWaterScreen(
                     onButClick ={
                         water.doubleValue -= 0.1
                     },
-                    color = Color(0xF11FD3C1),
-                    textColor = Color.Black
+                    color = lighterPurple,
+                    textColor = myYellow
                 )
 
                 FitnessAppButton(
@@ -391,8 +396,8 @@ fun AddWaterScreen(
                     onButClick = {
                         water.doubleValue -= 0.5
                     },
-                    color = Color(0xF11FD3C1),
-                    textColor = Color.Black
+                    color = lighterPurple,
+                    textColor = myYellow
                 )
 
                 FitnessAppButton(
@@ -404,8 +409,8 @@ fun AddWaterScreen(
                     onButClick = {
                         water.doubleValue -= 1.0
                     },
-                    color = Color(0xF11FD3C1),
-                    textColor = Color.Black
+                    color = lighterPurple,
+                    textColor = myYellow
                 )
             }
 
@@ -416,7 +421,7 @@ fun AddWaterScreen(
                 }L",
                 style = MaterialTheme.typography.bodyLarge,
                 fontSize = 20.sp,
-                color = Color(0xF11FD3C1)
+                color = lighterRed
             )
 
             FitnessAppButton(
@@ -431,8 +436,8 @@ fun AddWaterScreen(
                     }
                     trackedUserViewModel.modifyTrackedUser("",trackedUserLocal)
                 },
-                color = Color(0xF11FD3C1),
-                textColor = Color.Black
+                color = lighterPurple,
+                textColor = lighterRed
             )
         }
     }

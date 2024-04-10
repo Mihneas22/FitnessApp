@@ -39,6 +39,10 @@ import androidx.navigation.NavController
 import com.example.fiicodeapp.features.presentation.components.FitnessAppButton
 import com.example.fiicodenou.features.domain.models.User_Body
 import com.example.fiicodenou.features.presentation.viewmodels.UserViewModel
+import com.example.fiicodenou.ui.theme.darkerPurple
+import com.example.fiicodenou.ui.theme.lighterPurple
+import com.example.fiicodenou.ui.theme.lighterRed
+import com.example.fiicodenou.ui.theme.mySkinColor
 import kotlinx.coroutines.delay
 
 @Composable
@@ -51,7 +55,7 @@ fun ChooseFitnessGoal(
     val bodyData = userViewModel.bodyData.value
     Column(modifier = Modifier
         .verticalScroll(rememberScrollState())
-        .background(Color(0xFF252525)),
+        .background(darkerPurple),
         horizontalAlignment = Alignment.CenterHorizontally) {
         ChooseFitnessStartScreen()
         WorkoutsScreen(email, userViewModel,bodyData,navController)
@@ -63,7 +67,7 @@ fun ChooseFitnessStartScreen(){
     Surface(modifier = Modifier
         .fillMaxWidth()
         .height(200.dp),
-        color = Color(0xFF252525)
+        color = darkerPurple
     ) {
         val scale = remember {
             Animatable(0f)
@@ -89,13 +93,13 @@ fun ChooseFitnessStartScreen(){
                 fontSize = 25.sp,
                 modifier = Modifier.scale(scale.value),
                 style = MaterialTheme.typography.bodyLarge,
-                color = Color(0xF11FD3C1)
+                color = lighterRed
             )
             Text(text = "And Your Goal For Fitness!",
                 fontSize = 30.sp,
                 modifier = Modifier.scale(scale.value),
                 style = MaterialTheme.typography.bodyLarge,
-                color = Color(0xF11FD3C1)
+                color = lighterRed
             )
         }
     }
@@ -121,7 +125,7 @@ fun WorkoutsScreen(
             .fillMaxWidth()
             .height(300.dp),
             colors = CardDefaults.cardColors(
-                containerColor = Color(0xFF252525)
+                darkerPurple
             ),
             shape = RectangleShape
         ) {
@@ -134,7 +138,7 @@ fun WorkoutsScreen(
                 Text(text = "What Do You Wish To Achieve?",
                     fontSize = 20.sp,
                     style = MaterialTheme.typography.bodyLarge,
-                    color = Color(0xF11FD3C1)
+                    color = lighterRed
                 )
 
                 Row(modifier = Modifier
@@ -152,7 +156,7 @@ fun WorkoutsScreen(
 
                     Text(text = "Gain Muscle Mass",
                         style = MaterialTheme.typography.bodyLarge,
-                        color = Color.White,
+                        color = mySkinColor,
                         fontSize = 20.sp
                     )
                 }
@@ -172,7 +176,7 @@ fun WorkoutsScreen(
 
                     Text(text = "Lose Weight",
                         style = MaterialTheme.typography.bodyLarge,
-                        color = Color.White,
+                        color = mySkinColor,
                         fontSize = 20.sp
                     )
                 }
@@ -192,7 +196,7 @@ fun WorkoutsScreen(
 
                     Text(text = "Stay Fit",
                         style = MaterialTheme.typography.bodyLarge,
-                        color = Color.White,
+                        color = mySkinColor,
                         fontSize = 20.sp
                     )
                 }
@@ -203,7 +207,7 @@ fun WorkoutsScreen(
             .fillMaxWidth()
             .height(300.dp),
             colors = CardDefaults.cardColors(
-                containerColor = Color(0xFF252525)
+                darkerPurple
             ),
             shape = RectangleShape
         ) {
@@ -216,7 +220,7 @@ fun WorkoutsScreen(
                 Text(text = "How Often Could You Workout?",
                     fontSize = 20.sp,
                     style = MaterialTheme.typography.bodyLarge,
-                    color = Color(0xF11FD3C1)
+                    color = lighterRed
                 )
 
                 Row(modifier = Modifier
@@ -234,7 +238,7 @@ fun WorkoutsScreen(
 
                     Text(text = "1-2 Times/Week",
                         style = MaterialTheme.typography.bodyLarge,
-                        color = Color.White,
+                        color = mySkinColor,
                         fontSize = 20.sp
                     )
                 }
@@ -254,7 +258,7 @@ fun WorkoutsScreen(
 
                     Text(text = "3-4 Times/Week",
                         style = MaterialTheme.typography.bodyLarge,
-                        color = Color.White,
+                        color = mySkinColor,
                         fontSize = 20.sp
                     )
                 }
@@ -274,7 +278,7 @@ fun WorkoutsScreen(
 
                     Text(text = "4+ Times/Week",
                         style = MaterialTheme.typography.bodyLarge,
-                        color = Color.White,
+                        color = mySkinColor,
                         fontSize = 20.sp
                     )
                 }
@@ -333,8 +337,9 @@ fun WorkoutsScreen(
                     Toast.makeText(context,"Enter valid data!", Toast.LENGTH_SHORT).show()
                 }
             },
-            color = Color(0xF11FD3C1),
-            textColor = Color.White)
+            color = lighterPurple,
+            textColor = lighterRed
+        )
     }
 
 }

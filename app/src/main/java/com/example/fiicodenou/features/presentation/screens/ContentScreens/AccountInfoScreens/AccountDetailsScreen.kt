@@ -47,13 +47,6 @@ fun AccountDetailsScreen(
                 contentDescription = "Go Back",
                 tint = Color.White
             )
-
-            Text(modifier = Modifier.padding(start = 100.dp),
-                text = "My Fitness App",
-                style = MaterialTheme.typography.bodyLarge,
-                color = Color.White,
-                fontSize = 20.sp
-            )
         }
         HeaderAccountDetails()
         MainAccountDetails(name,navController)

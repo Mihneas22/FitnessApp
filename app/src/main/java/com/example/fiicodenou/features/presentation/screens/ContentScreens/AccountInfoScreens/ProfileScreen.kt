@@ -11,7 +11,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Fastfood
@@ -36,9 +38,16 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.fiicodeapp.features.presentation.components.FitnessAppButton
 import com.example.fiicodenou.features.domain.models.User
+import com.example.fiicodenou.features.presentation.components.BottomBarFitnessApp
 import com.example.fiicodenou.features.presentation.viewmodels.TrackedFoodViewModel
 import com.example.fiicodenou.features.presentation.viewmodels.TrackedUserViewModel
 import com.example.fiicodenou.features.presentation.viewmodels.UserViewModel
+import com.example.fiicodenou.ui.theme.darkerPurple
+import com.example.fiicodenou.ui.theme.darkerRed
+import com.example.fiicodenou.ui.theme.lighterPurple
+import com.example.fiicodenou.ui.theme.lighterRed
+import com.example.fiicodenou.ui.theme.mySkinColor
+import com.example.fiicodenou.ui.theme.myYellow
 
 @Composable
 fun ProfileScreen(
@@ -48,9 +57,16 @@ fun ProfileScreen(
     trackedUserViewModel: TrackedUserViewModel = hiltViewModel(),
     trackedFoodViewModel: TrackedFoodViewModel = hiltViewModel()
 ){
-    Column(modifier = Modifier.background(Color(0xFF252525))) {
+    Column(modifier = Modifier
+        .background(darkerPurple)
+        .verticalScroll(rememberScrollState())
+    ) {
         HeaderProfile(user = user, navController = navController,userViewModel,trackedUserViewModel,trackedFoodViewModel)
         MainProfileScreen(navController = navController)
+        Column(modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Bottom) {
+            BottomBarFitnessApp(navController)
+        }
     }
 }
 
@@ -66,7 +82,7 @@ fun HeaderProfile(
         .fillMaxWidth()
         .height(270.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xF11FD3C1)
+            lighterPurple
         ),
         shape = RoundedCornerShape(bottomEnd = 20.dp, bottomStart = 20.dp)
     ) {
@@ -125,7 +141,8 @@ fun HeaderProfile(
                             .width(300.dp),
                             text = it,
                             style = MaterialTheme.typography.bodyLarge,
-                            fontSize = 27.sp
+                            fontSize = 40.sp,
+                            color = lighterRed
                         )
                     }
 
@@ -136,7 +153,8 @@ fun HeaderProfile(
                                 .width(400.dp),
                             text = it,
                             style = MaterialTheme.typography.bodyLarge,
-                            fontSize = 15.sp
+                            fontSize = 20.sp,
+                            color = mySkinColor
                         )
                     }
                 }
@@ -152,24 +170,24 @@ fun HeaderProfile(
                     onButClick = {
                         navController.navigate("ProfileInfoScreen")
                     },
-                    color = Color(0xFF252525),
-                    textColor = Color.White
+                    color = lighterRed,
+                    textColor = myYellow
                 )
 
                 FitnessAppButton(text = "Foods",
                     onButClick = {
                         navController.navigate("AddMacrosScreen")
                     },
-                    color = Color(0xFF252525),
-                    textColor = Color.White
+                    color = lighterRed,
+                    textColor = myYellow
                 )
 
                 FitnessAppButton(text = "Workouts",
                     onButClick = {
 
                     },
-                    color = Color(0xFF252525),
-                    textColor = Color.White
+                    color = lighterRed,
+                    textColor = myYellow
                 )
             }
         }
@@ -182,9 +200,9 @@ fun MainProfileScreen(
 ) {
     Card(modifier = Modifier
         .fillMaxWidth()
-        .height(700.dp),
+        .height(500.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xFF252525)
+            darkerPurple
         ),
         shape = RectangleShape
     ) {

@@ -37,10 +37,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.fiicodeapp.features.presentation.components.FitnessAppButton
 import com.example.fiicodenou.features.domain.models.NutritionalNecesity
+import com.example.fiicodenou.features.presentation.components.BottomBarFitnessApp
 import com.example.fiicodenou.features.presentation.screens.components.PieChart
 import com.example.fiicodenou.features.presentation.viewmodels.TrackedFoodViewModel
 import com.example.fiicodenou.features.presentation.viewmodels.TrackedUserViewModel
 import com.example.fiicodenou.features.presentation.viewmodels.UserViewModel
+import com.example.fiicodenou.ui.theme.darkerPurple
+import com.example.fiicodenou.ui.theme.lighterRed
+import com.example.fiicodenou.ui.theme.mySkinColor
+import com.example.fiicodenou.ui.theme.myYellow
 import io.realm.kotlin.ext.realmListOf
 import kotlin.math.roundToInt
 
@@ -120,6 +125,10 @@ fun TodayStatsScreen(
     Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
         HeaderStats(trackedFoodViewModel = trackedFoodViewModel, trackedUserViewModel = trackedUserViewModel, nutriData = nutriData)
         SportsStats(navController = navController)
+        Column(modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Bottom) {
+            BottomBarFitnessApp(navController)
+        }
     }
 }
 
@@ -157,7 +166,7 @@ fun HeaderStats(
         .fillMaxWidth()
         .height(550.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xFF252525)
+            containerColor = darkerPurple
         ),
         shape = RectangleShape
     ) {
@@ -169,11 +178,11 @@ fun HeaderStats(
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(text = "Calorie Budget",
                     style = MaterialTheme.typography.bodyLarge,
-                    color = Color.Gray
+                    color = myYellow
                 )
                 Text(text = caloriesValuesFull.toString(),
                     style = MaterialTheme.typography.bodyLarge,
-                    color = Color(0xF11FD3C1),
+                    color = lighterRed,
                     fontSize = 20.sp
                 )
             }
@@ -189,33 +198,33 @@ fun HeaderStats(
             ) {
                 Text(text = "Exercise",
                     style = MaterialTheme.typography.bodyLarge,
-                    color = Color.Gray
+                    color = myYellow
                 )
                 Text(text = hasExercisedResponse.value,
                     style = MaterialTheme.typography.bodyLarge,
-                    color = Color(0xF11FD3C1),
+                    color = lighterRed,
                     fontSize = 17.sp
                 )
 
                 Text(modifier = Modifier.padding(top = 40.dp),
                     text = "Remaining Calories",
                     style = MaterialTheme.typography.bodyLarge,
-                    color = Color.Gray
+                    color = myYellow
                 )
                 Text(text = "${(nutriData.calories-caloriesValuesFull).roundToInt()}",
                     style = MaterialTheme.typography.bodyLarge,
-                    color = Color(0xF11FD3C1),
+                    color = lighterRed,
                     fontSize = 20.sp
                 )
 
                 Text(modifier = Modifier.padding(top = 40.dp),
                     text = "Water",
                     style = MaterialTheme.typography.bodyLarge,
-                    color = Color.Gray
+                    color = myYellow
                 )
                 Text(text = "${trackedUserWater}L",
                     style = MaterialTheme.typography.bodyLarge,
-                    color = Color(0xF11FD3C1),
+                    color = lighterRed,
                     fontSize = 20.sp
                 )
             }
@@ -248,19 +257,22 @@ fun HeaderStats(
                 Column {
                     Text(text = "${(nutriData.protein-proteinValuesFull).roundToInt()}g"+" Remained Protein",
                         style = MaterialTheme.typography.bodyLarge,
-                        color = Color.White
+                        color = myYellow,
+                        fontSize = 20.sp
                     )
 
                     Text(modifier = Modifier.padding(top = 60.dp),
                         text = "${(nutriData.carbs-carboValuesFull).roundToInt()}g"+" Remained Carbs",
                         style = MaterialTheme.typography.bodyLarge,
-                        color = Color.White
+                        color = myYellow,
+                        fontSize = 20.sp
                     )
 
                     Text(modifier = Modifier.padding(top = 60.dp),
                         text = "${(nutriData.fat-fatValuesFull).roundToInt()}g"+" remained Fat",
                         style = MaterialTheme.typography.bodyLarge,
-                        color = Color.White
+                        color = myYellow,
+                        fontSize = 20.sp
                     )
                 }
             }
@@ -268,33 +280,33 @@ fun HeaderStats(
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(text = "Protein",
                     style = MaterialTheme.typography.bodyLarge,
-                    color = Color.Gray
+                    color = myYellow
                 )
                 Text(text = proteinValuesFull.toString(),
                     style = MaterialTheme.typography.bodyLarge,
-                    color = Color(0xF11FD3C1),
+                    color = lighterRed,
                     fontSize = 20.sp
                 )
 
                 Text(modifier = Modifier.padding(top = 40.dp),
                     text = "Carbs",
                     style = MaterialTheme.typography.bodyLarge,
-                    color = Color.Gray,
+                    color = myYellow,
                 )
                 Text(text = carboValuesFull.toString(),
                     style = MaterialTheme.typography.bodyLarge,
-                    color = Color(0xF11FD3C1),
+                    color = lighterRed,
                     fontSize = 20.sp
                 )
 
                 Text(modifier = Modifier.padding(top = 40.dp),
                     text = "Fat",
                     style = MaterialTheme.typography.bodyLarge,
-                    color = Color.Gray
+                    color = myYellow
                 )
                 Text(text = fatValuesFull.toString(),
                     style = MaterialTheme.typography.bodyLarge,
-                    color = Color(0xF11FD3C1),
+                    color = lighterRed,
                     fontSize = 20.sp
                 )
             }
@@ -310,7 +322,7 @@ fun SportsStats(
         .fillMaxWidth()
         .height(400.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xFF252525)
+            darkerPurple
         ),
         shape = RectangleShape
     ){
@@ -318,8 +330,8 @@ fun SportsStats(
             Text(text = "Workout Completed Today",
                 modifier = Modifier.padding(start = 25.dp),
                 style = MaterialTheme.typography.bodyLarge,
-                fontSize = 24.sp,//0xF11FD3C1
-                color = Color(0xF11FD3C1)
+                fontSize = 24.sp,
+                color = lighterRed
             )
 
             Card(modifier = Modifier
@@ -337,24 +349,6 @@ fun SportsStats(
                         style = MaterialTheme.typography.bodyLarge,
                         fontSize = 24.sp)
                 }
-            }
-
-            HorizontalDivider(modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 100.dp)
-            )
-            Row(modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.End) {
-                Icon(imageVector = Icons.Outlined.Close,
-                    contentDescription = "Cancel",
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .width(50.dp)
-                        .background(Color.White)
-                        .clickable {
-                            navController.navigate("ProfileScreen")
-                        }
-                )
             }
         }
     }

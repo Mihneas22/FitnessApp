@@ -48,6 +48,9 @@ import com.example.fiicodeapp.features.presentation.components.FitnessAppTextFie
 import com.example.fiicodenou.R
 import com.example.fiicodenou.features.domain.util.Resource
 import com.example.fiicodenou.features.presentation.viewmodels.LoginInViewModel
+import com.example.fiicodenou.ui.theme.darkerPurple
+import com.example.fiicodenou.ui.theme.lighterPurple
+import com.example.fiicodenou.ui.theme.lighterRed
 
 
 @Composable
@@ -67,7 +70,7 @@ fun HeaderLoginIn(){
         .fillMaxWidth()
         .height(400.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xFF252525)
+            containerColor = darkerPurple
         ),
         shape = RectangleShape
     ) {
@@ -114,7 +117,7 @@ fun MainLoginIn(
         .fillMaxWidth()
         .height(500.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xFF252525)
+            containerColor = darkerPurple
         ),
         shape = RectangleShape
     ) {
@@ -132,8 +135,8 @@ fun MainLoginIn(
                         })email=it
                 },
                 label = "Email",
-                color = Color(0xFF252525),
-                textColor = Color(0xF11FD3C1)
+                color = darkerPurple,
+                textColor = lighterRed
             )
 
             FitnessAppPasswordTextField(
@@ -144,8 +147,8 @@ fun MainLoginIn(
                         })password=it
                 },
                 label = "Password",
-                color = Color(0xFF252525),
-                textColor = Color(0xF11FD3C1),
+                color = darkerPurple,
+                textColor = lighterRed,
                 visualState = passwordVisible,
                 icon = {
                     val image = if (passwordVisible)
@@ -172,8 +175,8 @@ fun MainLoginIn(
                     onButClick = {
 
                     },
-                    color = Color(0xFFFFFFFF),
-                    textColor = Color.Black
+                    color = lighterPurple,
+                    textColor = lighterRed
                 )
 
                 FitnessAppButton(
@@ -197,8 +200,8 @@ fun MainLoginIn(
                             }
                         }
                     },
-                    color = Color(0xF11FD3C1),
-                    textColor = Color.White
+                    color = lighterPurple,
+                    textColor = lighterRed
                 )
             }
 
@@ -221,7 +224,8 @@ fun MainLoginIn(
                     },
                     text = "Register Now! Join Our Community!",
                     style = MaterialTheme.typography.bodyLarge,
-                    color = Color.White
+                    fontSize = 20.sp,
+                    color = lighterRed
                 )
             }
 

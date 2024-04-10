@@ -15,3 +15,13 @@ val Purple500 = Color(0xFF6200EE)
 val Purple700 = Color(0xFF3700B3)
 val Teal200 = Color(0xFF03DAC5)
 val Blue = Color(0xFF007BFF)
+
+//My Set Of Colors
+val darkerPurple = Color(0xFF1D1A39)
+val lighterPurple = Color(0xFF451952)
+
+val darkerRed = Color(0xFF662549)
+val lighterRed = Color(0xFFAE445A)
+
+val myYellow = Color(0xFFF39F5A)
+val mySkinColor = Color(0xFFE8BCB9)

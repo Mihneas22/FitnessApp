@@ -35,6 +35,10 @@ import androidx.navigation.NavController
 import com.example.fiicodeapp.features.presentation.components.FitnessAppButton
 import com.example.fiicodeapp.features.presentation.components.FitnessAppTextField
 import com.example.fiicodenou.features.presentation.viewmodels.UserViewModel
+import com.example.fiicodenou.ui.theme.darkerPurple
+import com.example.fiicodenou.ui.theme.lighterPurple
+import com.example.fiicodenou.ui.theme.lighterRed
+import com.example.fiicodenou.ui.theme.myYellow
 import kotlinx.coroutines.delay
 
 @Composable
@@ -78,7 +82,7 @@ fun GoalsScreen(
         .fillMaxWidth()
         .height(800.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xFF252525)
+            darkerPurple
         ),
         shape = RectangleShape
     ) {
@@ -93,7 +97,7 @@ fun GoalsScreen(
                 Text(text = "Male",
                     style = MaterialTheme.typography.bodyLarge,
                     fontSize = 20.sp,
-                    color = Color(0xF11FD3C1),
+                    color = myYellow,
                     modifier = Modifier
                         .clickable {
                             sex = "Male"
@@ -103,7 +107,7 @@ fun GoalsScreen(
                 Text(text = "Female",
                     style = MaterialTheme.typography.bodyLarge,
                     fontSize = 20.sp,
-                    color = Color(0xF11FD3C1),
+                    color = myYellow,
                     modifier = Modifier
                         .padding(start = 15.dp)
                         .clickable {
@@ -114,7 +118,7 @@ fun GoalsScreen(
                 Text(text = "Non-Binary",
                     style = MaterialTheme.typography.bodyLarge,
                     fontSize = 20.sp,
-                    color = Color(0xF11FD3C1),
+                    color = myYellow,
                     modifier = Modifier
                         .padding(start = 15.dp)
                         .clickable {
@@ -139,8 +143,8 @@ fun GoalsScreen(
                         })age=it
                 },
                 label = "Age",
-                color = Color(0xFF252525),
-                textColor = Color(0xF11FD3C1)
+                color = darkerPurple,
+                textColor = lighterRed
             )
 
             FitnessAppTextField(
@@ -152,8 +156,8 @@ fun GoalsScreen(
                     })height=it
                 },
                 label = "Height (cm)",
-                color = Color(0xFF252525),
-                textColor = Color(0xF11FD3C1)
+                color = darkerPurple,
+                textColor = lighterRed
             )
 
             FitnessAppTextField(
@@ -165,8 +169,8 @@ fun GoalsScreen(
                         })weight=it
                 },
                 label = "Weight (kg)",
-                color = Color(0xFF252525),
-                textColor = Color(0xF11FD3C1)
+                color = darkerPurple,
+                textColor = lighterRed
             )
 
             FitnessAppButton(
@@ -183,8 +187,8 @@ fun GoalsScreen(
                         Toast.makeText(context,"Enter valid data!",Toast.LENGTH_SHORT).show()
                     }
                 },
-                color = Color(0xF11FD3C1),
-                textColor = Color.White
+                color = lighterPurple,
+                textColor = lighterRed
             )
 
             FitnessAppButton(
@@ -193,8 +197,8 @@ fun GoalsScreen(
                 onButClick = {
                     navController.navigate("ProfileScreen")
                 },
-                color = Color(0xF11FD3C1),
-                textColor = Color.White
+                color = lighterPurple,
+                textColor = lighterRed
             )
         }
     }
@@ -205,7 +209,7 @@ fun GetStartedScreen(){
     Surface(modifier = Modifier
         .fillMaxWidth()
         .height(150.dp),
-        color = Color(0xFF252525)
+        color = darkerPurple
     ) {
         val scale = remember {
             androidx.compose.animation.core.Animatable(0f)
@@ -231,19 +235,19 @@ fun GetStartedScreen(){
                 fontSize = 24.sp,
                 modifier = Modifier.scale(scale.value),
                 style = MaterialTheme.typography.bodyLarge,
-                color = Color(0xF11FD3C1)
+                color = lighterRed
             )
             Text(text = "Let's set your goals",
                 fontSize = 24.sp,
                 modifier = Modifier.scale(scale.value),
                 style = MaterialTheme.typography.bodyLarge,
-                color = Color(0xF11FD3C1)
+                color = lighterRed
             )
             Text(text = "and your body details together!",
                 fontSize = 24.sp,
                 modifier = Modifier.scale(scale.value),
                 style = MaterialTheme.typography.bodyLarge,
-                color = Color(0xF11FD3C1)
+                color = lighterRed
             )
         }
     }

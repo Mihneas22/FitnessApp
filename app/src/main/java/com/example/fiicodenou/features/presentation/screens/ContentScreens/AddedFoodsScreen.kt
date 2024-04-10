@@ -54,6 +54,10 @@ import com.example.fiicodenou.features.domain.models.Food
 import com.example.fiicodenou.features.domain.models.Realm_Objects.TrackedFood
 import com.example.fiicodenou.features.presentation.viewmodels.FoodViewModel
 import com.example.fiicodenou.features.presentation.viewmodels.TrackedFoodViewModel
+import com.example.fiicodenou.ui.theme.darkerPurple
+import com.example.fiicodenou.ui.theme.lighterPurple
+import com.example.fiicodenou.ui.theme.lighterRed
+import com.example.fiicodenou.ui.theme.mySkinColor
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
@@ -93,7 +97,7 @@ fun HeaderAddedFoodsScreen(){
         .fillMaxWidth()
         .height(250.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xFF252525)
+            darkerPurple
         ),
         shape = RectangleShape
     ) {
@@ -131,7 +135,7 @@ fun ImplementSearchBar(
     Row(modifier = Modifier
         .fillMaxWidth()
         .height(40.dp)
-        .background(Color(0xFF252525)),
+        .background(darkerPurple),
         horizontalArrangement = Arrangement.End,
     ) {
         Icon(imageVector = Icons.Default.Close,
@@ -149,7 +153,7 @@ fun ImplementSearchBar(
         .fillMaxWidth()
         .height(500.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xFF252525)
+            darkerPurple
         ),
         shape = RectangleShape
     ){
@@ -164,8 +168,8 @@ fun ImplementSearchBar(
                     })foodName.value=it
                 },
                 label = "Search For Products",
-                color = Color(0xF11FD3C1),//0xFF252525
-                textColor = Color(0xFF252525),
+                color = darkerPurple,
+                textColor = lighterRed,
                 modifier = Modifier.padding(top=30.dp)
             )
 
@@ -177,8 +181,8 @@ fun ImplementSearchBar(
                     listChange.value = foodViewModel.resultRelatedToNameList.value
                     Log.d("dataSearch","search: ${foodViewModel.resultRelatedToNameList.value}")
                 },
-                color = Color(0xF11FD3C1),
-                textColor = Color.White
+                color = lighterPurple,
+                textColor = lighterRed
             )
 
             GetSearchBarResults(trackedFoodViewModel = trackedFoodViewModel,listChange.value)
@@ -196,7 +200,7 @@ fun GetSearchBarResults(
         .width(350.dp)
         .padding(top = 20.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xF11FD3C1)
+            lighterPurple
         ),
         shape = RectangleShape
     ) {
@@ -230,7 +234,7 @@ fun FoodBarResults(
         },
         border = BorderStroke(3.dp,Color.Black),
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xFF252525)
+            darkerPurple
         )
     ) {
         Row(modifier = Modifier
@@ -247,7 +251,7 @@ fun FoodBarResults(
             ) {
                 Text(text = food.name,
                     style = MaterialTheme.typography.bodyLarge,
-                    color = Color(0xF11FD3C1)
+                    color = lighterRed
                 )
             }
 
@@ -266,21 +270,21 @@ fun FoodBarResults(
                 Text(
                     text = food.protein + "g Protein",
                     style = MaterialTheme.typography.bodyLarge,
-                    color = Color(0xF11FD3C1),
+                    color = lighterRed,
                     fontSize = 13.sp
                 )
 
                 Text(
                     text = food.carbohydrates + "g Carbs",
                     style = MaterialTheme.typography.bodyLarge,
-                    color = Color(0xF11FD3C1),
+                    color = lighterRed,
                     fontSize = 13.sp
                 )
 
                 Text(
                     text = food.fat + "g Fat",
                     style = MaterialTheme.typography.bodyLarge,
-                    color = Color(0xF11FD3C1),
+                    color = lighterRed,
                     fontSize = 13.sp
                 )
             }
@@ -297,13 +301,13 @@ fun FoodBarResults(
             ) {
                 Text(text = food.calories + " Calories",
                     style = MaterialTheme.typography.bodyLarge,
-                    color = Color(0xF11FD3C1),
+                    color = lighterRed,
                     fontSize = 13.sp
                 )
 
                 Text(text = food.weight + " Grams",
                     style = MaterialTheme.typography.bodyLarge,
-                    color = Color(0xF11FD3C1),
+                    color = lighterRed,
                     fontSize = 13.sp
                 )
             }
@@ -327,7 +331,7 @@ fun ShowAddedFoods(
         .fillMaxWidth()
         .height(600.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xFF252525)
+            darkerPurple
         ),
         shape = RectangleShape
     ){
@@ -354,7 +358,7 @@ fun ShowAddedFoods(
                         FoodCardFront(food = food)
                         Text(text = "Delete",
                             style = MaterialTheme.typography.bodyLarge,
-                            color = Color(0xF11FD3C1),
+                            color = mySkinColor,
                             modifier = Modifier.clickable {
                                 trackedFoodViewModel.deleteTrackedFood(food.name)
                                 Log.d("dataSize","size: ${food.name}")
@@ -372,11 +376,11 @@ fun FoodCardFront(
     food: TrackedFood
 ){
     Card(modifier = Modifier
-        .width(150.dp)
+        .width(170.dp)
         .height(170.dp)
         .padding(top = 3.dp, end = 10.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xF11FD3C1)
+            mySkinColor
         )
     ) {
         Column(modifier = Modifier
