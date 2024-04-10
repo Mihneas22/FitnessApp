@@ -45,6 +45,7 @@ import com.example.fiicodenou.R
 import com.example.fiicodenou.features.domain.models.Food
 import com.example.fiicodenou.features.domain.models.Realm_Objects.TrackedFood
 import com.example.fiicodenou.features.domain.models.Realm_Objects.TrackedUser
+import com.example.fiicodenou.features.presentation.components.BottomBarFitnessApp
 import com.example.fiicodenou.features.presentation.viewmodels.FoodViewModel
 import com.example.fiicodenou.features.presentation.viewmodels.TrackedFoodViewModel
 import com.example.fiicodenou.features.presentation.viewmodels.TrackedUserViewModel
@@ -71,6 +72,10 @@ fun AddMacrosScreen(
         LowerAddMacrosScreen(foodViewModel,trackedFoodViewModel,navController)
         AddWaterScreen(trackedUserViewModel = trackedUserViewModel,
             trackedUser = resultTrackedUser, navController = navController)
+        Column(modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Bottom) {
+            BottomBarFitnessApp(navController)
+        }
     }
 }
 
