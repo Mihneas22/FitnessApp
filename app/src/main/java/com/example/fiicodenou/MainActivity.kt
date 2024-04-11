@@ -1,6 +1,7 @@
 package com.example.fiicodenou
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -30,8 +31,11 @@ import com.example.fiicodenou.features.presentation.viewmodels.MainViewModel
 import com.example.fiicodenou.features.presentation.viewmodels.TrackedFoodViewModel
 import com.example.fiicodenou.features.presentation.viewmodels.TrackedUserViewModel
 import com.example.fiicodenou.features.presentation.viewmodels.UserViewModel
+import com.example.fiicodenou.features.presentation.viewmodels.WorkoutUserViewModel
 import com.example.fiicodenou.ui.theme.FiiCodeNouTheme
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.DateFormat
+import java.util.Calendar
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -39,6 +43,7 @@ class MainActivity : ComponentActivity() {
     private val userDataViewModel by viewModels<UserViewModel>()
     private val trackedUser by viewModels<TrackedUserViewModel>()
     private val trackedFoodViewModel by viewModels<TrackedFoodViewModel>()
+    private val workoutUserViewModel by viewModels<WorkoutUserViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,10 +76,15 @@ class MainActivity : ComponentActivity() {
                 val userBodyData = userDataViewModel.bodyData.value
                 //
 
+                val calendar = Calendar.getInstance().time
+                val timer = DateFormat.getDateInstance(DateFormat.SHORT).format(calendar)
+                Log.d("calendarTimer",timer)
+
                 trackedFoodViewModel.addLocalDate("empty")
                 if(!currentUserSign)
                 {
-                    trackedUser.addTrackedUser("") //Null Error (java.lang.NullPointerException)
+                    workoutUserViewModel.addWorkoutUser("workoutUser",timer)
+                    trackedUser.addTrackedUser("") //Null Error (java.lang.NullPointerException
                 }
 
                 NavHost(navController = navController, startDestination = navigator.value) {

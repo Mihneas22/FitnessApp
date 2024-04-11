@@ -6,6 +6,9 @@ import com.example.fiicodenou.features.data.repository.TrackedFoodRepository
 import com.example.fiicodenou.features.domain.models.Realm_Objects.TrackedFood
 import com.example.fiicodenou.features.domain.models.Realm_Objects.TrackedHour
 import com.example.fiicodenou.features.domain.models.Realm_Objects.TrackedUser
+import com.example.fiicodenou.features.domain.models.Realm_Objects.Workouts.Exercise
+import com.example.fiicodenou.features.domain.models.Realm_Objects.Workouts.Workout
+import com.example.fiicodenou.features.domain.models.Realm_Objects.Workouts.WorkoutUser
 import com.example.fiicodenou.features.domain.repository.AuthRepositoryIMPL
 import com.example.fiicodenou.features.domain.repository.FoodRepositoryIMPL
 import com.example.fiicodenou.features.domain.repository.TrackedFoodRepositoryIMPL
@@ -41,7 +44,10 @@ object AppModule {
                 schema = setOf(
                     TrackedFood::class,
                     TrackedUser::class,
-                    TrackedHour::class
+                    TrackedHour::class,
+                    WorkoutUser::class,
+                    Workout::class,
+                    Exercise::class
                 )
             )
         )

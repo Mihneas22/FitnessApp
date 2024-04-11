@@ -2,7 +2,7 @@ package com.example.fiicodenou.features.data.repository
 
 import com.example.fiicodenou.features.domain.models.Realm_Objects.TrackedFood
 import com.example.fiicodenou.features.domain.models.Realm_Objects.TrackedUser
-import com.example.fiicodenou.features.domain.models.User
+import com.example.fiicodenou.features.domain.models.Realm_Objects.Workouts.WorkoutUser
 import com.example.fiicodenou.features.domain.util.Resource
 import io.realm.kotlin.types.RealmList
 import kotlinx.coroutines.flow.Flow
@@ -26,7 +26,7 @@ interface TrackedFoodRepository {
 
     suspend fun calculateAllFat(list: RealmList<TrackedFood>): Double
 
-    //Local User
+    //Local User Data
     suspend fun getTrackedUser(name: String?): TrackedUser
 
     suspend fun addTrackedUser(name: String?): Resource<Boolean>
@@ -35,6 +35,14 @@ interface TrackedFoodRepository {
 
     suspend fun deleteTrackedUser(name: String?): Resource<Boolean>
 
+    //Local User Workout
+    suspend fun getWorkoutUser(name: String?): WorkoutUser
+
+    suspend fun addWorkoutUser(name: String?,date: String?): Resource<Boolean>
+
+    suspend fun modifyWorkoutUser(name: String?): Resource<Boolean>
+
+    suspend fun deleteWorkoutUser(): Resource<Boolean>
 
     //Local Date
     suspend fun localHour(day: String?): Resource<Boolean>

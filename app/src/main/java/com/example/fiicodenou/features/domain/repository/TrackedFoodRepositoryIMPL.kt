@@ -5,7 +5,7 @@ import com.example.fiicodenou.features.data.repository.TrackedFoodRepository
 import com.example.fiicodenou.features.domain.models.Realm_Objects.TrackedFood
 import com.example.fiicodenou.features.domain.models.Realm_Objects.TrackedHour
 import com.example.fiicodenou.features.domain.models.Realm_Objects.TrackedUser
-import com.example.fiicodenou.features.domain.models.User
+import com.example.fiicodenou.features.domain.models.Realm_Objects.Workouts.WorkoutUser
 import com.example.fiicodenou.features.domain.util.Resource
 import io.realm.kotlin.Realm
 import io.realm.kotlin.UpdatePolicy
@@ -185,6 +185,46 @@ class TrackedFoodRepositoryIMPL @Inject constructor(
                 valueHour.day=newDay
             }
             copyToRealm(valueHour,UpdatePolicy.ALL)
+        }
+        Resource.Succes(true)
+    }catch (ex: Exception){
+        Resource.Failure(ex)
+    }
+
+    //Local Workout User
+
+    override suspend fun addWorkoutUser(name: String?,date: String?): Resource<Boolean>
+    =try{
+        realm.write {
+            val query = realm.query<WorkoutUser>().find()
+            if(query.isEmpty()){
+                val workoutUserTracked = WorkoutUser().apply {
+                    if (name != null && date != null) {
+                        this.name = name
+                        this.date = date
+                    }
+                }
+                copyToRealm(workoutUserTracked,UpdatePolicy.ALL)
+            }
+        }
+        Resource.Succes(true)
+    }catch (ex: Exception){
+        Resource.Failure(ex)
+    }
+
+    override suspend fun getWorkoutUser(name: String?): WorkoutUser {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun modifyWorkoutUser(name: String?): Resource<Boolean> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun deleteWorkoutUser(): Resource<Boolean>
+    =try{
+        realm.write {
+            val user = this.query<WorkoutUser>().find().first()
+            delete(user)
         }
         Resource.Succes(true)
     }catch (ex: Exception){

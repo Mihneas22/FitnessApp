@@ -42,6 +42,7 @@ import com.example.fiicodenou.features.presentation.components.BottomBarFitnessA
 import com.example.fiicodenou.features.presentation.viewmodels.TrackedFoodViewModel
 import com.example.fiicodenou.features.presentation.viewmodels.TrackedUserViewModel
 import com.example.fiicodenou.features.presentation.viewmodels.UserViewModel
+import com.example.fiicodenou.features.presentation.viewmodels.WorkoutUserViewModel
 import com.example.fiicodenou.ui.theme.darkerPurple
 import com.example.fiicodenou.ui.theme.darkerRed
 import com.example.fiicodenou.ui.theme.lighterPurple
@@ -55,13 +56,14 @@ fun ProfileScreen(
     navController: NavController,
     userViewModel: UserViewModel = hiltViewModel(),
     trackedUserViewModel: TrackedUserViewModel = hiltViewModel(),
-    trackedFoodViewModel: TrackedFoodViewModel = hiltViewModel()
+    trackedFoodViewModel: TrackedFoodViewModel = hiltViewModel(),
+    workoutUserViewModel: WorkoutUserViewModel = hiltViewModel()
 ){
     Column(modifier = Modifier
         .background(darkerPurple)
         .verticalScroll(rememberScrollState())
     ) {
-        HeaderProfile(user = user, navController = navController,userViewModel,trackedUserViewModel,trackedFoodViewModel)
+        HeaderProfile(user = user, navController = navController,userViewModel,trackedUserViewModel,trackedFoodViewModel,workoutUserViewModel)
         MainProfileScreen(navController = navController)
         Column(modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Bottom) {
@@ -76,7 +78,8 @@ fun HeaderProfile(
     navController: NavController,
     userViewModel: UserViewModel,
     trackedUserViewModel: TrackedUserViewModel,
-    trackedFoodViewModel: TrackedFoodViewModel
+    trackedFoodViewModel: TrackedFoodViewModel,
+    workoutUserViewModel: WorkoutUserViewModel,
 ){
     Card(modifier = Modifier
         .fillMaxWidth()
@@ -106,6 +109,7 @@ fun HeaderProfile(
                     .clickable {
                         trackedUserViewModel.deleteTrackedUser("")
                         trackedFoodViewModel.deleteAllTrackedFood()
+                        workoutUserViewModel.deleteWorkoutUser()
                         userViewModel.logOut()
                         navController.navigate("LoginInScreen")
                     }
