@@ -83,7 +83,7 @@ fun BottomBarFitnessApp(
 
             Column(horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.clickable {
-                    //WorkoutsScreen
+                    navController.navigate("MainWorkoutScreen")
                 }
             ) {
                 Icon(imageVector = Icons.Default.FitnessCenter,

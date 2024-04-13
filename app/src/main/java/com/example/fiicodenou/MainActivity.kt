@@ -27,6 +27,7 @@ import com.example.fiicodenou.features.presentation.screens.ContentScreens.MenuS
 import com.example.fiicodenou.features.presentation.screens.ContentScreens.ProfileInfoScreens.ChooseFitnessGoal
 import com.example.fiicodenou.features.presentation.screens.ContentScreens.ProfileInfoScreens.ProfileInfoScreen
 import com.example.fiicodenou.features.presentation.screens.ContentScreens.TodayStatsScreen
+import com.example.fiicodenou.features.presentation.screens.ContentScreens.WorkoutsScreens.MainWorkoutScreen
 import com.example.fiicodenou.features.presentation.viewmodels.MainViewModel
 import com.example.fiicodenou.features.presentation.viewmodels.TrackedFoodViewModel
 import com.example.fiicodenou.features.presentation.viewmodels.TrackedUserViewModel
@@ -138,6 +139,10 @@ class MainActivity : ComponentActivity() {
 
                     composable("DeleteAccountScreen"){
                         DeleteAccountScreen(navController, userData,userBodyData)
+                    }
+
+                    composable("MainWorkoutScreen"){
+                        MainWorkoutScreen(navController)
                     }
                 }
             }

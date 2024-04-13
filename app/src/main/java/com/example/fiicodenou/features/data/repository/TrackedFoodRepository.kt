@@ -2,6 +2,7 @@ package com.example.fiicodenou.features.data.repository
 
 import com.example.fiicodenou.features.domain.models.Realm_Objects.TrackedFood
 import com.example.fiicodenou.features.domain.models.Realm_Objects.TrackedUser
+import com.example.fiicodenou.features.domain.models.Realm_Objects.Workouts.Workout
 import com.example.fiicodenou.features.domain.models.Realm_Objects.Workouts.WorkoutUser
 import com.example.fiicodenou.features.domain.util.Resource
 import io.realm.kotlin.types.RealmList
@@ -43,6 +44,12 @@ interface TrackedFoodRepository {
     suspend fun modifyWorkoutUser(name: String?): Resource<Boolean>
 
     suspend fun deleteWorkoutUser(): Resource<Boolean>
+
+    //Local Workouts
+
+    val workouts: Flow<RealmList<Workout>>
+    suspend fun addWorkout(workout: Workout): Resource<Boolean>
+
 
     //Local Date
     suspend fun localHour(day: String?): Resource<Boolean>

@@ -5,6 +5,7 @@ import com.example.fiicodenou.features.data.repository.TrackedFoodRepository
 import com.example.fiicodenou.features.domain.models.Realm_Objects.TrackedFood
 import com.example.fiicodenou.features.domain.models.Realm_Objects.TrackedHour
 import com.example.fiicodenou.features.domain.models.Realm_Objects.TrackedUser
+import com.example.fiicodenou.features.domain.models.Realm_Objects.Workouts.Workout
 import com.example.fiicodenou.features.domain.models.Realm_Objects.Workouts.WorkoutUser
 import com.example.fiicodenou.features.domain.util.Resource
 import io.realm.kotlin.Realm
@@ -225,6 +226,28 @@ class TrackedFoodRepositoryIMPL @Inject constructor(
         realm.write {
             val user = this.query<WorkoutUser>().find().first()
             delete(user)
+        }
+        Resource.Succes(true)
+    }catch (ex: Exception){
+        Resource.Failure(ex)
+    }
+
+    //Local Workouts
+
+    override val workouts: Flow<RealmList<Workout>>
+        get() = realm.query<WorkoutUser>()
+            .find()
+            .first()
+            .workouts.asFlow()
+            .map {results->
+                results.list.toRealmList()
+            }
+    override suspend fun addWorkout(workout: Workout): Resource<Boolean>
+    =try{
+        realm.write {
+            val user = this.query<WorkoutUser>().find().first()
+            user.workouts.add(workout)
+            user.workout_status_week+=1
         }
         Resource.Succes(true)
     }catch (ex: Exception){

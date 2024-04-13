@@ -57,7 +57,7 @@ fun MenuScreen(
             darkerPurple
         )
     ) {
-        user.username?.let { Header(name = it,navController) }
+        user.username?.let { Header(name = it) }
         MenuScreenMainScreen(navController)
         Column(modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Bottom) {
@@ -68,8 +68,7 @@ fun MenuScreen(
 
 @Composable
 fun Header(
-    name: String,
-    navController: NavController
+    name: String
 ){
     Card(modifier = Modifier
         .fillMaxWidth()

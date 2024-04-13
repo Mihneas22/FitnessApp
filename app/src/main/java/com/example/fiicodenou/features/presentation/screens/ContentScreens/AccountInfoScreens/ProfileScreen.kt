@@ -188,7 +188,7 @@ fun HeaderProfile(
 
                 FitnessAppButton(text = "Workouts",
                     onButClick = {
-
+                        navController.navigate("MainWorkoutScreen")
                     },
                     color = lighterRed,
                     textColor = myYellow
