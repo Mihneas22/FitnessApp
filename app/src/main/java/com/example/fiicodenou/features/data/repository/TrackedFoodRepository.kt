@@ -7,6 +7,7 @@ import com.example.fiicodenou.features.domain.models.Realm_Objects.Workouts.Work
 import com.example.fiicodenou.features.domain.util.Resource
 import io.realm.kotlin.types.RealmList
 import kotlinx.coroutines.flow.Flow
+import org.mongodb.kbson.ObjectId
 
 interface TrackedFoodRepository {
 
@@ -49,6 +50,8 @@ interface TrackedFoodRepository {
 
     val workouts: Flow<RealmList<Workout>>
     suspend fun addWorkout(workout: Workout): Resource<Boolean>
+
+    suspend fun deleteWorkout(id: ObjectId): Resource<Boolean>
 
 
     //Local Date

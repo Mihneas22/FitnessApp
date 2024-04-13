@@ -9,11 +9,10 @@ import com.example.fiicodenou.features.data.repository.TrackedFoodRepository
 import com.example.fiicodenou.features.domain.models.Realm_Objects.Workouts.Workout
 import com.example.fiicodenou.features.domain.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.realm.kotlin.types.RealmList
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import java.util.concurrent.Flow
+import org.mongodb.kbson.ObjectId
 import javax.inject.Inject
 
 @HiltViewModel
@@ -34,5 +33,10 @@ class WorkoutsViewModel @Inject constructor(
     fun addWorkout(workout: Workout)
     =viewModelScope.launch {
         repo.addWorkout(workout)
+    }
+
+    fun deleteWorkout(id: ObjectId)
+    =viewModelScope.launch {
+        repo.deleteWorkout(id)
     }
 }

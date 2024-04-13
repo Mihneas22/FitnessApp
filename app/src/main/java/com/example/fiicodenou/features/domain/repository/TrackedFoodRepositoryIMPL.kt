@@ -15,6 +15,7 @@ import io.realm.kotlin.ext.toRealmList
 import io.realm.kotlin.types.RealmList
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import org.mongodb.kbson.ObjectId
 import javax.inject.Inject
 
 class TrackedFoodRepositoryIMPL @Inject constructor(
@@ -248,6 +249,17 @@ class TrackedFoodRepositoryIMPL @Inject constructor(
             val user = this.query<WorkoutUser>().find().first()
             user.workouts.add(workout)
             user.workout_status_week+=1
+        }
+        Resource.Succes(true)
+    }catch (ex: Exception){
+        Resource.Failure(ex)
+    }
+
+    override suspend fun deleteWorkout(id: ObjectId): Resource<Boolean>
+    =try{
+        realm.write {
+            val workout: Workout = this.query<Workout>("_id == $0",id).find().first()
+            delete(workout)
         }
         Resource.Succes(true)
     }catch (ex: Exception){

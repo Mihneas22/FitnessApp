@@ -1,8 +1,7 @@
 package com.example.fiicodenou.features.presentation.screens.ContentScreens.WorkoutsScreens
 
-import android.util.Log
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.scrollable
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,10 +21,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -38,7 +39,8 @@ import com.example.fiicodenou.ui.theme.darkerPurple
 import com.example.fiicodenou.ui.theme.lighterPurple
 import com.example.fiicodenou.ui.theme.lighterRed
 import com.example.fiicodenou.ui.theme.myYellow
-import io.realm.kotlin.ext.realmListOf
+import java.text.DateFormat
+import java.util.Calendar
 
 @Composable
 fun MainWorkoutScreen(
@@ -46,7 +48,6 @@ fun MainWorkoutScreen(
     workoutsViewModel: WorkoutsViewModel = hiltViewModel()
 ){
     val workouts by workoutsViewModel.getWorkouts.collectAsState()
-    Log.d("workoutsRealm",workouts.toString())
 
     Column(modifier = Modifier
         .fillMaxSize()
@@ -56,7 +57,7 @@ fun MainWorkoutScreen(
         )
     ) {
         HeaderWorkoutScreen(workouts)
-        WorkoutScreenMain(navController)
+        WorkoutScreenMain(workouts,navController)
         Column(modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Bottom) {
             BottomBarFitnessApp(navController)
@@ -67,7 +68,8 @@ fun MainWorkoutScreen(
 //Header
 @Composable
 fun HeaderWorkoutScreen(
-    workouts: List<Workout>
+    workouts: List<Workout>,
+    workoutsViewModel: WorkoutsViewModel = hiltViewModel()
 ){
     Card(modifier = Modifier
         .fillMaxWidth()
@@ -91,7 +93,16 @@ fun HeaderWorkoutScreen(
 
             LazyRow(modifier = Modifier.padding(top = 30.dp)) {
                 items(workouts.size){
-                    WorkoutCard(workout = workouts[it])
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        WorkoutCard(workout = workouts[it])
+                        Text(text = "Delete Workout",
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = lighterRed,
+                            modifier = Modifier.clickable {
+                                workoutsViewModel.deleteWorkout(workouts[it]._id)
+                            }
+                        )
+                    }
                 }
             }
         }
@@ -148,6 +159,25 @@ fun WorkoutCard(
                     style = MaterialTheme.typography.bodyLarge
                 )
             }
+
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 15.dp)
+            ) {
+                Column {
+                    Text(text = "Exercises:  ",
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+
+                    LazyRow {
+                        items(workout.exercises.size){
+                            Text(text = workout.exercises[it].name + ", ",
+                                style = MaterialTheme.typography.bodyLarge,
+                            )
+                        }
+                    }
+                }
+            }
         }
     }
 }
@@ -155,8 +185,23 @@ fun WorkoutCard(
 //Main
 @Composable
 fun WorkoutScreenMain(
-    navController: NavController
+    workouts: List<Workout>,
+    navController: NavController,
 ){
+    val calendar = Calendar.getInstance().time
+    val timer = DateFormat.getDateInstance(DateFormat.SHORT).format(calendar)
+
+    var timerWorkout = mutableIntStateOf(0)
+
+    for (workout in workouts){
+        for (exercise in workout.exercises){
+            if (timer == workout.date)
+            {
+                timerWorkout.intValue += exercise.duration
+            }
+        }
+    }
+
     Card(modifier = Modifier
         .fillMaxWidth()
         .height(500.dp),
@@ -215,7 +260,7 @@ fun WorkoutScreenMain(
                     )
 
                     Text(
-                        text = "2" + " hours",
+                        text = "${timerWorkout.intValue/600} hours",
                         style = MaterialTheme.typography.bodyLarge,
                         color = lighterRed,
                         fontSize = 17.sp

@@ -45,6 +45,8 @@ import com.example.fiicodenou.ui.theme.lighterRed
 import com.example.fiicodenou.ui.theme.myYellow
 import io.realm.kotlin.ext.realmListOf
 import io.realm.kotlin.ext.toRealmList
+import java.text.DateFormat
+import java.util.Calendar
 
 @Composable
 fun AddWorkoutScreen(
@@ -130,19 +132,6 @@ fun MainAddWorkout(
                     )
                 }
             }
-
-            FitnessAppTextField(
-                modifier = Modifier.padding(top = 40.dp,bottom = 20.dp),
-                text = date,
-                onTextChange = {
-                    if(it.all {char->
-                            char.isDefined()
-                        })date=it
-                },
-                label = "Current Date",
-                color = darkerPurple,
-                textColor = lighterRed
-            )
 
             FitnessAppTextField(
                 modifier = Modifier.padding(top = 40.dp,bottom = 20.dp),
@@ -276,9 +265,13 @@ fun MainAddWorkout(
             FitnessAppButton(text = "Save Workout",
                 onButClick = {
                     //TO ADD EMPTY TYPE,DATE,ETC CASES
+
+                    val calendar = Calendar.getInstance().time
+                    val timer = DateFormat.getDateInstance(DateFormat.SHORT).format(calendar)
+
                     val workout = Workout().apply {
                         this.type = type
-                        this.date = date
+                        this.date = timer
                         this.numberOfExercises = numEx.toIntOrNull()!!
                         this.exercises = listOfExercise
                     }
@@ -286,7 +279,8 @@ fun MainAddWorkout(
                     navController.navigate("MainWorkoutScreen")
                 },
                 color = lighterPurple,
-                textColor = lighterRed)
+                textColor = lighterRed
+            )
         }
     }
 }
