@@ -56,7 +56,7 @@ fun MainWorkoutScreen(
         )
     ) {
         HeaderWorkoutScreen(workouts)
-        WorkoutScreenMain()
+        WorkoutScreenMain(navController)
         Column(modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Bottom) {
             BottomBarFitnessApp(navController)
@@ -155,7 +155,7 @@ fun WorkoutCard(
 //Main
 @Composable
 fun WorkoutScreenMain(
-    workoutsViewModel: WorkoutsViewModel = hiltViewModel()
+    navController: NavController
 ){
     Card(modifier = Modifier
         .fillMaxWidth()
@@ -285,14 +285,7 @@ fun WorkoutScreenMain(
                         .width(80.dp),
                     text = "+",
                     onButClick = {
-                        val workout = Workout().apply {
-                            this.date = "13.04.2024"
-                            this.type="Push"
-                            this.numberOfExercises=2
-                            this.exercises = realmListOf()
-                        }
-
-                        workoutsViewModel.addWorkout(workout)
+                        navController.navigate("AddWorkoutScreen")
                                  },
                     color = lighterPurple,
                     textColor = lighterRed

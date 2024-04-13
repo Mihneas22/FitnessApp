@@ -9,4 +9,6 @@ class Exercise: RealmObject {
     var name: String = ""
     var targetedMuscleGroup: String = ""
     var duration: Int = 0
+    var sets: Int = 0
+    var reps: Int = 0
 }
