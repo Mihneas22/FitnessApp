@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import com.example.fiicodenou.features.data.repository.FoodRepository
 import com.example.fiicodenou.features.domain.models.Food
+import com.example.fiicodenou.features.domain.models.FoodsAmericanDB
 import com.example.fiicodenou.features.domain.util.Resource
 import com.google.firebase.firestore.FirebaseFirestore
 import javax.inject.Inject
@@ -14,10 +15,9 @@ class FoodRepositoryIMPL @Inject constructor(
     private val fb: FirebaseFirestore
 ): FoodRepository {
 
-    override suspend fun addFoodData(food: Food): Resource<Boolean>
-            =try{
+    override suspend fun addFoodData(food: Food): Resource<Boolean> = try {
         val db = fb.collection("foods").document(food.name)
-        val foodMap = mutableMapOf<String,Any>()
+        val foodMap = mutableMapOf<String, Any>()
         foodMap["food_name"] = food.name
         foodMap["food_weight"] = food.weight
         foodMap["food_calories"] = food.calories
@@ -28,11 +28,11 @@ class FoodRepositoryIMPL @Inject constructor(
 
         db.set(foodMap)
         Resource.Succes(true)
-    }catch (ex: Exception){
+    } catch (ex: Exception) {
         Resource.Failure(ex)
     }
 
-    override suspend fun getFoodData(list: (List<Food>)->Unit) {
+    override suspend fun getFoodData(list: (List<Food>) -> Unit) {
         fb.collection("foods")
             .get()
             .addOnSuccessListener { documents ->
@@ -64,9 +64,9 @@ class FoodRepositoryIMPL @Inject constructor(
     override suspend fun getApprovedFoodList(list: List<Food>): List<Food> {
         val newList = mutableListOf<Food>()
         val i = mutableIntStateOf(0)
-        for(food in list){
-            if(food.approved){
-                newList.add(i.intValue,food)
+        for (food in list) {
+            if (food.approved) {
+                newList.add(i.intValue, food)
                 i.intValue += 1
             }
         }
@@ -76,12 +76,43 @@ class FoodRepositoryIMPL @Inject constructor(
     override suspend fun getFoodsRelatedToName(base: String, list: List<Food>): List<Food> {
         val newList = mutableListOf<Food>()
         val i = mutableIntStateOf(0)
-        for(food in list){
-            if(food.name.contains(base)){
-                newList.add(i.intValue,food)
+        for (food in list) {
+            if (food.name.contains(base)) {
+                newList.add(i.intValue, food)
                 i.intValue += 1
             }
         }
         return newList
+    }
+
+    override suspend fun getFoodsAmericanDatabase(
+        name: String,
+        list: (List<FoodsAmericanDB>) -> Unit
+    ) {
+        fb.collection("foods_new")
+            .get()
+            .addOnSuccessListener { documents ->
+                val items = mutableListOf<FoodsAmericanDB>()
+                for (document in documents) {
+                    if (document.id.contains(name)) {
+                        val data = document.data
+                        val item = FoodsAmericanDB(
+                            data["Category"] as String,
+                            data["Description"] as String,
+                            data["Protein"] as String,
+                            data["Carbs"] as String,
+                            data["Sugar"] as String,
+                            data["Fat"] as String,
+                            data["Fibers"] as String,
+                            data["NutrientCode"] as String
+                        )
+                        items.add(item)
+                    }
+                }
+                list(items)
+            }
+            .addOnFailureListener {
+                Log.e("Firestore", "Error getting documents from American Database: ", it)
+            }
     }
 }

@@ -29,6 +29,7 @@ import com.example.fiicodenou.features.presentation.screens.ContentScreens.Profi
 import com.example.fiicodenou.features.presentation.screens.ContentScreens.TodayStatsScreen
 import com.example.fiicodenou.features.presentation.screens.ContentScreens.WorkoutsScreens.AddWorkoutScreen
 import com.example.fiicodenou.features.presentation.screens.ContentScreens.WorkoutsScreens.MainWorkoutScreen
+import com.example.fiicodenou.features.presentation.viewmodels.AmericanFoodViewModel
 import com.example.fiicodenou.features.presentation.viewmodels.MainViewModel
 import com.example.fiicodenou.features.presentation.viewmodels.TrackedFoodViewModel
 import com.example.fiicodenou.features.presentation.viewmodels.TrackedUserViewModel
@@ -46,11 +47,15 @@ class MainActivity : ComponentActivity() {
     private val trackedUser by viewModels<TrackedUserViewModel>()
     private val trackedFoodViewModel by viewModels<TrackedFoodViewModel>()
     private val workoutUserViewModel by viewModels<WorkoutUserViewModel>()
+    private val americanFoodViewModel by viewModels<AmericanFoodViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             FiiCodeNouTheme {
+                americanFoodViewModel.getAmericanFood("Yogurt")
+                val list = americanFoodViewModel.result
+                Log.d("americanFood",list.value.toString())
 
                 val navController = rememberNavController()
 
