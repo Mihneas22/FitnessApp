@@ -51,7 +51,9 @@ import com.example.fiicodeapp.features.presentation.components.FitnessAppButton
 import com.example.fiicodeapp.features.presentation.components.FitnessAppTextField
 import com.example.fiicodenou.R
 import com.example.fiicodenou.features.domain.models.Food
+import com.example.fiicodenou.features.domain.models.Realm_Objects.FoodApiLocal
 import com.example.fiicodenou.features.domain.models.Realm_Objects.TrackedFood
+import com.example.fiicodenou.features.presentation.viewmodels.AmericanFoodViewModel
 import com.example.fiicodenou.features.presentation.viewmodels.FoodViewModel
 import com.example.fiicodenou.features.presentation.viewmodels.TrackedFoodViewModel
 import com.example.fiicodenou.ui.theme.darkerPurple
@@ -69,6 +71,7 @@ import java.util.Date
 fun AddedFoodsScreen(
     foodViewModel: FoodViewModel = hiltViewModel(),
     trackedFoodViewModel: TrackedFoodViewModel = hiltViewModel(),
+    americanFoodViewModel: AmericanFoodViewModel = hiltViewModel(),
     navController: NavController
 ){
     val resultTrackedFoods by trackedFoodViewModel.getAllTrackedFood.collectAsState(initial = realmListOf())
@@ -80,12 +83,18 @@ fun AddedFoodsScreen(
     val approvedList = foodViewModel.resultApprovedList.value
     //Firebase
 
-    Column(modifier = Modifier.
-            fillMaxSize()
-            .verticalScroll(rememberScrollState())
+    //Realm
+    americanFoodViewModel.getDBFood("Almond")
+    val foodList = americanFoodViewModel.food.collectAsState().value
+    Log.d("americanDB", foodList.toString())
+    //Realm
+
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .verticalScroll(rememberScrollState())
     ) {
         HeaderAddedFoodsScreen()
-        ImplementSearchBar(foodViewModel,approvedList, navController = navController, trackedFoodViewModel)
+        ImplementSearchBar(foodViewModel,approvedList, navController = navController, trackedFoodViewModel,foodList)
         ShowAddedFoods(trackedFoodViewModel = trackedFoodViewModel, foods = resultTrackedFoods)
     }
 
@@ -122,7 +131,8 @@ fun ImplementSearchBar(
     foodViewModel: FoodViewModel,
     foodListReal: List<Food>,
     navController: NavController,
-    trackedFoodViewModel: TrackedFoodViewModel
+    trackedFoodViewModel: TrackedFoodViewModel,
+    foodListAmerican: List<FoodApiLocal>
 ){
     val foodName = remember{
         mutableStateOf("")
@@ -185,7 +195,7 @@ fun ImplementSearchBar(
                 textColor = lighterRed
             )
 
-            GetSearchBarResults(trackedFoodViewModel = trackedFoodViewModel,listChange.value)
+            GetSearchBarResults(trackedFoodViewModel = trackedFoodViewModel,listChange.value,foodListAmerican)
         }
     }
 }
@@ -193,7 +203,8 @@ fun ImplementSearchBar(
 @Composable
 fun GetSearchBarResults(
     trackedFoodViewModel: TrackedFoodViewModel,
-    foods: List<Food>
+    foods: List<Food>,
+    foodsAmerican: List<FoodApiLocal>
 ){
     Card(modifier = Modifier
         .height(350.dp)
@@ -206,6 +217,18 @@ fun GetSearchBarResults(
     ) {
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             items(foods){food->
+                FoodBarResults(trackedFoodViewModel = trackedFoodViewModel,food = food)
+            }
+            items(foodsAmerican){foodsAmerican->
+                val food = Food(
+                    name = foodsAmerican.name,
+                    calories = "100",
+                    weight= "100",
+                    protein = foodsAmerican.protein,
+                    carbohydrates = foodsAmerican.carbs,
+                    fat = foodsAmerican.fat,
+                    approved = true
+                )
                 FoodBarResults(trackedFoodViewModel = trackedFoodViewModel,food = food)
             }
         }

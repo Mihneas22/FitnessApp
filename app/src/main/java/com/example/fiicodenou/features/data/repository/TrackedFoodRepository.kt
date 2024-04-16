@@ -1,5 +1,7 @@
 package com.example.fiicodenou.features.data.repository
 
+import com.example.fiicodenou.features.domain.models.FoodsAmericanDB
+import com.example.fiicodenou.features.domain.models.Realm_Objects.FoodApiLocal
 import com.example.fiicodenou.features.domain.models.Realm_Objects.TrackedFood
 import com.example.fiicodenou.features.domain.models.Realm_Objects.TrackedUser
 import com.example.fiicodenou.features.domain.models.Realm_Objects.Workouts.Workout
@@ -27,6 +29,11 @@ interface TrackedFoodRepository {
     suspend fun calculateAllCarbs(list: RealmList<TrackedFood>): Double
 
     suspend fun calculateAllFat(list: RealmList<TrackedFood>): Double
+
+    //Local American Food Database
+    suspend fun checkDatabase(): Boolean
+    suspend fun getDBFood(name: String): Flow<RealmList<FoodApiLocal>>
+    suspend fun addFirebaseFood(list: List<FoodsAmericanDB>): Resource<Boolean>
 
     //Local User Data
     suspend fun getTrackedUser(name: String?): TrackedUser

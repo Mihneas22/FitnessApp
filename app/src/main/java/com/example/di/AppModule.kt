@@ -3,6 +3,7 @@ package com.example.di
 import com.example.fiicodenou.features.data.repository.AuthRepository
 import com.example.fiicodenou.features.data.repository.FoodRepository
 import com.example.fiicodenou.features.data.repository.TrackedFoodRepository
+import com.example.fiicodenou.features.domain.models.Realm_Objects.FoodApiLocal
 import com.example.fiicodenou.features.domain.models.Realm_Objects.TrackedFood
 import com.example.fiicodenou.features.domain.models.Realm_Objects.TrackedHour
 import com.example.fiicodenou.features.domain.models.Realm_Objects.TrackedUser
@@ -47,7 +48,8 @@ object AppModule {
                     TrackedHour::class,
                     WorkoutUser::class,
                     Workout::class,
-                    Exercise::class
+                    Exercise::class,
+                    FoodApiLocal::class
                 )
             )
         )

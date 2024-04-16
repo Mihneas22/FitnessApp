@@ -86,7 +86,6 @@ class FoodRepositoryIMPL @Inject constructor(
     }
 
     override suspend fun getFoodsAmericanDatabase(
-        name: String,
         list: (List<FoodsAmericanDB>) -> Unit
     ) {
         fb.collection("foods_new")
@@ -94,20 +93,18 @@ class FoodRepositoryIMPL @Inject constructor(
             .addOnSuccessListener { documents ->
                 val items = mutableListOf<FoodsAmericanDB>()
                 for (document in documents) {
-                    if (document.id.contains(name)) {
-                        val data = document.data
-                        val item = FoodsAmericanDB(
-                            data["Category"] as String,
-                            data["Description"] as String,
-                            data["Protein"] as String,
-                            data["Carbs"] as String,
-                            data["Sugar"] as String,
-                            data["Fat"] as String,
-                            data["Fibers"] as String,
-                            data["NutrientCode"] as String
-                        )
-                        items.add(item)
-                    }
+                    val data = document.data
+                    val item = FoodsAmericanDB(
+                        data["Category"] as String,
+                        data["Description"] as String,
+                        data["Protein"] as String,
+                        data["Carbs"] as String,
+                        data["Sugar"] as String,
+                        data["Fat"] as String,
+                        data["Fibers"] as String,
+                        data["NutrientCode"] as String
+                    )
+                    items.add(item)
                 }
                 list(items)
             }

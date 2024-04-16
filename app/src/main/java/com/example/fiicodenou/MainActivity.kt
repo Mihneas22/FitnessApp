@@ -53,10 +53,20 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             FiiCodeNouTheme {
-                americanFoodViewModel.getAmericanFood("Yogurt")
-                val list = americanFoodViewModel.result
-                Log.d("americanFood",list.value.toString())
 
+                americanFoodViewModel.checkDatabase()
+                if(americanFoodViewModel.database.value){
+                    americanFoodViewModel.getAmericanFood()
+                    val list = americanFoodViewModel.result.value
+                    americanFoodViewModel.addAmericanFoodToLocalDB(list)
+                    Log.d("americanDB","Transaction Successful!")
+                }
+                else{
+                    Log.d("americanDB","Transaction False!")
+                }
+                americanFoodViewModel.getDBFood("Protein")
+                val foodList = americanFoodViewModel.food.collectAsState().value
+                Log.d("americanDB", foodList.toString())
                 val navController = rememberNavController()
 
                 val navigator = remember{

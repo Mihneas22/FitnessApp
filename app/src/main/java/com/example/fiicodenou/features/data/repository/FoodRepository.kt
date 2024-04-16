@@ -13,5 +13,5 @@ interface FoodRepository {
 
     suspend fun getFoodsRelatedToName(base: String, list: List<Food>): List<Food>
 
-    suspend fun getFoodsAmericanDatabase(name: String,list: (List<FoodsAmericanDB>)->Unit)
+    suspend fun getFoodsAmericanDatabase(list: (List<FoodsAmericanDB>)->Unit)
 }

@@ -2,6 +2,8 @@ package com.example.fiicodenou.features.domain.repository
 
 import androidx.compose.runtime.mutableDoubleStateOf
 import com.example.fiicodenou.features.data.repository.TrackedFoodRepository
+import com.example.fiicodenou.features.domain.models.FoodsAmericanDB
+import com.example.fiicodenou.features.domain.models.Realm_Objects.FoodApiLocal
 import com.example.fiicodenou.features.domain.models.Realm_Objects.TrackedFood
 import com.example.fiicodenou.features.domain.models.Realm_Objects.TrackedHour
 import com.example.fiicodenou.features.domain.models.Realm_Objects.TrackedUser
@@ -106,6 +108,47 @@ class TrackedFoodRepositoryIMPL @Inject constructor(
         }
 
         return sum.doubleValue
+    }
+
+    //Local American Food Database
+
+    override suspend fun checkDatabase(): Boolean {
+        return realm.query<FoodApiLocal>().find().isEmpty()
+    }
+
+    override suspend fun addFirebaseFood(list: List<FoodsAmericanDB>): Resource<Boolean>
+    =try{
+        realm.write{
+            val db = realm.query<FoodApiLocal>().find()
+            if(db.isEmpty()){
+                for (food in list){
+                    val foodToAdd = FoodApiLocal().apply {
+                        this.name = food.name
+                        this.category = food.category
+                        this.protein = food.protein
+                        this.carbs= food.carbs
+                        this.fat = food.fat
+                        this.sugar = food.sugar
+                        this.fibers = food.fibers
+                        this.nutrientCode = food.nutrientCode
+                    }
+                    copyToRealm(foodToAdd,UpdatePolicy.ALL)
+                }
+            }
+        }
+        Resource.Succes(true)
+    }catch (ex: Exception){
+        Resource.Failure(ex)
+    }
+
+    override suspend fun getDBFood(name: String): Flow<RealmList<FoodApiLocal>> {
+        val list = realm.query<FoodApiLocal>("category CONTAINS $0",name)
+            .find()
+            .asFlow()
+            .map {results->
+                results.list.toRealmList()
+            }
+        return list
     }
 
     //Local User
